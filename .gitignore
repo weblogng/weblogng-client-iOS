@@ -1,5 +1,5 @@
 # lifted some of this from https://github.com/CocoaPods/CocoaPods/blob/master/.gitignore
 Pods
 xcuserdata
-project.xcworkspace
+logger.xcworkspace
 *.xccheckout
