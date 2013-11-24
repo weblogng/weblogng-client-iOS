@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+sudo port selfupdate
+sudo port -f uninstall ncursesw # to avoid complaints later when compiling ruby about ncursesw vs ncurses
+
+if command -v rvm >/dev/null 2>&1
+then
+	echo "rvm is already intalled."
+else
+	curl -L https://get.rvm.io | bash -s stable
+fi;
+
+rvm install ruby-2.0.0-p247  #the current version of ruby on OS X Mavericks
+rvm gemset create weblog-ng-client-iOS  #a private gemset repo for use with CocoaPods
