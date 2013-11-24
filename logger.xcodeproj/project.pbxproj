@@ -16,6 +16,7 @@
 		61CA494F1841782E003C2BA3 /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA49371841782E003C2BA3 /* liblogger.a */; };
 		61CA49551841782E003C2BA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61CA49531841782E003C2BA3 /* InfoPlist.strings */; };
 		61CA49571841782E003C2BA3 /* loggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CA49561841782E003C2BA3 /* loggerTests.m */; };
+		DA3F6518D0484C74BA2DEDF7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FBF78C86E14611B58C6BDD /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		61CA49371841782E003C2BA3 /* liblogger.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblogger.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61CA493A1841782E003C2BA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		61CA493E1841782E003C2BA3 /* logger-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "logger-Prefix.pch"; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 		61CA49521841782E003C2BA3 /* loggerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "loggerTests-Info.plist"; sourceTree = "<group>"; };
 		61CA49541841782E003C2BA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		61CA49561841782E003C2BA3 /* loggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = loggerTests.m; sourceTree = "<group>"; };
+		98FBF78C86E14611B58C6BDD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +64,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CA493B1841782E003C2BA3 /* Foundation.framework in Frameworks */,
+				DA3F6518D0484C74BA2DEDF7 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +89,7 @@
 				61CA49501841782E003C2BA3 /* loggerTests */,
 				61CA49391841782E003C2BA3 /* Frameworks */,
 				61CA49381841782E003C2BA3 /* Products */,
+				4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +108,7 @@
 				61CA493A1841782E003C2BA3 /* Foundation.framework */,
 				61CA49481841782E003C2BA3 /* XCTest.framework */,
 				61CA494B1841782E003C2BA3 /* UIKit.framework */,
+				98FBF78C86E14611B58C6BDD /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -150,9 +156,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61CA495A1841782E003C2BA3 /* Build configuration list for PBXNativeTarget "logger" */;
 			buildPhases = (
+				C30EB79192F24312AC573536 /* Check Pods Manifest.lock */,
 				61CA49331841782E003C2BA3 /* Sources */,
 				61CA49341841782E003C2BA3 /* Frameworks */,
 				61CA49351841782E003C2BA3 /* CopyFiles */,
+				244E49E4FFA44006937004F9 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -218,6 +226,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		244E49E4FFA44006937004F9 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C30EB79192F24312AC573536 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		61CA49331841782E003C2BA3 /* Sources */ = {
@@ -330,12 +371,16 @@
 		};
 		61CA495B1841782E003C2BA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/logger.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "logger/logger-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited),",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -343,12 +388,16 @@
 		};
 		61CA495C1841782E003C2BA3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/logger.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "logger/logger-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited),",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
