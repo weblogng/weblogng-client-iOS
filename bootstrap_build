@@ -11,3 +11,5 @@ fi;
 
 rvm install ruby-2.0.0-p247  #the current version of ruby on OS X Mavericks
 rvm gemset create weblog-ng-client-iOS  #a private gemset repo for use with CocoaPods
+gem install cocoapods
+pod setup
