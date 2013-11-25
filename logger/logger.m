@@ -24,4 +24,12 @@
     return;
 }
 
+
++ (WNGLogger *) initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
+    WNGLogger *logger = [[WNGLogger alloc] init];
+    logger.apiHost = apiHost;
+    logger.apiKey = apiKey;
+    return logger;
+}
+
 @end

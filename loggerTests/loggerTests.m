@@ -43,4 +43,17 @@ WNGLogger *logger;
 
 }
 
+- (void) test_initWithConfig_initializes_the_logger_with_configuration
+{
+    NSString *expectedHost = @"host";
+    NSString *expectedKey = @"key";
+    
+    WNGLogger *logger = [WNGLogger initWithConfig:expectedHost apiKey:expectedKey];
+    
+    
+    XCTAssertEqualObjects(expectedHost, logger.apiHost);
+    XCTAssertEqualObjects(expectedKey, logger.apiKey);
+    
+}
+
 @end

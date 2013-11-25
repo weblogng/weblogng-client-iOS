@@ -17,4 +17,6 @@
 
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
 
++ (WNGLogger *) initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
+
 @end
