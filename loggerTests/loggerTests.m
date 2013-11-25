@@ -16,13 +16,13 @@
 
 @implementation loggerTests
 
-Logger *logger;
+WNGLogger *logger;
 
 
 - (void)setUp
 {
     [super setUp];
-    logger = [[Logger alloc] init];
+    logger = [[WNGLogger alloc] init];
 }
 
 - (void)tearDown
@@ -38,7 +38,7 @@ Logger *logger;
 
 - (void) test_sendMetric
 {
-    Logger *logger = [[Logger alloc] init];
+    WNGLogger *logger = [[WNGLogger alloc] init];
     [logger sendMetric:@"metricName" metricValue:[NSNumber numberWithDouble:1234.5]];
 
 }

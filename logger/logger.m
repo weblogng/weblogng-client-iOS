@@ -8,7 +8,7 @@
 
 #import "logger.h"
 
-@implementation Logger
+@implementation WNGLogger
 
 @synthesize apiHost = _apiHost;
 @synthesize apiKey = _apiKey;

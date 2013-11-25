@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Logger : NSObject { }
+@interface WNGLogger : NSObject { }
 
 @property (copy) NSString *apiHost;
 @property (copy) NSString *apiKey;
