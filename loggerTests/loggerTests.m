@@ -8,22 +8,39 @@
 
 #import <XCTest/XCTest.h>
 
+#import "logger.h"
+
 @interface loggerTests : XCTestCase
 
 @end
 
 @implementation loggerTests
 
+Logger *logger;
+
+
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    logger = [[Logger alloc] init];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void) test_defaultState_of_Logger
+{
+    XCTAssertNil(logger.apiHost);
+    XCTAssertNil(logger.apiKey);
+}
+
+- (void) test_sendMetric
+{
+    Logger *logger = [[Logger alloc] init];
+    [logger sendMetric:@"metricName" metricValue:[NSNumber numberWithDouble:1234.5]];
+
 }
 
 - (void)testExample

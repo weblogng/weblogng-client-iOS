@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface logger : NSObject
+@interface Logger : NSObject { }
+
+@property (copy) NSString *apiHost;
+@property (copy) NSString *apiKey;
+
+- (void)logSettings;
+
+- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
 
 @end

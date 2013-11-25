@@ -8,6 +8,20 @@
 
 #import "logger.h"
 
-@implementation logger
+@implementation Logger
+
+@synthesize apiHost = _apiHost;
+@synthesize apiKey = _apiKey;
+
+
+- (void) logSettings {
+    NSLog(@"logger apiHost: %@ apiKey: %@", _apiHost, _apiKey);
+}
+
+
+- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
+    NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
+    return;
+}
 
 @end
