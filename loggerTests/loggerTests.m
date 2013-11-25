@@ -43,10 +43,4 @@ Logger *logger;
 
 }
 
-- (void)testExample
-{
-    XCTAssertTrue(true, @"implemented testExample");
-    
-}
-
 @end
