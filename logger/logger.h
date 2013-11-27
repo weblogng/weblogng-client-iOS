@@ -8,10 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WNGLogger : NSObject { }
+@interface WNGLoggerAPIConnection : NSObject
+
+- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
+
+@end
+
+
+@interface WNGLogger : NSObject {
+    
+}
 
 @property (copy) NSString *apiHost;
 @property (copy) NSString *apiKey;
+@property WNGLoggerAPIConnection *apiConnection;
 
 - (void)logSettings;
 

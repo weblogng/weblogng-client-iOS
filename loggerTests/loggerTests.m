@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 
 #import "logger.h"
 
@@ -38,9 +39,19 @@ WNGLogger *logger;
 
 - (void) test_sendMetric
 {
-    WNGLogger *logger = [[WNGLogger alloc] init];
-    [logger sendMetric:@"metricName" metricValue:[NSNumber numberWithDouble:1234.5]];
-
+    WNGLogger *logger = [WNGLogger initWithConfig:@"host" apiKey:@"key"];
+    
+    NSString *metricName = @"metricName";
+    NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
+    
+    id mock = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
+    [[mock expect] sendMetric:metricName metricValue:metricValue];
+    
+    logger.apiConnection = mock;
+    
+    [logger sendMetric:metricName metricValue:metricValue];
+    
+    [mock verify];
 }
 
 - (void) test_initWithConfig_initializes_the_logger_with_configuration
@@ -53,7 +64,6 @@ WNGLogger *logger;
     
     XCTAssertEqualObjects(expectedHost, logger.apiHost);
     XCTAssertEqualObjects(expectedKey, logger.apiKey);
-    
 }
 
 @end

@@ -8,11 +8,36 @@
 
 #import "logger.h"
 
-@implementation WNGLogger
+@implementation WNGLoggerAPIConnection
+
+- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
+    NSLog(@"no-oping %@ : %@", metricName, [theValue stringValue]);
+    return;
+}
+
+@end
+
+
+@interface WNGLoggerAPIConnectionHTTP : WNGLoggerAPIConnection
+
+
+@end
+
+@implementation WNGLoggerAPIConnectionHTTP
+
+- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
+    NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
+    return;
+}
+
+@end
+
+
+@implementation WNGLogger {}
 
 @synthesize apiHost = _apiHost;
 @synthesize apiKey = _apiKey;
-
+@synthesize apiConnection = _apiConnection;
 
 - (void) logSettings {
     NSLog(@"logger apiHost: %@ apiKey: %@", _apiHost, _apiKey);
@@ -21,6 +46,7 @@
 
 - (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
     NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
+    [_apiConnection sendMetric:metricName metricValue:theValue];
     return;
 }
 
@@ -29,6 +55,8 @@
     WNGLogger *logger = [[WNGLogger alloc] init];
     logger.apiHost = apiHost;
     logger.apiKey = apiKey;
+    logger.apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
+
     return logger;
 }
 
