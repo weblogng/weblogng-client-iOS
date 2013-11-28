@@ -51,7 +51,8 @@
 }
 
 - (NSString *) convertToMetricMessage: (NSString *) metricName metricValue:(NSNumber *)theValue {
-    NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@", _apiKey, metricName, [theValue stringValue]];
+    NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",
+                         _apiKey, metricName, [theValue stringValue], [WNGTime getEpochTimeInSeconds]];
     return message;
 }
 
@@ -63,6 +64,16 @@
     logger.apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
 
     return logger;
+}
+
+@end
+
+NSNumber* getEpochTimeInSeconds();
+
+@implementation WNGTime {}
+
++ (NSNumber*) getEpochTimeInSeconds {
+    return [NSNumber numberWithLong:(long)[[NSDate date] timeIntervalSince1970]];
 }
 
 @end

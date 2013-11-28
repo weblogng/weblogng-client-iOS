@@ -30,3 +30,9 @@
 + (WNGLogger *) initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
 
 @end
+
+@interface WNGTime : NSObject {}
+
++ (NSNumber*) getEpochTimeInSeconds;
+
+@end

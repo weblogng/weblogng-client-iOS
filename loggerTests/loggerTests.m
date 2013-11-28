@@ -46,8 +46,11 @@ WNGLogger *logger;
     
     NSString *metricName = @"metricName";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
-    NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@",
-                                 [logger apiKey], metricName, [metricValue stringValue]];
+    NSString *nowStr = [[WNGTime getEpochTimeInSeconds] stringValue];
+    NSString *mostSignificantBitsOfNow = [nowStr substringToIndex:8];
+
+    NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@ %@",
+                                 [logger apiKey], metricName, [metricValue stringValue], mostSignificantBitsOfNow];
     
     id mock = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
     
@@ -70,6 +73,14 @@ WNGLogger *logger;
     
     XCTAssertEqualObjects(expectedHost, logger.apiHost);
     XCTAssertEqualObjects(expectedKey, logger.apiKey);
+}
+
+- (void) test_getEpochTimeInSeconds
+{
+    NSNumber *actualTime = [WNGTime getEpochTimeInSeconds];
+    double now = [[NSDate date] timeIntervalSince1970];
+    
+    assertThat(actualTime, closeTo(now, 1.1));
 }
 
 @end
