@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Weblog-NG. All rights reserved.
 //
 
+#import <stdlib.h>
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 
@@ -29,7 +30,7 @@ id mockApiConnection;
 {
     [super setUp];
     apiHost = @"api.weblogng.com";
-    apiKey = @"api-key-56789";
+    apiKey = [NSString stringWithFormat: @"api-key-%d", arc4random_uniform(1000)];
     mockApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
 
     logger = [WNGLogger initWithConfig:apiHost apiKey:apiKey];
