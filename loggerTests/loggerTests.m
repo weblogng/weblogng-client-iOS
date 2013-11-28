@@ -9,6 +9,9 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 
+#define HC_SHORTHAND
+#import <OCHamcrest/OCHamcrest.h>
+
 #import "logger.h"
 
 @interface loggerTests : XCTestCase
@@ -48,7 +51,7 @@ WNGLogger *logger;
     
     id mock = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
     
-    [[mock expect] sendMetric:expectedMessage];
+    [[mock expect] sendMetric:startsWith(expectedMessage)];
     
     logger.apiConnection = mock;
     
