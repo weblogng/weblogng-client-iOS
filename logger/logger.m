@@ -72,7 +72,7 @@ NSNumber* getEpochTimeInSeconds();
 
 @implementation WNGTime {}
 
-+ (NSNumber*) epochTimeInSeconds {
++ (NSNumber *) epochTimeInSeconds {
     return [NSNumber numberWithLong:(long)[[NSDate date] timeIntervalSince1970]];
 }
 
