@@ -46,7 +46,7 @@ WNGLogger *logger;
     
     NSString *metricName = @"metricName";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
-    NSString *nowStr = [[WNGTime getEpochTimeInSeconds] stringValue];
+    NSString *nowStr = [[WNGTime epochTimeInSeconds] stringValue];
     NSString *mostSignificantBitsOfNow = [nowStr substringToIndex:8];
 
     NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@ %@",
@@ -77,7 +77,7 @@ WNGLogger *logger;
 
 - (void) test_getEpochTimeInSeconds
 {
-    NSNumber *actualTime = [WNGTime getEpochTimeInSeconds];
+    NSNumber *actualTime = [WNGTime epochTimeInSeconds];
     double now = [[NSDate date] timeIntervalSince1970];
     
     assertThat(actualTime, closeTo(now, 1.1));

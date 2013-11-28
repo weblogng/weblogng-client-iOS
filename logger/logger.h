@@ -33,6 +33,6 @@
 
 @interface WNGTime : NSObject {}
 
-+ (NSNumber*) getEpochTimeInSeconds;
++ (NSNumber*) epochTimeInSeconds;
 
 @end

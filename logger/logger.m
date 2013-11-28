@@ -52,7 +52,7 @@
 
 - (NSString *) convertToMetricMessage: (NSString *) metricName metricValue:(NSNumber *)theValue {
     NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",
-                         _apiKey, metricName, [theValue stringValue], [WNGTime getEpochTimeInSeconds]];
+                         _apiKey, metricName, [theValue stringValue], [WNGTime epochTimeInSeconds]];
     return message;
 }
 
@@ -72,7 +72,7 @@ NSNumber* getEpochTimeInSeconds();
 
 @implementation WNGTime {}
 
-+ (NSNumber*) getEpochTimeInSeconds {
++ (NSNumber*) epochTimeInSeconds {
     return [NSNumber numberWithLong:(long)[[NSDate date] timeIntervalSince1970]];
 }
 
