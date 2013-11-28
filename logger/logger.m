@@ -10,8 +10,8 @@
 
 @implementation WNGLoggerAPIConnection
 
-- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
-    NSLog(@"no-oping %@ : %@", metricName, [theValue stringValue]);
+- (void) sendMetric:(NSString *)metricMessagePayload; {
+    NSLog(@"no-oping sendMetric : %@", metricMessagePayload);
     return;
 }
 
@@ -46,8 +46,13 @@
 
 - (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
     NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
-    [_apiConnection sendMetric:metricName metricValue:theValue];
+    [_apiConnection sendMetric:[self convertToMetricMessage:metricName metricValue:theValue]];
     return;
+}
+
+- (NSString *) convertToMetricMessage: (NSString *) metricName metricValue:(NSNumber *)theValue {
+    NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@", _apiKey, metricName, [theValue stringValue]];
+    return message;
 }
 
 

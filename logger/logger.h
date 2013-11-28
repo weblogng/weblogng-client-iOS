@@ -10,7 +10,7 @@
 
 @interface WNGLoggerAPIConnection : NSObject
 
-- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
+- (void)sendMetric:(NSString *)metricMessagePayload;
 
 @end
 

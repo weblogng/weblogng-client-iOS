@@ -39,13 +39,16 @@ WNGLogger *logger;
 
 - (void) test_sendMetric
 {
-    WNGLogger *logger = [WNGLogger initWithConfig:@"host" apiKey:@"key"];
+    WNGLogger *logger = [WNGLogger initWithConfig:@"host" apiKey:@"api-key-1234"];
     
     NSString *metricName = @"metricName";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
+    NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@",
+                                 [logger apiKey], metricName, [metricValue stringValue]];
     
     id mock = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
-    [[mock expect] sendMetric:metricName metricValue:metricValue];
+    
+    [[mock expect] sendMetric:expectedMessage];
     
     logger.apiConnection = mock;
     
