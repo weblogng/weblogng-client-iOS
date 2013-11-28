@@ -40,7 +40,7 @@ WNGLogger *logger;
     XCTAssertNil(logger.apiKey);
 }
 
-- (void) test_sendMetric
+- (void) test_sendMetric_sends_reasonable_messages_to_connection
 {
     WNGLogger *logger = [WNGLogger initWithConfig:@"host" apiKey:@"api-key-1234"];
     
@@ -48,7 +48,7 @@ WNGLogger *logger;
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
     NSString *nowStr = [[WNGTime epochTimeInSeconds] stringValue];
     NSString *mostSignificantBitsOfNow = [nowStr substringToIndex:8];
-
+    
     NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@ %@",
                                  [logger apiKey], metricName, [metricValue stringValue], mostSignificantBitsOfNow];
     
@@ -61,6 +61,36 @@ WNGLogger *logger;
     [logger sendMetric:metricName metricValue:metricValue];
     
     [mock verify];
+}
+
+- (void) test_sendMetric_sanitizes_metrics_before_sending
+{
+    WNGLogger *logger = [WNGLogger initWithConfig:@"host" apiKey:@"api-key-1234"];
+    
+    NSString *metricName = @"metricName.needs$sanitization";
+    NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
+    
+    NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@",
+                                 [logger apiKey], [WNGLogger sanitizeMetricName:metricName], [metricValue stringValue]];
+    
+    id mock = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
+    
+    [[mock expect] sendMetric:startsWith(expectedMessage)];
+    
+    logger.apiConnection = mock;
+    
+    [logger sendMetric:metricName metricValue:metricValue];
+    
+    [mock verify];
+}
+
+
+- (void) test_sanitizeMetricName_sanitizes_invalid_names
+{
+    for(NSString *forbiddenChar in @[@".", @"!", @"," , @";", @":", @"?", @"/", @"\\", @"@", @"#", @"$", @"%", @"^", @"&", @"*", @"(", @")"]){
+        NSString *actualMetricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"metric-name_1%@2", forbiddenChar]];
+        XCTAssertEqualObjects(actualMetricName, @"metric-name_1_2");
+    }
 }
 
 - (void) test_initWithConfig_initializes_the_logger_with_configuration

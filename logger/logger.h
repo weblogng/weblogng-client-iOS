@@ -29,6 +29,8 @@
 
 + (WNGLogger *) initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
 
++ (NSString *) sanitizeMetricName:(NSString *)metricName;
+
 @end
 
 @interface WNGTime : NSObject {}

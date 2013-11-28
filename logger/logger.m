@@ -52,7 +52,7 @@
 
 - (NSString *) convertToMetricMessage: (NSString *) metricName metricValue:(NSNumber *)theValue {
     NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",
-                         _apiKey, metricName, [theValue stringValue], [WNGTime epochTimeInSeconds]];
+                         _apiKey, [WNGLogger sanitizeMetricName:metricName], [theValue stringValue], [WNGTime epochTimeInSeconds]];
     return message;
 }
 
@@ -62,8 +62,18 @@
     logger.apiHost = apiHost;
     logger.apiKey = apiKey;
     logger.apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
-
+    
     return logger;
+}
+
++ (NSString *) sanitizeMetricName:(NSString *)metricName {
+    NSString *pattern = @"[^\\w\\d_-]";
+    NSError *error = NULL;
+    NSRegularExpressionOptions regexOptions = NSRegularExpressionCaseInsensitive;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options: regexOptions error:&error];
+    NSRange replacementRange = NSMakeRange(0, metricName.length);
+    NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@"_"];
+    return sanitizedMetricName;
 }
 
 @end

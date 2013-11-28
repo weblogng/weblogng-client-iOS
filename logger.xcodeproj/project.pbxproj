@@ -458,6 +458,17 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "loggerTests/loggerTests-Info.plist";
+				"OTHER_LDFLAGS[arch=*]" = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
