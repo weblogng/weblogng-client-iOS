@@ -23,16 +23,17 @@
 WNGLogger *logger;
 NSString *apiHost;
 NSString *apiKey;
-WNGLoggerAPIConnection *apiConnection;
+id mockApiConnection;
 
 - (void)setUp
 {
     [super setUp];
     apiHost = @"api.weblogng.com";
     apiKey = @"api-key-56789";
-    apiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
+    mockApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
+
     logger = [WNGLogger initWithConfig:apiHost apiKey:apiKey];
-    logger.apiConnection = apiConnection;
+    logger.apiConnection = mockApiConnection;
 }
 
 - (void)tearDown
@@ -73,7 +74,6 @@ WNGLoggerAPIConnection *apiConnection;
 
 - (void) test_sendMetric_sends_reasonable_messages_to_connection
 {
-    WNGLogger *logger = [WNGLogger initWithConfig:@"host" apiKey:@"api-key-1234"];
     
     NSString *metricName = @"metricName";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
@@ -83,15 +83,12 @@ WNGLoggerAPIConnection *apiConnection;
     NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@ %@",
                                  [logger apiKey], metricName, [metricValue stringValue], mostSignificantBitsOfNow];
     
-    id mock = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
-    
-    [[mock expect] sendMetric:startsWith(expectedMessage)];
-    
-    logger.apiConnection = mock;
+    [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
+    logger.apiConnection = mockApiConnection;
     
     [logger sendMetric:metricName metricValue:metricValue];
     
-    [mock verify];
+    [mockApiConnection verify];
 }
 
 - (void) test_sendMetric_sanitizes_metrics_before_sending
@@ -104,15 +101,13 @@ WNGLoggerAPIConnection *apiConnection;
     NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@",
                                  [logger apiKey], [WNGLogger sanitizeMetricName:metricName], [metricValue stringValue]];
     
-    id mock = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
+    [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
     
-    [[mock expect] sendMetric:startsWith(expectedMessage)];
-    
-    logger.apiConnection = mock;
+    logger.apiConnection = mockApiConnection;
     
     [logger sendMetric:metricName metricValue:metricValue];
     
-    [mock verify];
+    [mockApiConnection verify];
 }
 
 
