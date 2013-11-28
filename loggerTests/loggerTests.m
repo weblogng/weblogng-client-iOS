@@ -40,6 +40,22 @@ WNGLogger *logger;
     XCTAssertNil(logger.apiKey);
 }
 
+- (void) test_Logger_properties
+{
+    NSString *expectedApiHost = @"api.weblogng.com";
+    NSString *expectedApiKey = @"api-key-56789";
+    WNGLoggerAPIConnection *expectedApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
+
+    logger.apiHost = expectedApiHost;
+    logger.apiKey = expectedApiKey;
+    logger.apiConnection = expectedApiConnection;
+    
+    XCTAssertEqualObjects(logger.apiHost, expectedApiHost);
+    XCTAssertEqualObjects(logger.apiKey, expectedApiKey);
+    XCTAssertEqualObjects(logger.apiConnection, expectedApiConnection);
+}
+
+
 - (void) test_sendMetric_sends_reasonable_messages_to_connection
 {
     WNGLogger *logger = [WNGLogger initWithConfig:@"host" apiKey:@"api-key-1234"];
@@ -99,7 +115,6 @@ WNGLogger *logger;
     NSString *expectedKey = @"key";
     
     WNGLogger *logger = [WNGLogger initWithConfig:expectedHost apiKey:expectedKey];
-    
     
     XCTAssertEqualObjects(expectedHost, logger.apiHost);
     XCTAssertEqualObjects(expectedKey, logger.apiKey);
