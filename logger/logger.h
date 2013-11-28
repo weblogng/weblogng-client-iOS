@@ -23,8 +23,6 @@
 @property (copy) NSString *apiKey;
 @property WNGLoggerAPIConnection *apiConnection;
 
-- (void)logSettings;
-
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
 
 + (WNGLogger *) initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;

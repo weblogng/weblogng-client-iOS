@@ -21,12 +21,18 @@
 @implementation loggerTests
 
 WNGLogger *logger;
-
+NSString *apiHost;
+NSString *apiKey;
+WNGLoggerAPIConnection *apiConnection;
 
 - (void)setUp
 {
     [super setUp];
-    logger = [[WNGLogger alloc] init];
+    apiHost = @"api.weblogng.com";
+    apiKey = @"api-key-56789";
+    apiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
+    logger = [WNGLogger initWithConfig:apiHost apiKey:apiKey];
+    logger.apiConnection = apiConnection;
 }
 
 - (void)tearDown
@@ -36,12 +42,14 @@ WNGLogger *logger;
 
 - (void) test_defaultState_of_Logger
 {
+    WNGLogger *logger = [[WNGLogger alloc] init];
     XCTAssertNil(logger.apiHost);
     XCTAssertNil(logger.apiKey);
 }
 
 - (void) test_Logger_properties
 {
+    WNGLogger *logger = [[WNGLogger alloc] init];
     NSString *expectedApiHost = @"api.weblogng.com";
     NSString *expectedApiKey = @"api-key-56789";
     WNGLoggerAPIConnection *expectedApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
@@ -53,6 +61,13 @@ WNGLogger *logger;
     XCTAssertEqualObjects(logger.apiHost, expectedApiHost);
     XCTAssertEqualObjects(logger.apiKey, expectedApiKey);
     XCTAssertEqualObjects(logger.apiConnection, expectedApiConnection);
+}
+
+- (void) test_Logger_prints_property_data_in_description
+{
+    NSString *description = logger.description;
+    assertThat(description, containsString(logger.apiHost));
+    assertThat(description, containsString(logger.apiKey));
 }
 
 

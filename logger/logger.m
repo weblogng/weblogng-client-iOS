@@ -39,10 +39,9 @@
 @synthesize apiKey = _apiKey;
 @synthesize apiConnection = _apiConnection;
 
-- (void) logSettings {
-    NSLog(@"logger apiHost: %@ apiKey: %@", _apiHost, _apiKey);
+- (NSString *)description {
+    return [NSString stringWithFormat: @"[Logger apiHost: %@, apiKey: %@]", _apiHost, _apiKey];
 }
-
 
 - (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
     NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
@@ -62,6 +61,8 @@
     logger.apiHost = apiHost;
     logger.apiKey = apiKey;
     logger.apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
+
+    NSLog(@"Initialized %@", logger);
     
     return logger;
 }
