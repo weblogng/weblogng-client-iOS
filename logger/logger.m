@@ -35,6 +35,14 @@
 
 @implementation WNGLogger
 
+NSMutableDictionary *timersByMetricName;
+
+- (id)init {
+    self = [super init];
+    timersByMetricName = [NSMutableDictionary dictionaryWithDictionary:@{}];
+    return self;
+}
+
 @synthesize apiHost = _apiHost;
 @synthesize apiKey = _apiKey;
 @synthesize apiConnection = _apiConnection;
@@ -55,6 +63,24 @@
     return message;
 }
 
+- (WNGTimer *)recordStart:(NSString *)metricName {
+    WNGTimer *timer = [[WNGTimer alloc] init];
+    [timer start];
+    [timersByMetricName setObject:timer forKey:metricName];
+    return timer;
+}
+
+- (WNGTimer *)recordFinish:(NSString *)metricName {
+    WNGTimer *timer = timersByMetricName[metricName];
+
+    if(timer){
+        [timer finish];
+    } else {
+        NSLog(@"recordFinish called for non-existent metric name: %@", metricName);
+    }
+
+    return timer;
+}
 
 + (WNGLogger *) initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
     WNGLogger *logger = [[WNGLogger alloc] init];
@@ -95,6 +121,10 @@
 - (void) init: (NSNumber *)tStart tFinish:(NSNumber *)tFinish {
     _tStart = tStart;
     _tFinish = tFinish;
+}
+
+- (void) init:(NSNumber*)tStart {
+    [self init:tStart tFinish:nil];
 }
 
 - (void) start {

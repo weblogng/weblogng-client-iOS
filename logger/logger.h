@@ -14,37 +14,43 @@
 
 @end
 
+@interface WNGTimer : NSObject
+
+- (void)init:(NSNumber *)tStart tFinish:(NSNumber *)tFinish;
+
+- (void)init:(NSNumber *)tStart;
+
+@property(readonly) NSNumber *tStart;
+@property(readonly) NSNumber *tFinish;
+
+- (void)start;
+
+- (void)finish;
+
+- (NSNumber *)elapsedTime;
+
+@end
 
 @interface WNGLogger : NSObject
 
-@property (copy) NSString *apiHost;
-@property (copy) NSString *apiKey;
+@property(copy) NSString *apiHost;
+@property(copy) NSString *apiKey;
 @property WNGLoggerAPIConnection *apiConnection;
 
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
 
-+ (WNGLogger *) initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
+- (WNGTimer *)recordStart:(NSString *)metricName;
 
-+ (NSString *) sanitizeMetricName:(NSString *)metricName;
++ (WNGLogger *)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
 
-@end
+- (WNGTimer *)recordFinish:(NSString *)metricName;
 
-@interface WNGTimer : NSObject
-
-- (void) init: (NSNumber *)tStart tFinish:(NSNumber *)tFinish;
-
-@property (readonly) NSNumber *tStart;
-@property (readonly) NSNumber *tFinish;
-
-- (void) start;
-- (void) finish;
-
-- (NSNumber *) elapsedTime;
++ (NSString *)sanitizeMetricName:(NSString *)metricName;
 
 @end
 
 @interface WNGTime : NSObject
 
-+ (NSNumber *) epochTimeInSeconds;
++ (NSNumber *)epochTimeInSeconds;
 
 @end

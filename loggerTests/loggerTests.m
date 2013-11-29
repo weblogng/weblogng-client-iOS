@@ -14,6 +14,11 @@
 
 #import "logger.h"
 
+double epochTimeInSeconds() {
+    return [[NSDate date] timeIntervalSince1970];
+}
+
+
 @interface WNGLoggerTests : XCTestCase
 
 @end
@@ -119,6 +124,21 @@ id mockApiConnection;
     }
 }
 
+- (void)test_recordStart_creates_a_timer_and_starts_it {
+    WNGTimer *timer = [logger recordStart: @"metric_name"];
+    assertThat(timer.tStart, closeTo(epochTimeInSeconds(), 1.1));
+}
+
+- (void)test_recordFinish_records_the_current_time_when_called_for_a_given_metric_name {
+    NSString *metricName = @"metric_name";
+    WNGTimer *startedTimer = [logger recordStart:metricName];
+    WNGTimer *finishedTimer = [logger recordFinish:metricName];
+
+    XCTAssertEqual(finishedTimer, startedTimer);
+    assertThat(finishedTimer, isNot(nil));
+    assertThat(finishedTimer.tFinish, closeTo(epochTimeInSeconds(), 1.1));
+}
+
 - (void) test_initWithConfig_initializes_the_logger_with_configuration
 {
     NSString *expectedHost = @"host";
@@ -133,8 +153,8 @@ id mockApiConnection;
 - (void) test_getEpochTimeInSeconds
 {
     NSNumber *actualTime = [WNGTime epochTimeInSeconds];
-    double now = [[NSDate date] timeIntervalSince1970];
-    
+    double now= epochTimeInSeconds();
+
     assertThat(actualTime, closeTo(now, 1.1));
 }
 
