@@ -1,12 +1,11 @@
 //
 //  loggerTests.m
-//  loggerTests
+//  Tests of the Weblog-NG Logger library for iOS.
 //
 //  Created by Stephen Kuenzli on 11/23/13.
 //  Copyright (c) 2013 Weblog-NG. All rights reserved.
 //
 
-#import <stdlib.h>
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 
@@ -15,11 +14,11 @@
 
 #import "logger.h"
 
-@interface loggerTests : XCTestCase
+@interface WNGLoggerTests : XCTestCase
 
 @end
 
-@implementation loggerTests
+@implementation WNGLoggerTests
 
 WNGLogger *logger;
 NSString *apiHost;
