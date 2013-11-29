@@ -33,7 +33,7 @@
 @end
 
 
-@implementation WNGLogger {}
+@implementation WNGLogger
 
 @synthesize apiHost = _apiHost;
 @synthesize apiKey = _apiKey;
@@ -79,10 +79,10 @@
 
 @end
 
-@implementation WNGTime {}
+@implementation WNGTime
 
-+ (NSNumber *) epochTimeInSeconds {
-    return [NSNumber numberWithLong:(long)[[NSDate date] timeIntervalSince1970]];
++ (NSNumber *)epochTimeInSeconds {
+    return [NSNumber numberWithLong:(long) [[NSDate date] timeIntervalSince1970]];
 }
 
 @end
