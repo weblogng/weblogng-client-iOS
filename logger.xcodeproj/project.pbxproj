@@ -7,17 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4EA4AF08C0F8491BAC9611B2 /* libPods-loggerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9293747C875C4EE3A364FD96 /* libPods-loggerTests.a */; };
 		61CA493B1841782E003C2BA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA493A1841782E003C2BA3 /* Foundation.framework */; };
 		61CA49401841782E003C2BA3 /* logger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 61CA493F1841782E003C2BA3 /* logger.h */; };
 		61CA49421841782E003C2BA3 /* logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CA49411841782E003C2BA3 /* logger.m */; };
 		61CA49491841782E003C2BA3 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA49481841782E003C2BA3 /* XCTest.framework */; };
 		61CA494A1841782E003C2BA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA493A1841782E003C2BA3 /* Foundation.framework */; };
-		61CA494C1841782E003C2BA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA494B1841782E003C2BA3 /* UIKit.framework */; };
 		61CA494F1841782E003C2BA3 /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA49371841782E003C2BA3 /* liblogger.a */; };
 		61CA49551841782E003C2BA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61CA49531841782E003C2BA3 /* InfoPlist.strings */; };
 		61CA49571841782E003C2BA3 /* loggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CA49561841782E003C2BA3 /* loggerTests.m */; };
-		DA3F6518D0484C74BA2DEDF7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FBF78C86E14611B58C6BDD /* libPods.a */; };
+		8F58C77AC05C4E28B8B96A16 /* libPods-loggerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-loggerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61CA49371841782E003C2BA3 /* liblogger.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblogger.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61CA493A1841782E003C2BA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		61CA493E1841782E003C2BA3 /* logger-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "logger-Prefix.pch"; sourceTree = "<group>"; };
@@ -52,12 +51,9 @@
 		61CA49411841782E003C2BA3 /* logger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = logger.m; sourceTree = "<group>"; };
 		61CA49471841782E003C2BA3 /* loggerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = loggerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61CA49481841782E003C2BA3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		61CA494B1841782E003C2BA3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		61CA49521841782E003C2BA3 /* loggerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "loggerTests-Info.plist"; sourceTree = "<group>"; };
 		61CA49541841782E003C2BA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		61CA49561841782E003C2BA3 /* loggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = loggerTests.m; sourceTree = "<group>"; };
-		9293747C875C4EE3A364FD96 /* libPods-loggerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-loggerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		98FBF78C86E14611B58C6BDD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4EDB87839584E7BA085A127 /* Pods-loggerTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-loggerTests.xcconfig"; path = "Pods/Pods-loggerTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,7 +63,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CA493B1841782E003C2BA3 /* Foundation.framework in Frameworks */,
-				DA3F6518D0484C74BA2DEDF7 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,9 +72,8 @@
 			files = (
 				61CA49491841782E003C2BA3 /* XCTest.framework in Frameworks */,
 				61CA494F1841782E003C2BA3 /* liblogger.a in Frameworks */,
-				61CA494C1841782E003C2BA3 /* UIKit.framework in Frameworks */,
 				61CA494A1841782E003C2BA3 /* Foundation.framework in Frameworks */,
-				4EA4AF08C0F8491BAC9611B2 /* libPods-loggerTests.a in Frameworks */,
+				8F58C77AC05C4E28B8B96A16 /* libPods-loggerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,9 +106,7 @@
 			children = (
 				61CA493A1841782E003C2BA3 /* Foundation.framework */,
 				61CA49481841782E003C2BA3 /* XCTest.framework */,
-				61CA494B1841782E003C2BA3 /* UIKit.framework */,
-				98FBF78C86E14611B58C6BDD /* libPods.a */,
-				9293747C875C4EE3A364FD96 /* libPods-loggerTests.a */,
+				555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -216,6 +208,8 @@
 			mainGroup = 61CA492E1841782E003C2BA3;
 			productRefGroup = 61CA49381841782E003C2BA3 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+			);
 			projectRoot = "";
 			targets = (
 				61CA49361841782E003C2BA3 /* logger */,
