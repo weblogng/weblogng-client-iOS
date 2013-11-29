@@ -15,9 +15,7 @@
 @end
 
 
-@interface WNGLogger : NSObject {
-    
-}
+@interface WNGLogger : NSObject
 
 @property (copy) NSString *apiHost;
 @property (copy) NSString *apiKey;
@@ -31,7 +29,7 @@
 
 @end
 
-@interface WNGTimer : NSObject {}
+@interface WNGTimer : NSObject
 
 - (void) init: (NSNumber *)tStart tFinish:(NSNumber *)tFinish;
 
@@ -45,7 +43,7 @@
 
 @end
 
-@interface WNGTime : NSObject {}
+@interface WNGTime : NSObject
 
 + (NSNumber *) epochTimeInSeconds;
 
