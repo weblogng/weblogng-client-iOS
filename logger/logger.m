@@ -88,3 +88,28 @@ NSNumber* getEpochTimeInSeconds();
 }
 
 @end
+
+@implementation WNGTimer
+
+@synthesize tStart = _tStart;
+@synthesize tFinish = _tFinish;
+
+- (void) init: (NSNumber *)tStart tFinish:(NSNumber *)tFinish {
+    _tStart = tStart;
+    _tFinish = tFinish;
+}
+
+- (void) start {
+    _tStart = [WNGTime epochTimeInSeconds];
+}
+
+- (void) finish {
+    _tFinish = [WNGTime epochTimeInSeconds];
+}
+
+- (NSNumber *) elapsedTime {
+    NSLog(@"tStart: %@ tFinish: %@", _tStart, _tFinish);
+    return [NSNumber numberWithLong:[_tFinish longValue] - [_tStart longValue]];
+}
+
+@end

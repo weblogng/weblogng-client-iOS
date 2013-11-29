@@ -31,6 +31,20 @@
 
 @end
 
+@interface WNGTimer : NSObject {}
+
+- (void) init: (NSNumber *)tStart tFinish:(NSNumber *)tFinish;
+
+@property (readonly) NSNumber *tStart;
+@property (readonly) NSNumber *tFinish;
+
+- (void) start;
+- (void) finish;
+
+- (NSNumber *) elapsedTime;
+
+@end
+
 @interface WNGTime : NSObject {}
 
 + (NSNumber *) epochTimeInSeconds;

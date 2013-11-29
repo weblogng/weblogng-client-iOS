@@ -140,3 +140,47 @@ id mockApiConnection;
 }
 
 @end
+
+@interface WNGTimerTests : XCTestCase
+
+@end
+
+@implementation WNGTimerTests
+
+WNGTimer *timer;
+
+- (void)setUp
+{
+    [super setUp];
+
+    timer = [[WNGTimer alloc] init];
+    
+}
+
+- (void) test_default_state_of_Timer
+{
+    XCTAssertNil(timer.tStart);
+    XCTAssertNil(timer.tFinish);
+}
+
+- (void) test_start_method_records_start_time
+{
+    [timer start];
+    assertThat(timer.tStart, closeTo([[WNGTime epochTimeInSeconds] doubleValue], 1.1));
+}
+
+- (void) test_finish_method_records_finish_time
+{
+    [timer finish];
+    assertThat(timer.tFinish, closeTo([[WNGTime epochTimeInSeconds] doubleValue], 1.1));
+}
+
+- (void) test_elapsedTime_is_computed_from_tStart_and_tFinish
+{
+    [timer init:[NSNumber numberWithLong:42] tFinish:[NSNumber numberWithLong: 100]];
+    
+    assertThat([timer elapsedTime], equalTo([NSNumber numberWithLong: 58]));    
+}
+
+@end
+
