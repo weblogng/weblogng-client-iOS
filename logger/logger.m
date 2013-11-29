@@ -79,8 +79,6 @@
 
 @end
 
-NSNumber* getEpochTimeInSeconds();
-
 @implementation WNGTime {}
 
 + (NSNumber *) epochTimeInSeconds {
