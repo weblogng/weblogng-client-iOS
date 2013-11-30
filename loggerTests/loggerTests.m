@@ -150,10 +150,17 @@ id mockApiConnection;
     XCTAssertEqualObjects(expectedKey, logger.apiKey);
 }
 
-- (void) test_getEpochTimeInSeconds
-{
+@end
+
+@interface WNGTimeTests : XCTestCase
+
+@end
+
+@implementation WNGTimeTests
+
+- (void)test_getEpochTimeInSeconds {
     NSNumber *actualTime = [WNGTime epochTimeInSeconds];
-    double now= epochTimeInSeconds();
+    double now = epochTimeInSeconds();
 
     assertThat(actualTime, closeTo(now, 1.1));
 }
