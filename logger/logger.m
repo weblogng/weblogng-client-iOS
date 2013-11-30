@@ -60,6 +60,10 @@ NSMutableDictionary *timersByMetricName;
 @synthesize apiKey = _apiKey;
 @synthesize apiConnection = _apiConnection;
 
+- (BOOL)hasTimerFor:(NSString *)metricName {
+    return [timersByMetricName objectForKey:metricName] ? TRUE : FALSE;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat: @"[Logger apiHost: %@, apiKey: %@]", _apiHost, _apiKey];
 }

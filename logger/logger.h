@@ -37,15 +37,17 @@
 @property(copy) NSString *apiKey;
 @property WNGLoggerAPIConnection *apiConnection;
 
-- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
+
+- (BOOL) hasTimerFor:(NSString *)metricName;
 
 - (WNGTimer *)recordStart:(NSString *)metricName;
-
-- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
 
 - (WNGTimer *)recordFinish:(NSString *)metricName;
 
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName;
+
+- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
 
 + (NSString *)sanitizeMetricName:(NSString *)metricName;
 

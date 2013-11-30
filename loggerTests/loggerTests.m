@@ -128,6 +128,16 @@ id mockApiConnection;
     assertThat(timer.tStart, closeTo(epochTimeInSeconds(), 1.1));
 }
 
+- (void)test_hasTimer_for_metric_name_returns_false_when_timer_does_not_exist {
+    assertThatBool([logger hasTimerFor: @"does not exist"], equalToBool(FALSE));
+}
+
+- (void)test_hasTimer_for_metric_name_returns_true_when_timer_does_exist {
+    NSString *metricName = @"metric_that_exists";
+    [logger recordStart:metricName];
+    assertThatBool([logger hasTimerFor: metricName], equalToBool(TRUE));
+}
+
 - (void)test_recordFinish_records_the_current_time_when_called_for_a_given_metric_name {
     NSString *metricName = @"metric_name";
     WNGTimer *startedTimer = [logger recordStart:metricName];
@@ -152,6 +162,7 @@ id mockApiConnection;
 
     [mockApiConnection verify];
 
+    assertThatBool([logger hasTimerFor: metricName], equalToBool(FALSE));
     assertThat(timer.tStart, closeTo(epochTimeInSeconds(), 1.1));
     assertThat(timer.tFinish, closeTo(epochTimeInSeconds(), 1.1));
     assertThat(timer.elapsedTime, closeTo(0, 0.5));
