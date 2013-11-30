@@ -45,6 +45,8 @@
 
 - (WNGTimer *)recordFinish:(NSString *)metricName;
 
+- (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName;
+
 + (NSString *)sanitizeMetricName:(NSString *)metricName;
 
 @end

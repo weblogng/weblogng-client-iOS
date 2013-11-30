@@ -34,9 +34,10 @@ id mockApiConnection;
     [super setUp];
     apiHost = @"api.weblogng.com";
     apiKey = [NSString stringWithFormat: @"api-key-%d", arc4random_uniform(1000)];
-    mockApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
 
     logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey];
+
+    mockApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
     logger.apiConnection = mockApiConnection;
 }
 
@@ -94,26 +95,21 @@ id mockApiConnection;
                                  [logger apiKey], metricName, [metricValue stringValue], mostSignificantBitsOfNow];
     
     [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
-    logger.apiConnection = mockApiConnection;
-    
+
     [logger sendMetric:metricName metricValue:metricValue];
     
     [mockApiConnection verify];
 }
 
 - (void)test_sendMetric_sanitizes_metrics_before_sending {
-    WNGLogger *logger = [[WNGLogger alloc] initWithConfig:@"host" apiKey:@"api-key-1234"];
-    
     NSString *metricName = @"metricName.needs$sanitization";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
     
     NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@",
                                  [logger apiKey], [WNGLogger sanitizeMetricName:metricName], [metricValue stringValue]];
-    
+
     [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
-    
-    logger.apiConnection = mockApiConnection;
-    
+
     [logger sendMetric:metricName metricValue:metricValue];
     
     [mockApiConnection verify];
@@ -123,7 +119,6 @@ id mockApiConnection;
 - (void)test_sanitizeMetricName_sanitizes_invalid_names {
     for(NSString *forbiddenChar in @[@".", @"!", @"," , @";", @":", @"?", @"/", @"\\", @"@", @"#", @"$", @"%", @"^", @"&", @"*", @"(", @")"]){
         NSString *actualMetricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"metric-name_1%@2", forbiddenChar]];
-        XCTAssertEqualObjects(actualMetricName, @"metric-name_1_2");
         assertThat(actualMetricName, equalTo(@"metric-name_1_2"));
     }
 }
@@ -141,6 +136,25 @@ id mockApiConnection;
     assertThat(finishedTimer, equalTo(startedTimer));
     assertThat(finishedTimer, isNot(nil));
     assertThat(finishedTimer.tFinish, closeTo(epochTimeInSeconds(), 1.1));
+}
+
+- (void)test_recordFinishAndSendMetric_should_call_recordFinish_and_sendMetric {
+    NSString *metricName = @"metric.recordFinishAndSend";
+    [logger recordStart:metricName];
+
+    NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@",
+                    [logger apiKey],
+                    [WNGLogger sanitizeMetricName:metricName]];
+
+    [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
+
+    WNGTimer *timer = [logger recordFinishAndSendMetric:metricName];
+
+    [mockApiConnection verify];
+
+    assertThat(timer.tStart, closeTo(epochTimeInSeconds(), 1.1));
+    assertThat(timer.tFinish, closeTo(epochTimeInSeconds(), 1.1));
+    assertThat(timer.elapsedTime, closeTo(0, 0.5));
 }
 
 @end

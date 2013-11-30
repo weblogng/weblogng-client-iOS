@@ -105,6 +105,13 @@ NSMutableDictionary *timersByMetricName;
     return sanitizedMetricName;
 }
 
+- (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName {
+    WNGTimer *timer = [self recordFinish:metricName];
+    [self sendMetric:metricName metricValue:timer.elapsedTime];
+    [timersByMetricName removeObjectForKey:metricName];
+    return timer;
+}
+
 @end
 
 @implementation WNGTime
