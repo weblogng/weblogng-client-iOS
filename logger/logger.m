@@ -37,10 +37,20 @@
 
 NSMutableDictionary *timersByMetricName;
 
-- (id)init {
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
     self = [super init];
     timersByMetricName = [NSMutableDictionary dictionaryWithDictionary:@{}];
+    _apiHost = apiHost;
+    _apiKey = apiKey;
+    _apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
+
+    NSLog(@"Initialized %@", self);
+
     return self;
+}
+
+- (id)init {
+    return [self initWithConfig:nil apiKey:nil];
 }
 
 @synthesize apiHost = _apiHost;
@@ -80,17 +90,6 @@ NSMutableDictionary *timersByMetricName;
     }
 
     return timer;
-}
-
-+ (WNGLogger *) initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
-    WNGLogger *logger = [[WNGLogger alloc] init];
-    logger.apiHost = apiHost;
-    logger.apiKey = apiKey;
-    logger.apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
-
-    NSLog(@"Initialized %@", logger);
-    
-    return logger;
 }
 
 + (NSString *) sanitizeMetricName:(NSString *)metricName {

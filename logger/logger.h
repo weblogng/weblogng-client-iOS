@@ -41,7 +41,7 @@
 
 - (WNGTimer *)recordStart:(NSString *)metricName;
 
-+ (WNGLogger *)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
 
 - (WNGTimer *)recordFinish:(NSString *)metricName;
 

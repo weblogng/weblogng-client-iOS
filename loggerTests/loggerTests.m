@@ -37,7 +37,7 @@ id mockApiConnection;
     apiKey = [NSString stringWithFormat: @"api-key-%d", arc4random_uniform(1000)];
     mockApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
 
-    logger = [WNGLogger initWithConfig:apiHost apiKey:apiKey];
+    logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey];
     logger.apiConnection = mockApiConnection;
 }
 
@@ -98,7 +98,7 @@ id mockApiConnection;
 
 - (void) test_sendMetric_sanitizes_metrics_before_sending
 {
-    WNGLogger *logger = [WNGLogger initWithConfig:@"host" apiKey:@"api-key-1234"];
+    WNGLogger *logger = [[WNGLogger alloc] initWithConfig:@"host" apiKey:@"api-key-1234"];
     
     NSString *metricName = @"metricName.needs$sanitization";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
@@ -144,7 +144,7 @@ id mockApiConnection;
     NSString *expectedHost = @"host";
     NSString *expectedKey = @"key";
     
-    WNGLogger *logger = [WNGLogger initWithConfig:expectedHost apiKey:expectedKey];
+    WNGLogger *logger = [[WNGLogger alloc]  initWithConfig:expectedHost apiKey:expectedKey];
     
     XCTAssertEqualObjects(expectedHost, logger.apiHost);
     XCTAssertEqualObjects(expectedKey, logger.apiKey);
