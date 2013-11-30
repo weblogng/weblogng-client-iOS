@@ -30,8 +30,7 @@ NSString *apiHost;
 NSString *apiKey;
 id mockApiConnection;
 
-- (void)setUp
-{
+- (void)setUp {
     [super setUp];
     apiHost = @"api.weblogng.com";
     apiKey = [NSString stringWithFormat: @"api-key-%d", arc4random_uniform(1000)];
@@ -41,20 +40,19 @@ id mockApiConnection;
     logger.apiConnection = mockApiConnection;
 }
 
-- (void)tearDown
-{
+- (void)tearDown {
     [super tearDown];
 }
 
-- (void) test_defaultState_of_Logger
-{
+- (void)test_defaultState_of_Logger {
     WNGLogger *logger = [[WNGLogger alloc] init];
-    XCTAssertNil(logger.apiHost);
-    XCTAssertNil(logger.apiKey);
+
+    assertThat(logger.apiHost, is(nilValue()));
+    assertThat(logger.apiKey, is(nilValue()));
+    assertThat(logger.apiConnection, is(nilValue()));
 }
 
-- (void) test_Logger_properties
-{
+- (void)test_Logger_properties {
     WNGLogger *logger = [[WNGLogger alloc] init];
     NSString *expectedApiHost = @"api.weblogng.com";
     NSString *expectedApiKey = @"api-key-56789";
@@ -64,13 +62,12 @@ id mockApiConnection;
     logger.apiKey = expectedApiKey;
     logger.apiConnection = expectedApiConnection;
     
-    XCTAssertEqualObjects(logger.apiHost, expectedApiHost);
-    XCTAssertEqualObjects(logger.apiKey, expectedApiKey);
-    XCTAssertEqualObjects(logger.apiConnection, expectedApiConnection);
+    assertThat(logger.apiHost, equalTo(expectedApiHost));
+    assertThat(logger.apiKey, equalTo(expectedApiKey));
+    assertThat(logger.apiConnection, equalTo(expectedApiConnection));
 }
 
-- (void) test_Logger_prints_property_data_in_description
-{
+- (void)test_Logger_prints_property_data_in_description {
     NSString *description = logger.description;
     assertThat(description, containsString(logger.apiHost));
     assertThat(description, containsString(logger.apiKey));
@@ -87,9 +84,7 @@ id mockApiConnection;
     assertThat(logger.apiConnection, isNot(nil));
 }
 
-- (void) test_sendMetric_sends_reasonable_messages_to_connection
-{
-    
+- (void)test_sendMetric_sends_reasonable_messages_to_connection {
     NSString *metricName = @"metricName";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
     NSString *nowStr = [[WNGTime epochTimeInSeconds] stringValue];
@@ -106,8 +101,7 @@ id mockApiConnection;
     [mockApiConnection verify];
 }
 
-- (void) test_sendMetric_sanitizes_metrics_before_sending
-{
+- (void)test_sendMetric_sanitizes_metrics_before_sending {
     WNGLogger *logger = [[WNGLogger alloc] initWithConfig:@"host" apiKey:@"api-key-1234"];
     
     NSString *metricName = @"metricName.needs$sanitization";
@@ -126,11 +120,11 @@ id mockApiConnection;
 }
 
 
-- (void) test_sanitizeMetricName_sanitizes_invalid_names
-{
+- (void)test_sanitizeMetricName_sanitizes_invalid_names {
     for(NSString *forbiddenChar in @[@".", @"!", @"," , @";", @":", @"?", @"/", @"\\", @"@", @"#", @"$", @"%", @"^", @"&", @"*", @"(", @")"]){
         NSString *actualMetricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"metric-name_1%@2", forbiddenChar]];
         XCTAssertEqualObjects(actualMetricName, @"metric-name_1_2");
+        assertThat(actualMetricName, equalTo(@"metric-name_1_2"));
     }
 }
 
@@ -144,7 +138,7 @@ id mockApiConnection;
     WNGTimer *startedTimer = [logger recordStart:metricName];
     WNGTimer *finishedTimer = [logger recordFinish:metricName];
 
-    XCTAssertEqual(finishedTimer, startedTimer);
+    assertThat(finishedTimer, equalTo(startedTimer));
     assertThat(finishedTimer, isNot(nil));
     assertThat(finishedTimer.tFinish, closeTo(epochTimeInSeconds(), 1.1));
 }
@@ -174,37 +168,32 @@ id mockApiConnection;
 
 WNGTimer *timer;
 
-- (void)setUp
-{
+- (void)setUp {
     [super setUp];
 
     timer = [[WNGTimer alloc] init];
     
 }
 
-- (void) test_default_state_of_Timer
-{
-    XCTAssertNil(timer.tStart);
-    XCTAssertNil(timer.tFinish);
+- (void)test_default_state_of_Timer {
+    assertThat(timer.tStart, is(nilValue()));
+    assertThat(timer.tFinish, is(nilValue()));
 }
 
-- (void) test_start_method_records_start_time
-{
+- (void)test_start_method_records_start_time {
     [timer start];
     assertThat(timer.tStart, closeTo([[WNGTime epochTimeInSeconds] doubleValue], 1.1));
 }
 
-- (void) test_finish_method_records_finish_time
-{
+- (void)test_finish_method_records_finish_time {
     [timer finish];
     assertThat(timer.tFinish, closeTo([[WNGTime epochTimeInSeconds] doubleValue], 1.1));
 }
 
-- (void) test_elapsedTime_is_computed_from_tStart_and_tFinish
-{
+- (void)test_elapsedTime_is_computed_from_tStart_and_tFinish {
     [timer init:[NSNumber numberWithLong:42] tFinish:[NSNumber numberWithLong: 100]];
-    
-    assertThat([timer elapsedTime], equalTo([NSNumber numberWithLong: 58]));    
+
+    assertThat([timer elapsedTime], equalTo([NSNumber numberWithLong: 58]));
 }
 
 @end

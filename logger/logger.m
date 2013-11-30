@@ -42,7 +42,10 @@ NSMutableDictionary *timersByMetricName;
     timersByMetricName = [NSMutableDictionary dictionaryWithDictionary:@{}];
     _apiHost = apiHost;
     _apiKey = apiKey;
-    _apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
+
+    if(_apiHost){
+        _apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
+    }
 
     NSLog(@"Initialized %@", self);
 
