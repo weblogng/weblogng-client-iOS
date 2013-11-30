@@ -76,6 +76,16 @@ id mockApiConnection;
     assertThat(description, containsString(logger.apiKey));
 }
 
+- (void)test_initWithConfig_initializes_the_logger_with_configuration {
+    NSString *expectedHost = @"host";
+    NSString *expectedKey = @"key";
+
+    WNGLogger *logger = [[WNGLogger alloc] initWithConfig:expectedHost apiKey:expectedKey];
+
+    assertThat(logger.apiHost, equalTo(expectedHost));
+    assertThat(logger.apiKey, equalTo(expectedKey));
+    assertThat(logger.apiConnection, isNot(nil));
+}
 
 - (void) test_sendMetric_sends_reasonable_messages_to_connection
 {
@@ -137,17 +147,6 @@ id mockApiConnection;
     XCTAssertEqual(finishedTimer, startedTimer);
     assertThat(finishedTimer, isNot(nil));
     assertThat(finishedTimer.tFinish, closeTo(epochTimeInSeconds(), 1.1));
-}
-
-- (void) test_initWithConfig_initializes_the_logger_with_configuration
-{
-    NSString *expectedHost = @"host";
-    NSString *expectedKey = @"key";
-    
-    WNGLogger *logger = [[WNGLogger alloc]  initWithConfig:expectedHost apiKey:expectedKey];
-    
-    XCTAssertEqualObjects(expectedHost, logger.apiHost);
-    XCTAssertEqualObjects(expectedKey, logger.apiKey);
 }
 
 @end
