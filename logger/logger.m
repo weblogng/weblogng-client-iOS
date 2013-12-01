@@ -25,7 +25,7 @@
 
 @implementation WNGLoggerAPIConnectionHTTP
 
-- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
+- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue __unused {
     NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
     return;
 }
