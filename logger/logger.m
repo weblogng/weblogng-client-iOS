@@ -64,12 +64,18 @@ NSMutableDictionary *timersByMetricName;
     return [timersByMetricName objectForKey:metricName] ? TRUE : FALSE;
 }
 
+- (NSUInteger)timerCount {
+    return [timersByMetricName count];
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat: @"[Logger apiHost: %@, apiKey: %@]", _apiHost, _apiKey];
 }
 
 - (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
+    /* currently disabled for performance reasons
     NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
+     */
     [_apiConnection sendMetric:[self convertToMetricMessage:metricName metricValue:theValue]];
     return;
 }
@@ -149,7 +155,6 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (NSNumber *) elapsedTime {
-    NSLog(@"tStart: %@ tFinish: %@", _tStart, _tFinish);
     return [NSNumber numberWithLong:[_tFinish longValue] - [_tStart longValue]];
 }
 

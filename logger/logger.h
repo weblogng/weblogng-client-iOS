@@ -41,6 +41,8 @@
 
 - (BOOL) hasTimerFor:(NSString *)metricName;
 
+- (NSUInteger) timerCount;
+
 - (WNGTimer *)recordStart:(NSString *)metricName;
 
 - (WNGTimer *)recordFinish:(NSString *)metricName;

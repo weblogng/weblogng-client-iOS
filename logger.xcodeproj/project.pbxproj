@@ -16,6 +16,8 @@
 		61CA49551841782E003C2BA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61CA49531841782E003C2BA3 /* InfoPlist.strings */; };
 		61CA49571841782E003C2BA3 /* loggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CA49561841782E003C2BA3 /* loggerTests.m */; };
 		8F58C77AC05C4E28B8B96A16 /* libPods-loggerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */; };
+		93CC0A3FD5544AC6970CCCE5 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC039F947C86CD24D5EE73 /* NSMutableArray_Shuffling.m */; };
+		93CC0ED754F6C9635FFCD5B2 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC039F947C86CD24D5EE73 /* NSMutableArray_Shuffling.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		61CA49521841782E003C2BA3 /* loggerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "loggerTests-Info.plist"; sourceTree = "<group>"; };
 		61CA49541841782E003C2BA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		61CA49561841782E003C2BA3 /* loggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = loggerTests.m; sourceTree = "<group>"; };
+		93CC006B3C9E332EFAB91200 /* NSMutableArray_Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_Shuffling.h; sourceTree = "<group>"; };
+		93CC039F947C86CD24D5EE73 /* NSMutableArray_Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_Shuffling.m; sourceTree = "<group>"; };
 		E4EDB87839584E7BA085A127 /* Pods-loggerTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-loggerTests.xcconfig"; path = "Pods/Pods-loggerTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +138,8 @@
 			children = (
 				61CA49561841782E003C2BA3 /* loggerTests.m */,
 				61CA49511841782E003C2BA3 /* Supporting Files */,
+				93CC006B3C9E332EFAB91200 /* NSMutableArray_Shuffling.h */,
+				93CC039F947C86CD24D5EE73 /* NSMutableArray_Shuffling.m */,
 			);
 			path = loggerTests;
 			sourceTree = "<group>";
@@ -298,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CA49421841782E003C2BA3 /* logger.m in Sources */,
+				93CC0A3FD5544AC6970CCCE5 /* NSMutableArray_Shuffling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CA49571841782E003C2BA3 /* loggerTests.m in Sources */,
+				93CC0ED754F6C9635FFCD5B2 /* NSMutableArray_Shuffling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

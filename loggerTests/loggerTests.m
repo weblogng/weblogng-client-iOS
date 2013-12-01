@@ -13,6 +13,7 @@
 #import <OCHamcrest/OCHamcrest.h>
 
 #import "logger.h"
+#import "NSMutableArray_Shuffling.h"
 
 double epochTimeInSeconds() {
     return [[NSDate date] timeIntervalSince1970];
@@ -132,6 +133,17 @@ id mockApiConnection;
     assertThatBool([logger hasTimerFor: @"does not exist"], equalToBool(FALSE));
 }
 
+- (void)test_timerCount_reports_the_correct_number_of_timers_in_progress {
+    u_int32_t expectedTimerCount = arc4random_uniform(1000);
+
+    for(int i = 0; i<expectedTimerCount; i++){
+        [logger recordStart:[NSString stringWithFormat:@"metric_%d", i]];
+    }
+
+    assertThatUnsignedInteger([logger timerCount], equalToUnsignedInt(expectedTimerCount));
+
+}
+
 - (void)test_hasTimer_for_metric_name_returns_true_when_timer_does_exist {
     NSString *metricName = @"metric_that_exists";
     [logger recordStart:metricName];
@@ -223,3 +235,59 @@ WNGTimer *timer;
 
 @end
 
+
+@interface stressTests : XCTestCase
+@end
+
+@implementation stressTests {
+
+}
+
+WNGLogger *logger;
+NSString *apiHost;
+NSString *apiKey;
+id mockApiConnection;
+
+- (void)setUp {
+    [super setUp];
+    apiHost = @"api.weblogng.com";
+    apiKey = [NSString stringWithFormat: @"api-key-%d", arc4random_uniform(1000)];
+
+    logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey];
+
+    mockApiConnection = [OCMockObject niceMockForClass:[WNGLoggerAPIConnection class]];
+    logger.apiConnection = mockApiConnection;
+}
+
+- (void)tearDown {
+    [super tearDown];
+}
+
+
+- (void)test_large_cycles_of_recording_and_sending_metrics {
+
+    for (int numCycles=0; numCycles<100; numCycles++) {
+
+        NSUInteger numMetricsInCycle = 1000;
+        NSMutableArray *metricNames = [NSMutableArray arrayWithCapacity:numMetricsInCycle];
+        for(int i=0; i< numMetricsInCycle; i++){
+            NSString *metricName = [NSString stringWithFormat:@"metric_%d", i];
+            [logger recordStart:metricName];
+            [metricNames addObject:metricName];
+        }
+
+        [metricNames shuffle];
+
+        NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ ", [logger apiKey]];
+        [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
+
+        for(NSString *metricName in metricNames){
+            [logger recordFinishAndSendMetric:metricName];
+        }
+
+        assertThatUnsignedInteger([logger timerCount], equalToUnsignedInt(0));
+        NSLog(@"completed record and send cycle %d", numCycles);
+    }
+}
+
+@end
