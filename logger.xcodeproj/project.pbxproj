@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6139DE24184BB06B00351512 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA49481841782E003C2BA3 /* XCTest.framework */; };
+		6139DE25184BB06B00351512 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA493A1841782E003C2BA3 /* Foundation.framework */; };
+		6139DE2D184BB06B00351512 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6139DE2B184BB06B00351512 /* InfoPlist.strings */; };
+		6139DE2F184BB06B00351512 /* StressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6139DE2E184BB06B00351512 /* StressTests.m */; };
+		614EF474184BBA26006E8EF7 /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA49371841782E003C2BA3 /* liblogger.a */; };
+		614EF475184BBA4C006E8EF7 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC095EDBD449FADDF544C6 /* NSMutableArray_Shuffling.m */; };
 		61CA493B1841782E003C2BA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA493A1841782E003C2BA3 /* Foundation.framework */; };
 		61CA49401841782E003C2BA3 /* logger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 61CA493F1841782E003C2BA3 /* logger.h */; };
 		61CA49421841782E003C2BA3 /* logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CA49411841782E003C2BA3 /* logger.m */; };
@@ -16,11 +22,18 @@
 		61CA49551841782E003C2BA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61CA49531841782E003C2BA3 /* InfoPlist.strings */; };
 		61CA49571841782E003C2BA3 /* loggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CA49561841782E003C2BA3 /* loggerTests.m */; };
 		8F58C77AC05C4E28B8B96A16 /* libPods-loggerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */; };
-		93CC0A3FD5544AC6970CCCE5 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC039F947C86CD24D5EE73 /* NSMutableArray_Shuffling.m */; };
-		93CC0ED754F6C9635FFCD5B2 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC039F947C86CD24D5EE73 /* NSMutableArray_Shuffling.m */; };
+		93CC0C4B66329C3D74851C6C /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC095EDBD449FADDF544C6 /* NSMutableArray_Shuffling.m */; };
+		B9A57C2E36E446B3A7252625 /* libPods-StressTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229FD8C05A1842A1A962F02B /* libPods-StressTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6139DE31184BB06B00351512 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CA492F1841782E003C2BA3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61CA49361841782E003C2BA3;
+			remoteInfo = logger;
+		};
 		61CA494D1841782E003C2BA3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 61CA492F1841782E003C2BA3 /* Project object */;
@@ -44,8 +57,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		229FD8C05A1842A1A962F02B /* libPods-StressTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StressTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-loggerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6139DE23184BB06B00351512 /* StressTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StressTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6139DE26184BB06B00351512 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6139DE2A184BB06B00351512 /* StressTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StressTests-Info.plist"; sourceTree = "<group>"; };
+		6139DE2C184BB06B00351512 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6139DE2E184BB06B00351512 /* StressTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StressTests.m; sourceTree = "<group>"; };
+		6139DE30184BB06B00351512 /* StressTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StressTests-Prefix.pch"; sourceTree = "<group>"; };
+		614EF473184BB69F006E8EF7 /* loggerTests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "loggerTests copy-Info.plist"; path = "/Users/skuenzli/dev/dev.weblog-ng/weblog-ng-client-iOS/logger/loggerTests copy-Info.plist"; sourceTree = "<absolute>"; };
 		61CA49371841782E003C2BA3 /* liblogger.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblogger.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61CA493A1841782E003C2BA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		61CA493E1841782E003C2BA3 /* logger-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "logger-Prefix.pch"; sourceTree = "<group>"; };
@@ -56,12 +77,24 @@
 		61CA49521841782E003C2BA3 /* loggerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "loggerTests-Info.plist"; sourceTree = "<group>"; };
 		61CA49541841782E003C2BA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		61CA49561841782E003C2BA3 /* loggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = loggerTests.m; sourceTree = "<group>"; };
-		93CC006B3C9E332EFAB91200 /* NSMutableArray_Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_Shuffling.h; sourceTree = "<group>"; };
-		93CC039F947C86CD24D5EE73 /* NSMutableArray_Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_Shuffling.m; sourceTree = "<group>"; };
+		93CC070A06164315D03ABD4A /* NSMutableArray_Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_Shuffling.h; sourceTree = "<group>"; };
+		93CC095EDBD449FADDF544C6 /* NSMutableArray_Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_Shuffling.m; sourceTree = "<group>"; };
+		E42033205A7A4068A6B54314 /* Pods-StressTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StressTests.xcconfig"; path = "Pods/Pods-StressTests.xcconfig"; sourceTree = "<group>"; };
 		E4EDB87839584E7BA085A127 /* Pods-loggerTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-loggerTests.xcconfig"; path = "Pods/Pods-loggerTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6139DE20184BB06B00351512 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6139DE24184BB06B00351512 /* XCTest.framework in Frameworks */,
+				614EF474184BBA26006E8EF7 /* liblogger.a in Frameworks */,
+				6139DE25184BB06B00351512 /* Foundation.framework in Frameworks */,
+				B9A57C2E36E446B3A7252625 /* libPods-StressTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61CA49341841782E003C2BA3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -84,15 +117,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6139DE28184BB06B00351512 /* StressTests */ = {
+			isa = PBXGroup;
+			children = (
+				6139DE2E184BB06B00351512 /* StressTests.m */,
+				6139DE29184BB06B00351512 /* Supporting Files */,
+				93CC095EDBD449FADDF544C6 /* NSMutableArray_Shuffling.m */,
+				93CC070A06164315D03ABD4A /* NSMutableArray_Shuffling.h */,
+			);
+			path = StressTests;
+			sourceTree = "<group>";
+		};
+		6139DE29184BB06B00351512 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6139DE2A184BB06B00351512 /* StressTests-Info.plist */,
+				6139DE2B184BB06B00351512 /* InfoPlist.strings */,
+				6139DE30184BB06B00351512 /* StressTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		61CA492E1841782E003C2BA3 = {
 			isa = PBXGroup;
 			children = (
 				61CA493C1841782E003C2BA3 /* logger */,
 				61CA49501841782E003C2BA3 /* loggerTests */,
+				6139DE28184BB06B00351512 /* StressTests */,
 				61CA49391841782E003C2BA3 /* Frameworks */,
 				61CA49381841782E003C2BA3 /* Products */,
 				4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */,
 				E4EDB87839584E7BA085A127 /* Pods-loggerTests.xcconfig */,
+				E42033205A7A4068A6B54314 /* Pods-StressTests.xcconfig */,
+				614EF473184BB69F006E8EF7 /* loggerTests copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +158,7 @@
 			children = (
 				61CA49371841782E003C2BA3 /* liblogger.a */,
 				61CA49471841782E003C2BA3 /* loggerTests.xctest */,
+				6139DE23184BB06B00351512 /* StressTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,6 +169,8 @@
 				61CA493A1841782E003C2BA3 /* Foundation.framework */,
 				61CA49481841782E003C2BA3 /* XCTest.framework */,
 				555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */,
+				6139DE26184BB06B00351512 /* UIKit.framework */,
+				229FD8C05A1842A1A962F02B /* libPods-StressTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -138,8 +198,6 @@
 			children = (
 				61CA49561841782E003C2BA3 /* loggerTests.m */,
 				61CA49511841782E003C2BA3 /* Supporting Files */,
-				93CC006B3C9E332EFAB91200 /* NSMutableArray_Shuffling.h */,
-				93CC039F947C86CD24D5EE73 /* NSMutableArray_Shuffling.m */,
 			);
 			path = loggerTests;
 			sourceTree = "<group>";
@@ -156,6 +214,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6139DE22184BB06B00351512 /* StressTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6139DE35184BB06B00351512 /* Build configuration list for PBXNativeTarget "StressTests" */;
+			buildPhases = (
+				B7729453D74E4D93A7F3FD29 /* Check Pods Manifest.lock */,
+				6139DE1F184BB06B00351512 /* Sources */,
+				6139DE20184BB06B00351512 /* Frameworks */,
+				6139DE21184BB06B00351512 /* Resources */,
+				2E05BCE73F1443E08873AC2B /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6139DE32184BB06B00351512 /* PBXTargetDependency */,
+			);
+			name = StressTests;
+			productName = StressTests;
+			productReference = 6139DE23184BB06B00351512 /* StressTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		61CA49361841782E003C2BA3 /* logger */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61CA495A1841782E003C2BA3 /* Build configuration list for PBXNativeTarget "logger" */;
@@ -214,17 +292,24 @@
 			mainGroup = 61CA492E1841782E003C2BA3;
 			productRefGroup = 61CA49381841782E003C2BA3 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-			);
 			projectRoot = "";
 			targets = (
 				61CA49361841782E003C2BA3 /* logger */,
 				61CA49461841782E003C2BA3 /* loggerTests */,
+				6139DE22184BB06B00351512 /* StressTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6139DE21184BB06B00351512 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6139DE2D184BB06B00351512 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61CA49451841782E003C2BA3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,6 +334,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2E05BCE73F1443E08873AC2B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-StressTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5F5F027ED25246EE96C8ECF1 /* Copy Pods Resources */ = {
@@ -281,6 +381,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		B7729453D74E4D93A7F3FD29 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		C30EB79192F24312AC573536 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -299,12 +414,21 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6139DE1F184BB06B00351512 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				614EF475184BBA4C006E8EF7 /* NSMutableArray_Shuffling.m in Sources */,
+				6139DE2F184BB06B00351512 /* StressTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61CA49331841782E003C2BA3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				61CA49421841782E003C2BA3 /* logger.m in Sources */,
-				93CC0A3FD5544AC6970CCCE5 /* NSMutableArray_Shuffling.m in Sources */,
+				93CC0C4B66329C3D74851C6C /* NSMutableArray_Shuffling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,13 +437,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CA49571841782E003C2BA3 /* loggerTests.m in Sources */,
-				93CC0ED754F6C9635FFCD5B2 /* NSMutableArray_Shuffling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6139DE32184BB06B00351512 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61CA49361841782E003C2BA3 /* logger */;
+			targetProxy = 6139DE31184BB06B00351512 /* PBXContainerItemProxy */;
+		};
 		61CA494E1841782E003C2BA3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 61CA49361841782E003C2BA3 /* logger */;
@@ -328,6 +456,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6139DE2B184BB06B00351512 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6139DE2C184BB06B00351512 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		61CA49531841782E003C2BA3 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -339,11 +475,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6139DE33184BB06B00351512 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E42033205A7A4068A6B54314 /* Pods-StressTests.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StressTests/StressTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "StressTests/StressTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		6139DE34184BB06B00351512 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E42033205A7A4068A6B54314 /* Pods-StressTests.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StressTests/StressTests-Prefix.pch";
+				INFOPLIST_FILE = "StressTests/StressTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 		61CA49581841782E003C2BA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -381,7 +554,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -447,7 +619,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EDB87839584E7BA085A127 /* Pods-loggerTests.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -480,7 +651,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EDB87839584E7BA085A127 /* Pods-loggerTests.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -497,6 +667,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6139DE35184BB06B00351512 /* Build configuration list for PBXNativeTarget "StressTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6139DE33184BB06B00351512 /* Debug */,
+				6139DE34184BB06B00351512 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		61CA49321841782E003C2BA3 /* Build configuration list for PBXProject "logger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

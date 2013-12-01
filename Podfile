@@ -7,3 +7,8 @@ target :loggerTests do
     pod "OCMock", "~> 2.2"
     pod "OCHamcrest", "~> 3.0"
 end
+
+target :StressTests do
+  pod "OCMock", "~> 2.2"
+  pod "OCHamcrest", "~> 3.0"
+end

@@ -38,6 +38,16 @@
                ReferencedContainer = "container:logger.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6139DE22184BB06B00351512"
+               BuildableName = "StressTests.xctest"
+               BlueprintName = "StressTests"
+               ReferencedContainer = "container:logger.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
