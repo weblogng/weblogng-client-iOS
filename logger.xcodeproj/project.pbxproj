@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		366DFB875BCC46D89158E0DD /* libPods-loggerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */; };
 		6139DE24184BB06B00351512 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA49481841782E003C2BA3 /* XCTest.framework */; };
 		6139DE25184BB06B00351512 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA493A1841782E003C2BA3 /* Foundation.framework */; };
 		6139DE2D184BB06B00351512 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6139DE2B184BB06B00351512 /* InfoPlist.strings */; };
@@ -21,7 +22,7 @@
 		61CA494F1841782E003C2BA3 /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA49371841782E003C2BA3 /* liblogger.a */; };
 		61CA49551841782E003C2BA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61CA49531841782E003C2BA3 /* InfoPlist.strings */; };
 		61CA49571841782E003C2BA3 /* loggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CA49561841782E003C2BA3 /* loggerTests.m */; };
-		8F58C77AC05C4E28B8B96A16 /* libPods-loggerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */; };
+		61E2AFC1184BD61F00C15A56 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61E2AFC0184BD61F00C15A56 /* libPods.a */; };
 		93CC0C4B66329C3D74851C6C /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC095EDBD449FADDF544C6 /* NSMutableArray_Shuffling.m */; };
 		B9A57C2E36E446B3A7252625 /* libPods-StressTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229FD8C05A1842A1A962F02B /* libPods-StressTests.a */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,10 @@
 		61CA49521841782E003C2BA3 /* loggerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "loggerTests-Info.plist"; sourceTree = "<group>"; };
 		61CA49541841782E003C2BA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		61CA49561841782E003C2BA3 /* loggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = loggerTests.m; sourceTree = "<group>"; };
+		61E2AFBC184BD38700C15A56 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		61E2AFBE184BD40300C15A56 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
+		61E2AFC0184BD61F00C15A56 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		62876A8E2FE944F2B4C568CB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		93CC070A06164315D03ABD4A /* NSMutableArray_Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_Shuffling.h; sourceTree = "<group>"; };
 		93CC095EDBD449FADDF544C6 /* NSMutableArray_Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_Shuffling.m; sourceTree = "<group>"; };
 		E42033205A7A4068A6B54314 /* Pods-StressTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StressTests.xcconfig"; path = "Pods/Pods-StressTests.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +105,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CA493B1841782E003C2BA3 /* Foundation.framework in Frameworks */,
+				61E2AFC1184BD61F00C15A56 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +116,7 @@
 				61CA49491841782E003C2BA3 /* XCTest.framework in Frameworks */,
 				61CA494F1841782E003C2BA3 /* liblogger.a in Frameworks */,
 				61CA494A1841782E003C2BA3 /* Foundation.framework in Frameworks */,
-				8F58C77AC05C4E28B8B96A16 /* libPods-loggerTests.a in Frameworks */,
+				366DFB875BCC46D89158E0DD /* libPods-loggerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,11 +172,15 @@
 		61CA49391841782E003C2BA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				61E2AFC0184BD61F00C15A56 /* libPods.a */,
+				61E2AFBE184BD40300C15A56 /* libicucore.A.dylib */,
+				61E2AFBC184BD38700C15A56 /* libicucore.dylib */,
 				61CA493A1841782E003C2BA3 /* Foundation.framework */,
 				61CA49481841782E003C2BA3 /* XCTest.framework */,
 				555D530D64DE4A1EB6249454 /* libPods-loggerTests.a */,
 				6139DE26184BB06B00351512 /* UIKit.framework */,
 				229FD8C05A1842A1A962F02B /* libPods-StressTests.a */,
+				62876A8E2FE944F2B4C568CB /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -348,7 +358,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-StressTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5F5F027ED25246EE96C8ECF1 /* Copy Pods Resources */ = {
@@ -477,7 +487,7 @@
 /* Begin XCBuildConfiguration section */
 		6139DE33184BB06B00351512 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E42033205A7A4068A6B54314 /* Pods-StressTests.xcconfig */;
+			baseConfigurationReference = 4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -498,7 +508,7 @@
 		};
 		6139DE34184BB06B00351512 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E42033205A7A4068A6B54314 /* Pods-StressTests.xcconfig */;
+			baseConfigurationReference = 4D7BBBD8B9A3421DB4A2CEFD /* Pods.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

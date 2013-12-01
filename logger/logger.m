@@ -10,13 +10,12 @@
 
 @implementation WNGLoggerAPIConnection
 
-- (void) sendMetric:(NSString *)metricMessagePayload; {
+- (void) sendMetric:(NSString *)metricMessagePayload {
     NSLog(@"no-oping sendMetric : %@", metricMessagePayload);
     return;
 }
 
 @end
-
 
 @interface WNGLoggerAPIConnectionHTTP : WNGLoggerAPIConnection
 
