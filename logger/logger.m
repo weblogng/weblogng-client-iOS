@@ -7,6 +7,9 @@
 //
 
 #import "logger.h"
+#import "AFHTTPRequestOperation.h"
+#import "AFHTTPRequestOperationManager.h"
+#import "AFHTTPSessionManager.h"
 
 @implementation WNGLoggerAPIConnection
 
@@ -19,15 +22,54 @@
 
 @interface WNGLoggerAPIConnectionHTTP : WNGLoggerAPIConnection
 
+@property(copy) NSString *apiHost;
 
 @end
 
 @implementation WNGLoggerAPIConnectionHTTP
 
-- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue __unused {
-    NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
+AFHTTPSessionManager *sessionManager;
+
+@synthesize apiHost = _apiHost;
+
+- (id)initWithConfig:(NSString *)apiHost {
+    self = [super init];
+    _apiHost = apiHost;
+
+    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/", _apiHost]];
+
+    sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+
+    NSLog(@"Initialized %@", self);
+
+    return self;
+}
+
+
+- (void) sendMetric:(NSString *)metricMessagePayload {
+    NSString *url = [NSString stringWithFormat:@"http://%@/log/http", _apiHost];
+    NSDictionary *parameters = @{@"message" : metricMessagePayload};
+
+    NSLog(@"sending metric to %@ via http POST : %@", url, metricMessagePayload);
+
+    sessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+
+    NSURLSessionDataTask *sessionDataTask = [sessionManager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id response) {
+        NSLog(@"sessionManager response: %@", response);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"sessionManager error: %@", error);
+    }];
+
+    NSLog(@"sessionDataTask: %@", sessionDataTask);
+
     return;
 }
+
+- (NSString *)description {
+    return [NSString stringWithFormat: @"[WNGLoggerAPIConnectionHTTP apiHost: %@, sessionManager: %@]", _apiHost, sessionManager];
+}
+
 
 @end
 
@@ -43,7 +85,7 @@ NSMutableDictionary *timersByMetricName;
     _apiKey = apiKey;
 
     if(_apiHost){
-        _apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] init];
+        _apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] initWithConfig:_apiHost];
     }
 
     NSLog(@"Initialized %@", self);

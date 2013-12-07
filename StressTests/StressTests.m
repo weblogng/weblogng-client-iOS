@@ -72,3 +72,59 @@ id mockApiConnection;
 @end
 
 
+@interface FunctionalTests : XCTestCase
+
+@end
+
+
+@implementation FunctionalTests
+
+WNGLogger *logger;
+NSString *apiHost;
+NSString *apiKey;
+
+- (void)setUp {
+    [super setUp];
+    apiHost = @"ec2-174-129-123-237.compute-1.amazonaws.com:9000";
+    apiKey = @"93c5a127-e2a4-42cc-9cc6-cf17fdac8a7f";
+//    apiKey = @"93c5a127-e2a4-42cc-9cc6-iOS";
+
+    logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey];
+
+}
+
+- (void)tearDown {
+    [super tearDown];
+}
+
+
+- (void)test_sending_metrics_over_http {
+
+    for (int numCycles=0; numCycles<5; numCycles++) {
+
+        NSUInteger numMetricsInCycle = 1;
+        NSMutableArray *metricNames = [NSMutableArray arrayWithCapacity:numMetricsInCycle];
+        for(int i=0; i< numMetricsInCycle; i++){
+            NSString *metricName = [NSString stringWithFormat:@"metric_%d", i];
+            [logger recordStart:metricName];
+            [metricNames addObject:metricName];
+        }
+
+        [metricNames shuffle];
+
+        NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ ", [logger apiKey]];
+        [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
+
+        usleep(arc4random_uniform(10) * 100 * 1000);
+
+        for(NSString *metricName in metricNames){
+            [logger recordFinishAndSendMetric:metricName];
+        }
+
+
+
+        NSLog(@"completed record and send cycle %d", numCycles);
+    }
+}
+
+@end
