@@ -10,12 +10,15 @@
 #import <OCMock/OCMock.h>
 
 #define HC_SHORTHAND
+
 #import <OCHamcrest/OCHamcrest.h>
 
 #import "logger.h"
 
-double epochTimeInSeconds() {
-    return [[NSDate date] timeIntervalSince1970];
+static const int TIMING_THRESHOLD_FOR_NOW_IN_MS = 25;
+
+double epochTimeInMilliseconds() {
+    return [[NSDate date] timeIntervalSince1970] * 1000;
 }
 
 
@@ -88,7 +91,7 @@ id mockApiConnection;
 - (void)test_sendMetric_sends_reasonable_messages_to_connection {
     NSString *metricName = @"metricName";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
-    NSString *nowStr = [[WNGTime epochTimeInSeconds] stringValue];
+    NSString *nowStr = [[WNGTime epochTimeInMilliseconds] stringValue];
     NSString *mostSignificantBitsOfNow = [nowStr substringToIndex:8];
     
     NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@ %@",
@@ -125,7 +128,7 @@ id mockApiConnection;
 
 - (void)test_recordStart_creates_a_timer_and_starts_it {
     WNGTimer *timer = [logger recordStart: @"metric_name"];
-    assertThat(timer.tStart, closeTo(epochTimeInSeconds(), 1.1));
+    assertThat(timer.tStart, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
 - (void)test_hasTimer_for_metric_name_returns_false_when_timer_does_not_exist {
@@ -156,7 +159,7 @@ id mockApiConnection;
 
     assertThat(finishedTimer, equalTo(startedTimer));
     assertThat(finishedTimer, isNot(nil));
-    assertThat(finishedTimer.tFinish, closeTo(epochTimeInSeconds(), 1.1));
+    assertThat(finishedTimer.tFinish, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
 - (void)test_recordFinishAndSendMetric_should_call_recordFinish_and_sendMetric {
@@ -174,9 +177,9 @@ id mockApiConnection;
     [mockApiConnection verify];
 
     assertThatBool([logger hasTimerFor: metricName], equalToBool(FALSE));
-    assertThat(timer.tStart, closeTo(epochTimeInSeconds(), 1.1));
-    assertThat(timer.tFinish, closeTo(epochTimeInSeconds(), 1.1));
-    assertThat(timer.elapsedTime, closeTo(0, 0.5));
+    assertThat(timer.tStart, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
+    assertThat(timer.tFinish, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
+    assertThat(timer.elapsedTime, closeTo(0, TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
 @end
@@ -187,11 +190,11 @@ id mockApiConnection;
 
 @implementation WNGTimeTests
 
-- (void)test_getEpochTimeInSeconds {
-    NSNumber *actualTime = [WNGTime epochTimeInSeconds];
-    double now = epochTimeInSeconds();
+- (void)test_getEpochTimeInMilliseconds {
+    NSNumber *actualTime = [WNGTime epochTimeInMilliseconds];
+    double now = epochTimeInMilliseconds();
 
-    assertThat(actualTime, closeTo(now, 1.1));
+    assertThat(actualTime, closeTo(now, TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
 @end
@@ -218,12 +221,12 @@ WNGTimer *timer;
 
 - (void)test_start_method_records_start_time {
     [timer start];
-    assertThat(timer.tStart, closeTo([[WNGTime epochTimeInSeconds] doubleValue], 1.1));
+    assertThat(timer.tStart, closeTo([[WNGTime epochTimeInMilliseconds] doubleValue], TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
 - (void)test_finish_method_records_finish_time {
     [timer finish];
-    assertThat(timer.tFinish, closeTo([[WNGTime epochTimeInSeconds] doubleValue], 1.1));
+    assertThat(timer.tFinish, closeTo([[WNGTime epochTimeInMilliseconds] doubleValue], TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
 - (void)test_elapsedTime_is_computed_from_tStart_and_tFinish {

@@ -57,6 +57,6 @@
 
 @interface WNGTime : NSObject
 
-+ (NSNumber *)epochTimeInSeconds;
++ (NSNumber *)epochTimeInMilliseconds;
 
 @end

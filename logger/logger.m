@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Weblog-NG. All rights reserved.
 //
 
+#include <sys/time.h>
 #import "logger.h"
 #import "AFHTTPRequestOperation.h"
 #import "AFHTTPRequestOperationManager.h"
@@ -121,7 +122,7 @@ NSMutableDictionary *timersByMetricName;
 
 - (NSString *) convertToMetricMessage: (NSString *) metricName metricValue:(NSNumber *)theValue {
     NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",
-                         _apiKey, [WNGLogger sanitizeMetricName:metricName], [theValue stringValue], [WNGTime epochTimeInSeconds]];
+                         _apiKey, [WNGLogger sanitizeMetricName:metricName], [theValue stringValue], [WNGTime epochTimeInMilliseconds]];
     return message;
 }
 
@@ -165,8 +166,12 @@ NSMutableDictionary *timersByMetricName;
 
 @implementation WNGTime
 
-+ (NSNumber *)epochTimeInSeconds {
-    return [NSNumber numberWithLong:(long) [[NSDate date] timeIntervalSince1970]];
++ (NSNumber *)epochTimeInMilliseconds {
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    long long millis = (((long long) time.tv_sec) * 1000) + (time.tv_usec / 1000);
+
+    return [NSNumber numberWithLongLong: millis];
 }
 
 @end
@@ -186,11 +191,11 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (void) start {
-    _tStart = [WNGTime epochTimeInSeconds];
+    _tStart = [WNGTime epochTimeInMilliseconds];
 }
 
 - (void) finish {
-    _tFinish = [WNGTime epochTimeInSeconds];
+    _tFinish = [WNGTime epochTimeInMilliseconds];
 }
 
 - (NSNumber *) elapsedTime {
