@@ -55,13 +55,11 @@ AFHTTPSessionManager *sessionManager;
     sessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
     sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
 
-    NSURLSessionDataTask *sessionDataTask = [sessionManager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id response) {
+    [sessionManager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id response) {
         NSLog(@"sessionManager response: %@", response);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"sessionManager error: %@", error);
     }];
-
-    NSLog(@"sessionDataTask: %@", sessionDataTask);
 
     return;
 }
