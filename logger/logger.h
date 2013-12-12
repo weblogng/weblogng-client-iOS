@@ -35,7 +35,7 @@
 
 @property(copy) NSString *apiHost;
 @property(copy) NSString *apiKey;
-@property WNGLoggerAPIConnection *apiConnection;
+@property(strong) WNGLoggerAPIConnection *apiConnection;
 
 - (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
 
