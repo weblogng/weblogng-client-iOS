@@ -35,9 +35,10 @@ id mockApiConnection;
 
 - (void)setUp {
     [super setUp];
-    apiHost = @"api.weblogng.com";
-    apiKey = [NSString stringWithFormat: @"api-key-%d", arc4random_uniform(1000)];
-
+    
+    apiHost = @"ec2-174-129-123-237.compute-1.amazonaws.com:9000";
+    apiKey = @"93c5a127-e2a4-42cc-9cc6-cf17fdac8a7f";
+ 
     logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey];
 
     mockApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
