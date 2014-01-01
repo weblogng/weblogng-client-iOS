@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "WNGLogger"
-  s.version      = "0.2.0"
+  s.version      = "0.3.0"
   s.summary      = "WNGLogger is an iOS client library to record and log metric data to Weblog-NG."
 
   s.description  = <<-DESC
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '7.0'
 
-  s.source       = { :git => "ssh://git@bitbucket.org/beardedrobotllc/weblog-ng-client-ios.git", :tag => "0.2.0" }
+  s.source       = { :git => "ssh://git@bitbucket.org/beardedrobotllc/weblog-ng-client-ios.git", :tag => "0.3.0" }
 
   s.source_files  = 'logger/*.{h,m}'
 

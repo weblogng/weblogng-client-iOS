@@ -1,6 +1,6 @@
 # the best Podfile documentation is currently at https://github.com/CocoaPods/CocoaPods/wiki/A-Podfile
 
-platform :ios, '7.0'
+platform :ios, '6.0'
 xcodeproj 'logger'
 
 pod "AFNetworking", "2.0.3"
