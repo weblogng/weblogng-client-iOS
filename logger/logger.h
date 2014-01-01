@@ -51,6 +51,8 @@
 
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
 
++ (NSString *) convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
+
 + (NSString *)sanitizeMetricName:(NSString *)metricName;
 
 @end
@@ -58,5 +60,6 @@
 @interface WNGTime : NSObject
 
 + (NSNumber *)epochTimeInMilliseconds;
++ (NSNumber *)epochTimeInSeconds;
 
 @end

@@ -112,17 +112,15 @@ NSMutableDictionary *timersByMetricName;
     return [NSString stringWithFormat: @"[Logger apiHost: %@, apiKey: %@]", _apiHost, _apiKey];
 }
 
-- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)theValue {
-    /* currently disabled for performance reasons
-    NSLog(@"sending %@ : %@", metricName, [theValue stringValue]);
-     */
-    [_apiConnection sendMetric:[self convertToMetricMessage:metricName metricValue:theValue]];
+- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)metricValue {
+    [_apiConnection sendMetric:[WNGLogger convertToMetricMessage:_apiKey metricName:metricName metricValue:metricValue]];
     return;
 }
 
-- (NSString *) convertToMetricMessage: (NSString *) metricName metricValue:(NSNumber *)theValue {
++ (NSString *) convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue {
     NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",
-                         _apiKey, [WNGLogger sanitizeMetricName:metricName], [theValue stringValue], [WNGTime epochTimeInMilliseconds]];
+                         apiKey, [WNGLogger sanitizeMetricName:metricName], [metricValue stringValue],
+                         [WNGTime epochTimeInSeconds]];
     return message;
 }
 
@@ -172,6 +170,14 @@ NSMutableDictionary *timersByMetricName;
     long long millis = (((long long) time.tv_sec) * 1000) + (time.tv_usec / 1000);
 
     return [NSNumber numberWithLongLong: millis];
+}
+
++ (NSNumber *)epochTimeInSeconds {
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    long long seconds = ((long long) time.tv_sec);
+    
+    return [NSNumber numberWithLongLong: seconds];
 }
 
 @end
