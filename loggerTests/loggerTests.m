@@ -212,6 +212,7 @@ id mockApiConnection;
  * test the full lifecycle of the sharedLogger so that temporal effects are simpler to deal with.
  */
 - (void)test_full_lifecycle_of_sharedLogger {
+    //test initial state, init, and reset
     assertThat([WNGLogger sharedLogger], is(nilValue()));
 
     WNGLogger *logger = [WNGLogger initSharedLogger:apiKey];
@@ -220,6 +221,10 @@ id mockApiConnection;
     
     [WNGLogger resetSharedLogger];
     assertThat([WNGLogger sharedLogger], is(nilValue()));
+    
+    //test repeated calls to init return the same logger
+    logger = [WNGLogger initSharedLogger:apiKey];
+    assertThat(logger, equalTo([WNGLogger initSharedLogger:apiKey]));
 }
 
 @end

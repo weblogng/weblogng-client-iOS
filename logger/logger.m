@@ -82,8 +82,10 @@ NSString *const API_HOST_PRODUCTION = @"ec2-174-129-123-237.compute-1.amazonaws.
 NSMutableDictionary *timersByMetricName;
 
 + (WNGLogger *)initSharedLogger:(NSString *)apiKey {
+    if(!sharedLogger){
+        sharedLogger = [[WNGLogger alloc] initWithConfig:API_HOST_PRODUCTION apiKey:apiKey];
+    }
     
-    sharedLogger = [[WNGLogger alloc] initWithConfig:API_HOST_PRODUCTION apiKey:apiKey];
     return sharedLogger;
 }
 
