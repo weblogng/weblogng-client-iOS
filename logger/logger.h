@@ -58,10 +58,26 @@ extern NSString *const API_HOST_PRODUCTION;
 
 + (NSString *)sanitizeMetricName:(NSString *)metricName;
 
+/**
+ * Initialize a shared (singleton) WNGLogger instance and makes it available via the sharedLogger function.  The
+ * api host will be set to the production Weblog-NG service.
+ * 
+ * @param apiKey is the Weblog-NG api key to use for logging
+ * @return an initialzed WNGLogger instance
+ */
 + (WNGLogger *)initSharedLogger:(NSString *)apiKey;
 
+/**
+ * Gets the sharedLogger, if one has been initialized.  Initialize the sharedLoger with initSharedLogger.
+ *
+ * @return a reference to the shared WNGLogger instance
+ */
 + (WNGLogger *)sharedLogger;
 
+
+/**
+ * Reset the reference to the sharedLogger back to nil.
+ */
 + (void)resetSharedLogger;
 
 @end
