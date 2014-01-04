@@ -31,7 +31,10 @@
 
 @end
 
+
 @interface WNGLogger : NSObject
+
+extern NSString *const API_HOST_PRODUCTION;
 
 @property(copy) NSString *apiHost;
 @property(copy) NSString *apiKey;
@@ -51,9 +54,15 @@
 
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
 
-+ (NSString *) convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
++ (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 
 + (NSString *)sanitizeMetricName:(NSString *)metricName;
+
++ (WNGLogger *)initSharedLogger:(NSString *)apiKey;
+
++ (WNGLogger *)sharedLogger;
+
++ (void)resetSharedLogger;
 
 @end
 

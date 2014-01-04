@@ -208,6 +208,20 @@ id mockApiConnection;
     assertThat(timer.elapsedTime, closeTo(0, TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
+/**
+ * test the full lifecycle of the sharedLogger so that temporal effects are simpler to deal with.
+ */
+- (void)test_full_lifecycle_of_sharedLogger {
+    assertThat([WNGLogger sharedLogger], is(nilValue()));
+
+    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey];
+    assertThat([logger apiHost], isNot(nil));
+    assertThat([logger apiKey], equalTo(apiKey));
+    
+    [WNGLogger resetSharedLogger];
+    assertThat([WNGLogger sharedLogger], is(nilValue()));
+}
+
 @end
 
 @interface WNGTimeTests : XCTestCase

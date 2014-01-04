@@ -75,7 +75,25 @@ AFHTTPSessionManager *sessionManager;
 
 @implementation WNGLogger
 
+static WNGLogger *sharedLogger = nil;
+
+NSString *const API_HOST_PRODUCTION = @"ec2-174-129-123-237.compute-1.amazonaws.com:9000";
+
 NSMutableDictionary *timersByMetricName;
+
++ (WNGLogger *)initSharedLogger:(NSString *)apiKey {
+    
+    sharedLogger = [[WNGLogger alloc] initWithConfig:API_HOST_PRODUCTION apiKey:apiKey];
+    return sharedLogger;
+}
+
++ (WNGLogger *)sharedLogger {
+    return sharedLogger;
+}
+
++ (void)resetSharedLogger {
+    sharedLogger = nil;
+}
 
 - (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
     self = [super init];
