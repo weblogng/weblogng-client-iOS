@@ -20,8 +20,8 @@
 
 - (void)init:(NSNumber *)tStart;
 
-@property(readonly) NSNumber *tStart;
-@property(readonly) NSNumber *tFinish;
+@property(nonatomic, strong) NSNumber *tStart;
+@property(nonatomic, strong) NSNumber *tFinish;
 
 - (void)start;
 

@@ -99,7 +99,7 @@ NSMutableDictionary *timersByMetricName;
 
 - (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
     self = [super init];
-    timersByMetricName = [NSMutableDictionary dictionaryWithDictionary:@{}];
+    timersByMetricName = [[NSMutableDictionary alloc] init];
     _apiHost = apiHost;
     _apiKey = apiKey;
 
@@ -204,9 +204,6 @@ NSMutableDictionary *timersByMetricName;
 
 @implementation WNGTimer
 
-@synthesize tStart = _tStart;
-@synthesize tFinish = _tFinish;
-
 - (void) init: (NSNumber *)tStart tFinish:(NSNumber *)tFinish {
     _tStart = tStart;
     _tFinish = tFinish;
@@ -225,7 +222,7 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (NSNumber *) elapsedTime {
-    return [NSNumber numberWithLong:[_tFinish longValue] - [_tStart longValue]];
+    return [NSNumber numberWithLong:([_tFinish longValue] - [_tStart longValue])];
 }
 
 @end
