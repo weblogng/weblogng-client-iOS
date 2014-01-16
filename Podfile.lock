@@ -21,7 +21,7 @@ PODS:
   - OCMock (2.2.2)
 
 DEPENDENCIES:
-  - AFNetworking (= 2.0.3)
+  - AFNetworking (~> 2.0)
   - OCHamcrest (~> 3.0)
   - OCMock (~> 2.2)
 
