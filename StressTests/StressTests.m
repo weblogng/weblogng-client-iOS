@@ -101,7 +101,7 @@ NSString *apiKey;
 
     for (int numCycles=0; numCycles<3; numCycles++) {
 
-        NSUInteger numMetricsInCycle = 3;
+        NSUInteger numMetricsInCycle = 5;
         NSMutableArray *metricNames = [NSMutableArray arrayWithCapacity:numMetricsInCycle];
         for(int i=0; i< numMetricsInCycle; i++){
             NSString *metricName = [NSString stringWithFormat:@"WNGLogger.http_%d", i];
