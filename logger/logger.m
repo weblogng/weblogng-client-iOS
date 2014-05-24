@@ -48,7 +48,7 @@ AFHTTPSessionManager *sessionManager;
 
 
 - (void) sendMetric:(NSString *)metricMessagePayload {
-    NSString *url = [NSString stringWithFormat:@"http://%@/log/http", _apiHost];
+    NSString *url = [NSString stringWithFormat:@"https://%@/log/http", _apiHost];
     NSDictionary *parameters = @{@"message" : metricMessagePayload};
 
     NSLog(@"sending metric to %@ via http POST : %@", url, metricMessagePayload);
@@ -77,7 +77,7 @@ AFHTTPSessionManager *sessionManager;
 
 static WNGLogger *sharedLogger = nil;
 
-NSString *const API_HOST_PRODUCTION = @"ec2-174-129-123-237.compute-1.amazonaws.com:9000";
+NSString *const API_HOST_PRODUCTION = @"api.weblogng.com";
 
 NSMutableDictionary *timersByMetricName;
 
