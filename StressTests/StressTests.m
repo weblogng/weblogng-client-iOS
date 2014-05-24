@@ -85,7 +85,7 @@ NSString *apiKey;
 
 - (void)setUp {
     [super setUp];
-    apiHost = @"ec2-174-129-123-237.compute-1.amazonaws.com:9000";
+    apiHost = @"api.weblogng.com";
     apiKey = @"93c5a127-e2a4-42cc-9cc6-cf17fdac8a7f";
 
     logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey];
