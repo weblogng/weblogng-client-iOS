@@ -52,6 +52,8 @@ extern NSString *const API_HOST_PRODUCTION;
 
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName;
 
+- (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block;
+
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
 
 + (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
