@@ -208,7 +208,7 @@ id mockApiConnection;
     assertThat(timer.elapsedTime, closeTo(0, TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
-- (void)test_executeBlockWithTiming_should_call_recordStart_invoke_provided_block_and_then_recordFinishAndSendMetric {
+- (void)test_executeWithTiming_should_call_recordStart_invoke_provided_block_and_then_recordFinishAndSendMetric {
     NSString *metricName = @"metric.executeWithTiming";
     
     NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@",
@@ -237,6 +237,18 @@ id mockApiConnection;
     
     NSLog(@"elapsedTime for executing block: %@ms", timer.elapsedTime);
 }
+
+- (void)test_executeWithTiming_does_not_crash_when_provided_block_is_nil {
+    NSString *metricName = @"metric.executeWithTiming.nil.block";
+    
+    WNGTimer *timer = [logger executeWithTiming:metricName aBlock: nil];
+    
+    [mockApiConnection verify];
+    
+    assertThatBool([logger hasTimerFor: metricName], equalToBool(FALSE));
+    assertThat(timer, is(nilValue()));
+}
+
 
 
 /**

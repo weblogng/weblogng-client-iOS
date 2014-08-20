@@ -181,10 +181,13 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block {
-    assert(block);
-    [self recordStart:metricName];
-    block();
-    return [self recordFinishAndSendMetric:metricName];
+    if (metricName && block) {
+        [self recordStart:metricName];
+        block();
+        return [self recordFinishAndSendMetric:metricName];
+    } else {
+        return nil;
+    }
 }
 
 @end
