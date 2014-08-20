@@ -208,6 +208,49 @@ id mockApiConnection;
     assertThat(timer.elapsedTime, closeTo(0, TIMING_THRESHOLD_FOR_NOW_IN_MS));
 }
 
+- (void)test_executeWithTiming_should_call_recordStart_invoke_provided_block_and_then_recordFinishAndSendMetric {
+    NSString *metricName = @"metric.executeWithTiming";
+    
+    NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@",
+                                 [logger apiKey],
+                                 [WNGLogger sanitizeMetricName:metricName]];
+    
+    double tStart = epochTimeInMilliseconds();
+    
+    [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
+    
+    WNGTimer *timer = [logger executeWithTiming:metricName aBlock: ^{
+        for (int i = 0; i < 10; i++) {
+            [NSThread sleepForTimeInterval:0.1];
+        }
+    }];
+
+    
+    [mockApiConnection verify];
+    
+    double tFinish = epochTimeInMilliseconds();
+    
+    assertThatBool([logger hasTimerFor: metricName], equalToBool(FALSE));
+    assertThat(timer.tStart, closeTo(tStart, TIMING_THRESHOLD_FOR_NOW_IN_MS));
+    assertThat(timer.tFinish, closeTo(tFinish, TIMING_THRESHOLD_FOR_NOW_IN_MS));
+    assertThat(timer.elapsedTime, closeTo(tFinish - tStart, TIMING_THRESHOLD_FOR_NOW_IN_MS));
+    
+    NSLog(@"elapsedTime for executing block: %@ms", timer.elapsedTime);
+}
+
+- (void)test_executeWithTiming_does_not_crash_when_provided_block_is_nil {
+    NSString *metricName = @"metric.executeWithTiming.nil.block";
+    
+    WNGTimer *timer = [logger executeWithTiming:metricName aBlock: nil];
+    
+    [mockApiConnection verify];
+    
+    assertThatBool([logger hasTimerFor: metricName], equalToBool(FALSE));
+    assertThat(timer, is(nilValue()));
+}
+
+
+
 /**
  * test the full lifecycle of the sharedLogger so that temporal effects are simpler to deal with.
  */

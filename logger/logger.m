@@ -180,6 +180,16 @@ NSMutableDictionary *timersByMetricName;
     return timer;
 }
 
+- (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block {
+    if (metricName && block) {
+        [self recordStart:metricName];
+        block();
+        return [self recordFinishAndSendMetric:metricName];
+    } else {
+        return nil;
+    }
+}
+
 @end
 
 @implementation WNGTime
