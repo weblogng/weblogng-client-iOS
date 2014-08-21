@@ -83,6 +83,7 @@ NSMutableDictionary *timersByMetricName;
 
 + (WNGLogger *)initSharedLogger:(NSString *)apiKey {
     if(!sharedLogger){
+        NSParameterAssert(apiKey);
         sharedLogger = [[WNGLogger alloc] initWithConfig:API_HOST_PRODUCTION apiKey:apiKey];
     }
     
@@ -133,6 +134,9 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)metricValue {
+    NSParameterAssert(metricName);
+    NSParameterAssert(metricValue);
+    
     [_apiConnection sendMetric:[WNGLogger convertToMetricMessage:_apiKey metricName:metricName metricValue:metricValue]];
     return;
 }
@@ -145,6 +149,8 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (WNGTimer *)recordStart:(NSString *)metricName {
+    NSParameterAssert(metricName);
+    
     WNGTimer *timer = [[WNGTimer alloc] init];
     [timer start];
     [timersByMetricName setObject:timer forKey:metricName];
@@ -152,6 +158,8 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (WNGTimer *)recordFinish:(NSString *)metricName {
+    NSParameterAssert(metricName);
+    
     WNGTimer *timer = timersByMetricName[metricName];
 
     if(timer){
@@ -174,20 +182,26 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName {
+    NSParameterAssert(metricName);
+    
     WNGTimer *timer = [self recordFinish:metricName];
-    [self sendMetric:metricName metricValue:timer.elapsedTime];
-    [timersByMetricName removeObjectForKey:metricName];
+
+    if(timer){
+        [self sendMetric:metricName metricValue:timer.elapsedTime];
+        [timersByMetricName removeObjectForKey:metricName];
+        return timer;
+    }
+    
     return timer;
 }
 
 - (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block {
-    if (metricName && block) {
-        [self recordStart:metricName];
-        block();
-        return [self recordFinishAndSendMetric:metricName];
-    } else {
-        return nil;
-    }
+    NSParameterAssert(metricName);
+    NSParameterAssert(block);
+    
+    [self recordStart:metricName];
+    block();
+    return [self recordFinishAndSendMetric:metricName];
 }
 
 @end

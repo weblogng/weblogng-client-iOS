@@ -40,21 +40,70 @@ extern NSString *const API_HOST_PRODUCTION;
 @property(copy) NSString *apiKey;
 @property(strong) WNGLoggerAPIConnection *apiConnection;
 
+/**
+ Initialize a logger with the provided config.
+ 
+ @param apiHost is the WeblogNG api hostname
+ @param apiKey is an account-specific api key for WeblogNG
+ 
+ */
 - (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
 
 - (BOOL) hasTimerFor:(NSString *)metricName;
 
 - (NSUInteger) timerCount;
 
+
+/**
+ Record the start of an operation identified by metricName.
+ 
+ @param metricName identifies the operation being timed
+ 
+ @warning `metricName` must not be `nil`.
+ */
 - (WNGTimer *)recordStart:(NSString *)metricName;
 
+/**
+ Record the finish of the operation identified by metricName.
+ 
+ @param metricName identifies the operation being timed
+ 
+ @warning `metricName` must not be `nil`.
+ */
 - (WNGTimer *)recordFinish:(NSString *)metricName;
 
+
+/**
+ Record the finish of the operation identified by metricName and send the timing information to the WeblogNG api.
+ 
+ @param metricName identifies the operation being timed
+ 
+ @warning `metricName` must not be `nil`.
+ */
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName;
 
+/**
+ Execute a block identified by metricName and automatically record the elapsed time.
+ 
+ @param metricName identifies the block to be executed
+ @param block is the block to be executed
+ 
+ @warning `metricName` must not be `nil`.
+ @warning `block` must not be `nil`.
+ */
 - (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block;
 
-- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
+
+/**
+ Send an arbitrary metric name and value to the WeblogNG api.
+ 
+ @param metricName identifies the metric
+ @param metricValue is the value to record
+ 
+ @warning `metricName` must not be `nil`.
+ @warning `metricValue` must not be `nil`.
+ */
+- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 
 + (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 
@@ -66,6 +115,8 @@ extern NSString *const API_HOST_PRODUCTION;
  * 
  * @param apiKey is the Weblog-NG api key to use for logging
  * @return an initialzed WNGLogger instance
+ *
+ * @warning `apiKey` must not be `nil`.
  */
 + (WNGLogger *)initSharedLogger:(NSString *)apiKey;
 

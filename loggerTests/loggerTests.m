@@ -130,6 +130,20 @@ id mockApiConnection;
     [mockApiConnection verify];
 }
 
+- (void)test_sendMetric_allows_a_metricValue_of_zero {
+    NSString *metricName = @"metricName.value.is.zero";
+    NSNumber *metricValue = [NSNumber numberWithInt:0];
+    
+    NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@",
+                                 [logger apiKey], [WNGLogger sanitizeMetricName:metricName], [metricValue stringValue]];
+    
+    [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
+    
+    [logger sendMetric:metricName metricValue:metricValue];
+    
+    [mockApiConnection verify];
+}
+
 - (void)test_sendMetric_sanitizes_metrics_before_sending {
     NSString *metricName = @"metricName.needs$sanitization";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
@@ -237,18 +251,6 @@ id mockApiConnection;
     
     NSLog(@"elapsedTime for executing block: %@ms", timer.elapsedTime);
 }
-
-- (void)test_executeWithTiming_does_not_crash_when_provided_block_is_nil {
-    NSString *metricName = @"metric.executeWithTiming.nil.block";
-    
-    WNGTimer *timer = [logger executeWithTiming:metricName aBlock: nil];
-    
-    [mockApiConnection verify];
-    
-    assertThatBool([logger hasTimerFor: metricName], equalToBool(FALSE));
-    assertThat(timer, is(nilValue()));
-}
-
 
 
 /**
