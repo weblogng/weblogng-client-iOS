@@ -238,18 +238,6 @@ id mockApiConnection;
     NSLog(@"elapsedTime for executing block: %@ms", timer.elapsedTime);
 }
 
-- (void)test_executeWithTiming_does_not_crash_when_provided_block_is_nil {
-    NSString *metricName = @"metric.executeWithTiming.nil.block";
-    
-    WNGTimer *timer = [logger executeWithTiming:metricName aBlock: nil];
-    
-    [mockApiConnection verify];
-    
-    assertThatBool([logger hasTimerFor: metricName], equalToBool(FALSE));
-    assertThat(timer, is(nilValue()));
-}
-
-
 
 /**
  * test the full lifecycle of the sharedLogger so that temporal effects are simpler to deal with.

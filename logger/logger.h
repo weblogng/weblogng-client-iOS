@@ -52,6 +52,15 @@ extern NSString *const API_HOST_PRODUCTION;
 
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName;
 
+/**
+ Execute a block identified by metricName and automatically record the elapsed time.
+ 
+ @param metricName identifies the block to be executed
+ @param block is the block to be executed
+ 
+ @warning `metricName` must not be `nil`.
+ @warning `block` must not be `nil`.
+ */
 - (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block;
 
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
