@@ -65,6 +65,14 @@ extern NSString *const API_HOST_PRODUCTION;
  */
 - (WNGTimer *)recordFinish:(NSString *)metricName;
 
+
+/**
+ Record the finish of the operation identified by metricName and send the timing information to the WeblogNG api.
+ 
+ @param metricName identifies the operation being timed
+ 
+ @warning `metricName` must not be `nil`.
+ */
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName;
 
 /**

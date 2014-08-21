@@ -178,9 +178,16 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName {
+    NSParameterAssert(metricName);
+    
     WNGTimer *timer = [self recordFinish:metricName];
-    [self sendMetric:metricName metricValue:timer.elapsedTime];
-    [timersByMetricName removeObjectForKey:metricName];
+
+    if(timer){
+        [self sendMetric:metricName metricValue:timer.elapsedTime];
+        [timersByMetricName removeObjectForKey:metricName];
+        return timer;
+    }
+    
     return timer;
 }
 
