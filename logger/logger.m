@@ -83,6 +83,7 @@ NSMutableDictionary *timersByMetricName;
 
 + (WNGLogger *)initSharedLogger:(NSString *)apiKey {
     if(!sharedLogger){
+        NSParameterAssert(apiKey);
         sharedLogger = [[WNGLogger alloc] initWithConfig:API_HOST_PRODUCTION apiKey:apiKey];
     }
     
