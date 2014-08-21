@@ -3,3 +3,4 @@ Pods
 xcuserdata
 logger.xcworkspace
 *.xccheckout
+compile_commands.json
