@@ -133,6 +133,9 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)metricValue {
+    NSParameterAssert(metricName);
+    NSParameterAssert(metricValue);
+    
     [_apiConnection sendMetric:[WNGLogger convertToMetricMessage:_apiKey metricName:metricName metricValue:metricValue]];
     return;
 }

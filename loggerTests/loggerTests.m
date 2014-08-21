@@ -130,6 +130,20 @@ id mockApiConnection;
     [mockApiConnection verify];
 }
 
+- (void)test_sendMetric_allows_a_metricValue_of_zero {
+    NSString *metricName = @"metricName.value.is.zero";
+    NSNumber *metricValue = [NSNumber numberWithInt:0];
+    
+    NSString *expectedMessage = [NSString stringWithFormat: @"v1.metric %@ %@ %@",
+                                 [logger apiKey], [WNGLogger sanitizeMetricName:metricName], [metricValue stringValue]];
+    
+    [[mockApiConnection expect] sendMetric:startsWith(expectedMessage)];
+    
+    [logger sendMetric:metricName metricValue:metricValue];
+    
+    [mockApiConnection verify];
+}
+
 - (void)test_sendMetric_sanitizes_metrics_before_sending {
     NSString *metricName = @"metricName.needs$sanitization";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];

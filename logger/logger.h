@@ -86,7 +86,17 @@ extern NSString *const API_HOST_PRODUCTION;
  */
 - (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block;
 
-- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)theValue;
+
+/**
+ Send an arbitrary metric name and value to the WeblogNG api.
+ 
+ @param metricName identifies the metric
+ @param metricValue is the value to record
+ 
+ @warning `metricName` must not be `nil`.
+ @warning `metricValue` must not be `nil`.
+ */
+- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 
 + (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 
