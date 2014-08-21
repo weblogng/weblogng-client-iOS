@@ -145,6 +145,7 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (WNGTimer *)recordStart:(NSString *)metricName {
+    NSParameterAssert(metricName);
     WNGTimer *timer = [[WNGTimer alloc] init];
     [timer start];
     [timersByMetricName setObject:timer forKey:metricName];

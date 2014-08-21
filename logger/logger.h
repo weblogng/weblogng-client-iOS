@@ -46,6 +46,14 @@ extern NSString *const API_HOST_PRODUCTION;
 
 - (NSUInteger) timerCount;
 
+
+/**
+ Record the start of an operation identified by metricName.
+ 
+ @param metricName identifies the block to be executed
+ 
+ @warning `metricName` must not be `nil`.
+ */
 - (WNGTimer *)recordStart:(NSString *)metricName;
 
 - (WNGTimer *)recordFinish:(NSString *)metricName;
