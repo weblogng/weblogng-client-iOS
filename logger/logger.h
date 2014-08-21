@@ -50,12 +50,19 @@ extern NSString *const API_HOST_PRODUCTION;
 /**
  Record the start of an operation identified by metricName.
  
- @param metricName identifies the block to be executed
+ @param metricName identifies the operation being timed
  
  @warning `metricName` must not be `nil`.
  */
 - (WNGTimer *)recordStart:(NSString *)metricName;
 
+/**
+ Record the finish of the operation identified by metricName.
+ 
+ @param metricName identifies the operation being timed
+ 
+ @warning `metricName` must not be `nil`.
+ */
 - (WNGTimer *)recordFinish:(NSString *)metricName;
 
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName;
