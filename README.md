@@ -12,19 +12,18 @@ The WNGLogger library is available via CocoaPods and is the recommended installa
 
 You can install it by adding a WNGLogger dependency to your Podfile:
 
-``` 
-# depend on weblog-ng-client-ios tag 0.6.0
-pod 'WNGLogger', :git => 'https://github.com/weblogng/weblogng-client-iOS.git', :commit => '830b996'
+```
+pod 'WNGLogger', :git => 'https://github.com/weblogng/weblogng-client-iOS.git', :tag => '0.7.0'
 ```
 
 Execute ```pod install```. There should be some output like:
 ```
 $ pod install
 Analyzing dependencies
-Pre-downloading: `WNGLogger` from `https://github.com/weblogng/weblogng-client-iOS.git`, commit `830b996`
+Pre-downloading: `WNGLogger` from `https://github.com/weblogng/weblogng-client-iOS.git`, tag `0.7.0`
 Downloading dependencies
-Using AFNetworking (2.0.3)
-Installing WNGLogger (0.6.0)
+Using AFNetworking (2.3.1)
+Installing WNGLogger 0.7.0
 Generating Pods project
 Integrating client project
 ```
@@ -55,6 +54,13 @@ Here is some example code taken from the (super-simple) [WeblogNG iOS Sample App
     [WNGLogger initSharedLogger:apiKey];
 
     [self someIntensiveLogic];
+
+    //time execution of an arbitrary block
+    [[WNGLogger sharedLogger] executeWithTiming:@"sample-app-anExpensiveBlock" aBlock:^(void){
+        int millis_to_sleep = 250 + arc4random_uniform(250);
+        float seconds_to_sleep = ((float) millis_to_sleep) / 1000;
+        [NSThread sleepForTimeInterval:seconds_to_sleep];
+    }];
 
     return YES;
 }
