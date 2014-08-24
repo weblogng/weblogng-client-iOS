@@ -89,5 +89,5 @@ Here is some example code taken from the (super-simple) [WeblogNG iOS Sample App
 ## References ##
 
 * [WeblogNG iOS Sample App](https://github.com/weblogng/weblogng-client-ios-sample-app)
-* [Specifying the version of a CocoaPod Using git](http://guides.cocoapods.org/using/the-podfile.html#from-a-podspec-in-the-root-of-a-library-repo.)
+* [Specifying the version of a CocoaPod Using git](http://guides.cocoapods.org/using/the-podfile.html#from-a-podspec-in-the-root-of-a-library-repo)
 
