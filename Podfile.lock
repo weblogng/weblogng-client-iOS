@@ -1,34 +1,37 @@
 PODS:
-  - AFNetworking (2.0.3):
+  - AFNetworking (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
     - AFNetworking/UIKit
-  - AFNetworking/NSURLConnection (2.0.3):
+  - AFNetworking/NSURLConnection (2.4.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.0.3):
+  - AFNetworking/NSURLSession (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.4.1)
+  - AFNetworking/Security (2.4.1)
+  - AFNetworking/Serialization (2.4.1)
+  - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.0.3)
-  - AFNetworking/Security (2.0.3)
-  - AFNetworking/Serialization (2.0.3)
-  - AFNetworking/UIKit (2.0.3):
-    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
   - JRSwizzle (1.0)
   - OCHamcrest (3.0.1)
   - OCMock (2.2.2)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.0)
+  - AFNetworking (~> 2.4)
   - JRSwizzle (~> 1.0)
   - OCHamcrest (~> 3.0)
   - OCMock (~> 2.2)
 
 SPEC CHECKSUMS:
-  AFNetworking: a4d0e9a64de9242986620dafd1b3cee3b413ac5c
+  AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   JRSwizzle: 30da7a2c539a4ebf954b16d15f6dd8221c9f6fa5
   OCHamcrest: 207233b7d7a44dadd66aca398947cc7e029c9be5
   OCMock: ee92ff671156212865397cd6fbae60a2d3698fb8
