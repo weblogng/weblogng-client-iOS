@@ -71,6 +71,33 @@ id mockApiConnection;
 
 @end
 
+typedef void (^ResultHandlingBlock)(void);
+
+@interface TestConnectionDelegate : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+    @property (nonatomic, assign) BOOL finishedLoading;
+    @property (nonatomic, assign) BOOL failedWithError;
+@property (readwrite, nonatomic, copy) ResultHandlingBlock success;
+@property (readwrite, nonatomic, copy) ResultHandlingBlock failure;
+@end
+
+@implementation TestConnectionDelegate {
+
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSLog(@"TestConnectionDelegate:connectionDidFinishLoading");
+    [self setFinishedLoading:YES];
+    self.success();
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"TestConnectionDelegate:didFailWithError");
+    [self setFailedWithError:YES];
+    self.failure();
+}
+
+@end
+
 
 @interface FunctionalTests : XCTestCase
 
@@ -121,5 +148,57 @@ NSString *apiKey;
         NSLog(@"completed record and send cycle %d", numCycles);
     }
 }
+
+- (void) test_connection_delegate_invokes_success_for_good_url {
+	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.weblogng.com"]];
+	
+    XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"delegate finishedLoading"];
+
+    TestConnectionDelegate *delegate = [[TestConnectionDelegate alloc] init];
+    delegate.success = ^ {
+        NSLog(@"executed success block for TestConnectionDelegate");
+        [loadedExpectation fulfill];
+    };
+
+    delegate.failure = ^ {
+        [loadedExpectation fulfill];
+        XCTFail(@"failure handler was called, expected success");
+    };
+
+    [NSURLConnection connectionWithRequest:req delegate:delegate];
+    
+    
+    [self waitForExpectationsWithTimeout:5 handler:Nil];
+    
+    XCTAssertTrue([delegate finishedLoading]);
+    XCTAssertFalse([delegate failedWithError]);
+}
+
+- (void) test_connection_delegate_invokes_failure_for_bad_url {
+    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://does-not-exist.weblogng.com"]];
+    
+    XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"delegate finishedLoading"];
+    
+    TestConnectionDelegate *delegate = [[TestConnectionDelegate alloc] init];
+    delegate.success = ^ {
+        XCTFail(@"success handler was called, expected failure");
+        [loadedExpectation fulfill];
+    };
+    
+    delegate.failure = ^ {
+        NSLog(@"executed failure block for TestConnectionDelegate");
+        [loadedExpectation fulfill];
+    };
+    
+    [NSURLConnection connectionWithRequest:req delegate:delegate];
+    
+    
+    [self waitForExpectationsWithTimeout:5 handler:Nil];
+    
+    XCTAssertFalse([delegate finishedLoading]);
+    XCTAssertTrue([delegate failedWithError]);
+    
+}
+
 
 @end
