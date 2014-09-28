@@ -74,15 +74,16 @@ id mockApiConnection;
 typedef void (^ResultHandlingBlock)(void);
 
 @interface TestConnectionDelegate : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
-    @property (nonatomic, assign) BOOL finishedLoading;
-    @property (nonatomic, assign) BOOL failedWithError;
-@property (readwrite, nonatomic, copy) ResultHandlingBlock success;
-@property (readwrite, nonatomic, copy) ResultHandlingBlock failure;
+    @property BOOL finishedLoading;
+    @property BOOL failedWithError;
+    @property (readwrite, copy) ResultHandlingBlock success;
+    @property (readwrite, copy) ResultHandlingBlock failure;
 @end
 
-@implementation TestConnectionDelegate {
+@implementation TestConnectionDelegate
 
-}
+@synthesize finishedLoading;
+@synthesize failedWithError;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     NSLog(@"TestConnectionDelegate:connectionDidFinishLoading");
@@ -152,7 +153,7 @@ NSString *apiKey;
 - (void) test_connection_delegate_invokes_success_for_good_url {
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.weblogng.com"]];
 	
-    XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"delegate finishedLoading"];
+    XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"connectionDidFinishLoading will be called"];
 
     TestConnectionDelegate *delegate = [[TestConnectionDelegate alloc] init];
     delegate.success = ^ {
@@ -177,7 +178,7 @@ NSString *apiKey;
 - (void) test_connection_delegate_invokes_failure_for_bad_url {
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://does-not-exist.weblogng.com"]];
     
-    XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"delegate finishedLoading"];
+    XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"didFailWithError will be called "];
     
     TestConnectionDelegate *delegate = [[TestConnectionDelegate alloc] init];
     delegate.success = ^ {
