@@ -13,6 +13,7 @@
 #import <OCHamcrest/OCHamcrest.h>
 
 #import "logger.h"
+#import "NSURLConnection+WNGLogging.h"
 #import "NSMutableArray_Shuffling.h"
 
 
@@ -113,6 +114,8 @@ NSString *apiKey;
 
 - (void)setUp {
     [super setUp];
+    [NSURLConnection wng_setLogging:YES];
+    
     apiHost = @"api.weblogng.com";
     apiKey = @"93c5a127-e2a4-42cc-9cc6-cf17fdac8a7f";
 
@@ -151,6 +154,8 @@ NSString *apiKey;
 }
 
 - (void) test_connection_delegate_invokes_success_for_good_url {
+    [NSURLConnection wng_setLogging:YES];
+    
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.weblogng.com"]];
 	
     XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"connectionDidFinishLoading will be called"];
