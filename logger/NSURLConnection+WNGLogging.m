@@ -1,3 +1,4 @@
+#import "logger.h"
 #import "NSURLConnection+WNGLogging.h"
 #import "JRSwizzle.h"
 
@@ -102,8 +103,17 @@ static NSMutableSet *s_delegates = nil;
 + (NSData *)wng_sendSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse **)response error:(NSError **)error
 {
     NSLog(@"!!! wng_sendSynchronousRequest");
+    WNGLogger *logger = [WNGLogger sharedLogger];
+    
+    if(logger){
+        [logger recordStart:@"synchronous-request"];
+    }
     
     NSData *responseData = [NSURLConnection wng_sendSynchronousRequest:request returningResponse:response error:error];
+
+    if(logger){
+        [logger recordFinishAndSendMetric:@"synchronous-request"];
+    }
     
     return responseData;
 }

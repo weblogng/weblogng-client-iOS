@@ -206,5 +206,22 @@ NSString *apiKey;
     
 }
 
+- (void) test_timing_recorded_for_a_synchronous_request {
+    [WNGLogger resetSharedLogger];
+    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey];
+    assertThat(logger, isNot(nilValue()));
+    
+    //end setup
+    
+    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.weblogng.com"]];
+    NSURLResponse * response = nil;
+    NSError * error = nil;
+    
+    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+    
+    //start tear-down
+    [WNGLogger resetSharedLogger];
+}
+
 
 @end
