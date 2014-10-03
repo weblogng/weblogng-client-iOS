@@ -4,32 +4,6 @@
 
 
 /**
- * WNGLoggingDelegates is a private category used to track the WNGLoggingDelegate instances
- * created during interception.
- */
-@interface NSURLConnection (WNGLoggingDelegates)
-+ (NSMutableSet *)loggingDelegates;
-@end
-
-@implementation NSURLConnection (WNGLoggingDelegates)
-
-//https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/Reference/Reference.html#//apple_ref/occ/clm/NSURLConnection/connectionWithRequest:delegate:
-//During the download the connection maintains a strong reference to the delegate. It releases that strong reference when the connection finishes loading, fails, or is canceled.
-//
-//so, we shouldn't need to track the LoggingDelegates
-//todo: remove loggingDelegates
-static NSMutableSet *s_delegates = nil;
-
-+ (NSMutableSet *)loggingDelegates
-{
-	if (! s_delegates)
-		s_delegates = [[NSMutableSet alloc] init];
-	return s_delegates;
-}
-
-@end
-
-/**
  * NSURLConnection* delegate to handle callbacks first.
  * It will forward the callback to the original delegate after logging.
  */
@@ -61,7 +35,6 @@ static NSMutableSet *s_delegates = nil;
 {
     self.actualDelegate = nil;
     self.timer = nil;
-    [[NSURLConnection loggingDelegates] removeObject:self];
 }
 
 // ------------------------------------------------------------------------
@@ -163,7 +136,6 @@ static NSMutableSet *s_delegates = nil;
 {
     NSLog(@"!!! wng_initWithRequest:request:delegate called");
     LoggingConnectionDelegate *loggingDelegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate:delegate];
-    [[NSURLConnection loggingDelegates] addObject:loggingDelegate];
     return [self wng_initWithRequest:request delegate:loggingDelegate];
 }
 
@@ -171,7 +143,6 @@ static NSMutableSet *s_delegates = nil;
 {
     NSLog(@"!!! wng_initWithRequest:request:delegate:startImmediately called");
     LoggingConnectionDelegate *loggingDelegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate:delegate];
-    [[NSURLConnection loggingDelegates] addObject:loggingDelegate];
     return [self wng_initWithRequest:request delegate:loggingDelegate startImmediately:startImmediately];
 }
 
