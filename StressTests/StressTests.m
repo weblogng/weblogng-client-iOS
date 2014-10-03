@@ -223,5 +223,40 @@ NSString *apiKey;
     [WNGLogger resetSharedLogger];
 }
 
+- (void) test_timing_recorded_for_a_asynchronous_request {
+    [WNGLogger resetSharedLogger];
+    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey];
+    assertThat(logger, isNot(nilValue()));
+    
+    //end setup
+    
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.weblogng.com"]];
+    
+    XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"connectionDidFinishLoading will be called"];
+    
+    TestConnectionDelegate *delegate = [[TestConnectionDelegate alloc] init];
+    delegate.success = ^ {
+        NSLog(@"executed success block for TestConnectionDelegate");
+        [loadedExpectation fulfill];
+    };
+    
+    delegate.failure = ^ {
+        [loadedExpectation fulfill];
+        XCTFail(@"failure handler was called, expected success");
+    };
+    
+    [NSURLConnection connectionWithRequest:request delegate:delegate];
+    
+    
+    [self waitForExpectationsWithTimeout:5 handler:Nil];
+    
+    XCTAssertTrue([delegate finishedLoading]);
+    XCTAssertFalse([delegate failedWithError]);
+
+    
+    //start tear-down
+    [WNGLogger resetSharedLogger];
+}
+
 
 @end

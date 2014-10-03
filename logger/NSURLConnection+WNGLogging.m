@@ -36,18 +36,23 @@ static NSMutableSet *s_delegates = nil;
 @interface LoggingConnectionDelegate : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (nonatomic) id <NSURLConnectionDelegate> actualDelegate;
+@property (nonatomic) WNGTimer *timer;
 
 @end
 
 @implementation LoggingConnectionDelegate
+
 @synthesize actualDelegate;
+@synthesize timer;
 
 - (id) initWithActualDelegate:(id <NSURLConnectionDelegate>)actual
 {
     self = [super init];
     if (self) {
         self.actualDelegate = actual;
-        //todo: record start using an instance property
+        self.timer = [[WNGTimer alloc] init];
+        [[self timer] start];
+        NSLog(@"!!! LoggingConnectionDelegate::initWithActualDelegate started timer");
     }
     return self;
 }
@@ -55,6 +60,7 @@ static NSMutableSet *s_delegates = nil;
 - (void) cleanup:(NSError *)error
 {
     self.actualDelegate = nil;
+    self.timer = nil;
     [[NSURLConnection loggingDelegates] removeObject:self];
 }
 
@@ -83,7 +89,15 @@ static NSMutableSet *s_delegates = nil;
 //when the request is successful.
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    //todo: record finish
+    [[self timer] finish];
+    NSLog(@"!!! connectionDidFinishLoading elapsed time %@", timer.elapsedTime);
+    
+    WNGLogger *logger = [WNGLogger sharedLogger];
+    if(logger)
+    {
+        [logger sendMetric:@"asynchronous-request" metricValue:timer.elapsedTime];
+    }
+
     
     if ([self.actualDelegate respondsToSelector:@selector(connectionDidFinishLoading:)])
     {
