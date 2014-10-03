@@ -95,7 +95,9 @@ static NSMutableSet *s_delegates = nil;
     WNGLogger *logger = [WNGLogger sharedLogger];
     if(logger)
     {
-        [logger sendMetric:@"asynchronous-request" metricValue:timer.elapsedTime];
+        NSString *host = [[[connection currentRequest] URL] host];
+        NSString *metricName = [NSString stringWithFormat:@"request-%@", host];
+        [logger sendMetric:metricName metricValue:timer.elapsedTime];
     }
 
     

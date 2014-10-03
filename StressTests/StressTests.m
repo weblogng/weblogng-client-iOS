@@ -230,7 +230,7 @@ NSString *apiKey;
     
     //end setup
     
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.weblogng.com"]];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com"]];
     
     XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"connectionDidFinishLoading will be called"];
     
