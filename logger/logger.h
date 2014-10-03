@@ -107,6 +107,8 @@ extern NSString *const API_HOST_PRODUCTION;
 
 + (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 
++ (NSString *)convertToMetricName: (NSURLRequest *)request;
+
 + (NSString *)sanitizeMetricName:(NSString *)metricName;
 
 /**

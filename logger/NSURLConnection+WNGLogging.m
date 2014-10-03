@@ -68,8 +68,7 @@
     WNGLogger *logger = [WNGLogger sharedLogger];
     if(logger)
     {
-        NSString *host = [[[connection currentRequest] URL] host];
-        NSString *metricName = [NSString stringWithFormat:@"request-%@", host];
+        NSString *metricName = [WNGLogger convertToMetricName:[connection currentRequest]];
         [logger sendMetric:metricName metricValue:timer.elapsedTime];
     }
 
@@ -98,14 +97,20 @@
     NSLog(@"!!! wng_sendSynchronousRequest");
     WNGLogger *logger = [WNGLogger sharedLogger];
     
+    WNGTimer *timer;
+
+    
     if(logger){
-        [logger recordStart:@"synchronous-request"];
+        timer = [[WNGTimer alloc] init];
+        [timer start];
     }
     
     NSData *responseData = [NSURLConnection wng_sendSynchronousRequest:request returningResponse:response error:error];
 
     if(logger){
-        [logger recordFinishAndSendMetric:@"synchronous-request"];
+        [timer finish];
+        NSString *metricName = [WNGLogger convertToMetricName:request];
+        [logger sendMetric:metricName metricValue:timer.elapsedTime];
     }
     
     return responseData;
