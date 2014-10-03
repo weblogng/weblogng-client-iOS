@@ -13,7 +13,11 @@
 
 @implementation NSURLConnection (WNGLoggingDelegates)
 
-//todo: investigate concurrency-safety of NSMutableSet further
+//https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/Reference/Reference.html#//apple_ref/occ/clm/NSURLConnection/connectionWithRequest:delegate:
+//During the download the connection maintains a strong reference to the delegate. It releases that strong reference when the connection finishes loading, fails, or is canceled.
+//
+//so, we shouldn't need to track the LoggingDelegates
+//todo: remove loggingDelegates
 static NSMutableSet *s_delegates = nil;
 
 + (NSMutableSet *)loggingDelegates
