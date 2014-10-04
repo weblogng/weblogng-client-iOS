@@ -166,6 +166,26 @@ id mockApiConnection;
     }
 }
 
+- (void)test_convertToMetricName_builds_a_metric_name_from_provided_request_GET {
+    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.weblogng.com/some/service"]];
+    NSString *actualMetricName = [WNGLogger convertToMetricName:req];
+    
+    assertThat(actualMetricName, equalTo(@"api_weblogng_com-GET"));
+}
+
+- (void)test_convertToMetricName_builds_a_metric_name_from_provided_request_POST {
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://t.co"]];
+    [req setHTTPMethod:@"POST"];
+    
+    NSString *actualMetricName = [WNGLogger convertToMetricName:req];
+    
+    assertThat(actualMetricName, equalTo(@"t_co-POST"));
+}
+
+- (void)test_convertToMetricName_handles_nil_requests {
+    assertThat([WNGLogger convertToMetricName:nil], equalTo(@"unknown"));
+}
+
 - (void)test_recordStart_creates_a_timer_and_starts_it {
     WNGTimer *timer = [logger recordStart: @"metric_name"];
     assertThat(timer.tStart, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));

@@ -150,11 +150,10 @@ NSMutableDictionary *timersByMetricName;
 
 + (NSString *)convertToMetricName: (NSURLRequest *)request {
     if(request){
-        [request URL];
         NSURL *url = [request URL];
         NSString *host = [url host];
         NSString *method = [request  HTTPMethod];
-        NSString *metricName = [NSString stringWithFormat:@"%@-%@", host, method];
+        NSString *metricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"%@-%@", host, method]];
         
         return metricName;
     } else {
