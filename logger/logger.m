@@ -12,6 +12,17 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "AFHTTPSessionManager.h"
 
+static dispatch_queue_t api_log_message_send_queue() {
+    static dispatch_queue_t api_log_message_send_queue;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        api_log_message_send_queue = dispatch_queue_create("com.weblogng.api.log.messsage.send", DISPATCH_QUEUE_SERIAL);
+    });
+    
+    return api_log_message_send_queue;
+}
+
+
 @implementation WNGLoggerAPIConnection
 
 - (void) sendMetric:(NSString *)metricMessagePayload {
@@ -48,19 +59,22 @@ AFHTTPSessionManager *sessionManager;
 
 
 - (void) sendMetric:(NSString *)metricMessagePayload {
-    NSString *url = [NSString stringWithFormat:@"https://%@/log/http", _apiHost];
-    NSDictionary *parameters = @{@"message" : metricMessagePayload};
-
-    NSLog(@"sending metric to %@ via http POST : %@", url, metricMessagePayload);
-
-    sessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
-    sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
-
-    [sessionManager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id response) {
-        NSLog(@"sessionManager response: %@", response);
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"sessionManager error: %@", error);
-    }];
+    
+    dispatch_async(api_log_message_send_queue(), ^{
+        NSString *url = [NSString stringWithFormat:@"https://%@/log/http", _apiHost];
+        NSDictionary *parameters = @{@"message" : metricMessagePayload};
+        
+        NSLog(@"sending metric to %@ via http POST : %@", url, metricMessagePayload);
+        
+        sessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+        sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        
+        [sessionManager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id response) {
+            NSLog(@"sessionManager response: %@", response);
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(@"sessionManager error: %@", error);
+        }];
+    });
 
     return;
 }
