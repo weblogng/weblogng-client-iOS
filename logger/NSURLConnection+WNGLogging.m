@@ -71,7 +71,7 @@
         NSString *metricName = [WNGLogger convertToMetricName:[connection currentRequest]];
         [logger sendMetric:metricName metricValue:timer.elapsedTime];
     }
-
+    
     
     if ([self.actualDelegate respondsToSelector:@selector(connectionDidFinishLoading:)])
     {
@@ -82,7 +82,76 @@
     [self cleanup:nil];
 }
 
+
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveData:)])
+    {
+        id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
+        [actual connection:connection didReceiveData:data];
+        
+    }
+}
+
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    if ([self.actualDelegate respondsToSelector:@selector(connectionDidFinishLoading:)])
+    {
+
+        id <NSURLConnectionDataDelegate> actual = (id < NSURLConnectionDataDelegate>)self.actualDelegate;
+    
+        [actual connection:connection didReceiveResponse:response];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten
+totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    
+    if ([self.actualDelegate respondsToSelector:@selector(connectionDidFinishLoading:)])
+    {
+
+    id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
+    
+    [actual connection:connection didSendBodyData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    }
+    
+}
+
+
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response {
+
+    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveData:)])
+    {
+    id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
+    
+    return [actual connection:connection willSendRequest:request redirectResponse:response];
+    }
+    return request;
+}
+
+
+- (NSInputStream *)connection:(NSURLConnection *)connection needNewBodyStream:(NSURLRequest *)request {
+    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveData:)])
+    {
+    id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
+    
+    return [actual connection:connection needNewBodyStream:request];
+    }
+    return nil;
+}
+
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
+    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveData:)])
+    {
+    id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
+    
+    return [actual connection:connection willCacheResponse:cachedResponse];
+    }
+    return cachedResponse;
+}
 @end
+
 
 
 @implementation NSURLConnection (WNGLogging)
