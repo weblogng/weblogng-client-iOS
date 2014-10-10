@@ -95,7 +95,7 @@
 
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    if ([self.actualDelegate respondsToSelector:@selector(connectionDidFinishLoading:)])
+    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveResponse:)])
     {
 
         id <NSURLConnectionDataDelegate> actual = (id < NSURLConnectionDataDelegate>)self.actualDelegate;
@@ -107,7 +107,7 @@
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten
 totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     
-    if ([self.actualDelegate respondsToSelector:@selector(connectionDidFinishLoading:)])
+    if ([self.actualDelegate respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)])
     {
 
     id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
@@ -120,7 +120,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response {
 
-    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveData:)])
+    if ([self.actualDelegate respondsToSelector:@selector(connection:willSendRequest:redirectResponse:)])
     {
     id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
     
@@ -131,7 +131,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 
 
 - (NSInputStream *)connection:(NSURLConnection *)connection needNewBodyStream:(NSURLRequest *)request {
-    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveData:)])
+    if ([self.actualDelegate respondsToSelector:@selector(connection:needNewBodyStream:)])
     {
     id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
     
@@ -142,7 +142,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
-    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveData:)])
+    if ([self.actualDelegate respondsToSelector:@selector(connection:willCacheResponse:)])
     {
     id <NSURLConnectionDataDelegate> actual = (id <NSURLConnectionDataDelegate>)self.actualDelegate;
     
