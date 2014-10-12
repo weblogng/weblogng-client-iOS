@@ -119,8 +119,22 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
     [mockConnDelegate verify];
 }
 
-
 //- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge NS_DEPRECATED(10_2, 10_10, 2_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
+- (void)test_delegates_NSURLConnectionDelegate_connection_didReceiveAuthenticationChallenge {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDelegate)];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+    id challenge = [[NSURLAuthenticationChallenge alloc] init];
+
+    [[[mockConnDelegate stub] andDo:doNothingBlock] connection:mockConn didReceiveAuthenticationChallenge:challenge];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    [delegate connection:mockConn didReceiveAuthenticationChallenge:challenge];
+    
+    [mockConnDelegate verify];
+}
+
 //- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge NS_DEPRECATED(10_2, 10_10, 2_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
 
 

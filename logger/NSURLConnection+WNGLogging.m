@@ -70,6 +70,13 @@
     return FALSE;
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge NS_DEPRECATED(10_2, 10_10, 2_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead."){
+    if ([self.actualDelegate respondsToSelector:@selector(connection:didReceiveAuthenticationChallenge:)])
+    {
+        [self.actualDelegate connection:connection didReceiveAuthenticationChallenge:challenge];
+    }
+}
+
 // ------------------------------------------------------------------------
 #pragma mark NSURLConnectionDataDelegate
 //
