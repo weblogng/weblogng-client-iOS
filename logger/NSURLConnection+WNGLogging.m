@@ -43,6 +43,16 @@
     [self cleanup:error];
 }
 
+
+- (BOOL)connectionShouldUseCredentialStorage:(NSURLConnection *)connection
+{
+    if ([self.actualDelegate respondsToSelector:@selector(connectionShouldUseCredentialStorage:)])
+    {
+        return [self.actualDelegate connectionShouldUseCredentialStorage:connection];
+    }
+    return TRUE;    
+}
+
 // ------------------------------------------------------------------------
 #pragma mark NSURLConnectionDataDelegate
 //
