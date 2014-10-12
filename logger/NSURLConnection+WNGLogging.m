@@ -50,7 +50,7 @@
     {
         return [self.actualDelegate connectionShouldUseCredentialStorage:connection];
     }
-    return TRUE;    
+    return FALSE;
 }
 
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
@@ -59,6 +59,15 @@
     {
         [self.actualDelegate connection:connection willSendRequestForAuthenticationChallenge:challenge];
     }
+}
+
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace NS_DEPRECATED(10_6, 10_10, 3_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.")
+{
+    if ([self.actualDelegate respondsToSelector:@selector(connection:canAuthenticateAgainstProtectionSpace:)])
+    {
+        return [self.actualDelegate connection:connection canAuthenticateAgainstProtectionSpace:protectionSpace];
+    }
+    return FALSE;
 }
 
 // ------------------------------------------------------------------------

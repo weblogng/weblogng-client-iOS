@@ -102,6 +102,24 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
 }
 
 //- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace NS_DEPRECATED(10_6, 10_10, 3_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
+- (void)test_delegates_NSURLConnectionDelegate_connection_canAuthenticateAgainstProtectionSpace {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDelegate)];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+    id protectionSpace = [[NSURLProtectionSpace alloc] init];
+    
+    BOOL expectedCanAuth = arc4random() % 2;
+    [[[mockConnDelegate stub] andReturnValue:OCMOCK_VALUE(expectedCanAuth)] connection:mockConn canAuthenticateAgainstProtectionSpace:protectionSpace];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    BOOL actualCanAuth = [delegate connection:mockConn canAuthenticateAgainstProtectionSpace:protectionSpace];
+    assertThatBool(actualCanAuth, equalToBool(expectedCanAuth));
+    
+    [mockConnDelegate verify];
+}
+
+
 //- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge NS_DEPRECATED(10_2, 10_10, 2_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
 //- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge NS_DEPRECATED(10_2, 10_10, 2_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
 
