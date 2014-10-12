@@ -21,9 +21,16 @@
 
 @end
 
+typedef void (^OCMockCallback)(NSInvocation *invocation);
+
+
 @implementation LoggingConnectionDelegateTests
 
 LoggingConnectionDelegate *delegate;
+
+OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
+    
+};
 
 - (void)setUp {
     [super setUp];
@@ -49,17 +56,14 @@ LoggingConnectionDelegate *delegate;
 - (void)test_delegates_NSURLConnectionDelegate_connection_didFailWithError {
     
     id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDelegate)];
-    id connection = [OCMockObject mockForClass:[NSURLConnection class]];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
     NSError *error = [[NSError alloc] init];
     
-    [[[mockConnDelegate expect] andDo:^(NSInvocation *invocation) {
-        // validate arguments, set return value on the invocation object
-        NSLog(@"mock callback");
-    }] connection:connection didFailWithError:error];
+    [[[mockConnDelegate expect] andDo:doNothingBlock] connection:mockConn didFailWithError:error];
     
     delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
     
-    [delegate connection:connection didFailWithError:error];
+    [delegate connection:mockConn didFailWithError:error];
     
     [mockConnDelegate verify];
 }
