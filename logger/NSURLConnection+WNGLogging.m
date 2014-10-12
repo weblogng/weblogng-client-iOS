@@ -53,6 +53,14 @@
     return TRUE;    
 }
 
+- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    if ([self.actualDelegate respondsToSelector:@selector(connection:willSendRequestForAuthenticationChallenge:)])
+    {
+        [self.actualDelegate connection:connection willSendRequestForAuthenticationChallenge:challenge];
+    }
+}
+
 // ------------------------------------------------------------------------
 #pragma mark NSURLConnectionDataDelegate
 //
