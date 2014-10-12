@@ -151,5 +151,38 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
     [mockConnDelegate verify];
 }
 
+//- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response;
+- (void)test_delegates_NSURLConnectionDataDelegate_connection_willSendRequest_redirectResponse {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDataDelegate)];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com"]];
+    NSURLResponse *response = [[NSURLResponse alloc] init];
+    
+    [[[mockConnDelegate stub] andReturn:request] connection:mockConn willSendRequest:request redirectResponse:response];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    NSURLRequest *actualRequest = [delegate connection:mockConn willSendRequest:request redirectResponse:response];
+    assertThat(actualRequest, equalTo(request));
+    
+    [mockConnDelegate verify];
+}
+
+
+//- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
+//
+//- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
+//
+//- (NSInputStream *)connection:(NSURLConnection *)connection needNewBodyStream:(NSURLRequest *)request;
+//- (void)connection:(NSURLConnection *)connection   didSendBodyData:(NSInteger)bytesWritten
+// totalBytesWritten:(NSInteger)totalBytesWritten
+//totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
+//
+//- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse;
+//
+//- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+
+
 
 @end
