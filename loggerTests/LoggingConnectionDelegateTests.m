@@ -187,7 +187,21 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
 }
 
 //- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
-//
+- (void)test_delegates_NSURLConnectionDataDelegate_connection_didReceiveData {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDataDelegate)];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+    NSData *data = [[NSData alloc] init];
+    
+    [[[mockConnDelegate expect] andDo:doNothingBlock] connection:mockConn didReceiveData:data];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    [delegate connection:mockConn didReceiveData:data];
+    
+    [mockConnDelegate verify];
+}
+
 //- (NSInputStream *)connection:(NSURLConnection *)connection needNewBodyStream:(NSURLRequest *)request;
 //- (void)connection:(NSURLConnection *)connection   didSendBodyData:(NSInteger)bytesWritten
 // totalBytesWritten:(NSInteger)totalBytesWritten
