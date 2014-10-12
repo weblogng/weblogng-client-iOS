@@ -3,17 +3,6 @@
 #import "JRSwizzle.h"
 
 
-/**
- * NSURLConnection* delegate to handle callbacks first.
- * It will forward the callback to the original delegate after logging.
- */
-@interface LoggingConnectionDelegate : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
-
-@property (nonatomic) id <NSURLConnectionDelegate> actualDelegate;
-@property (nonatomic) WNGTimer *timer;
-
-@end
-
 @implementation LoggingConnectionDelegate
 
 @synthesize actualDelegate;

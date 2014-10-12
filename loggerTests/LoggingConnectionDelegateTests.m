@@ -3,11 +3,19 @@
 //  logger
 //
 //  Created by Stephen Kuenzli on 10/12/14.
-//  Copyright (c) 2014 Weblog-NG. All rights reserved.
+//  Copyright (c) 2014 WeblogNG. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
+
+#define HC_SHORTHAND
+
+#import <OCHamcrest/OCHamcrest.h>
+
+#import "logger.h"
+#import "NSURLConnection+WNGLogging.h"
+
 
 @interface LoggingConnectionDelegateTests : XCTestCase
 
@@ -15,26 +23,52 @@
 
 @implementation LoggingConnectionDelegateTests
 
+LoggingConnectionDelegate *delegate;
+
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    delegate = [[LoggingConnectionDelegate alloc] init];
+
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+- (void)test_initWithActualDelegate_stores_and_initializes_delegate_properly {
+
+    NSNumber *now = [WNGTime epochTimeInMilliseconds];
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDelegate)];
+
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+
+    assertThat([delegate actualDelegate], equalTo(mockConnDelegate));
+    assertThat([delegate timer], isNot(nilValue()));
+    assertThat([[delegate timer] tStart], is(greaterThanOrEqualTo(now)));    
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+//- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+
+- (void)test_delegates_NSURLConnectionDelegate_connection_didFailWithError {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDelegate)];
+    id connection = [OCMockObject mockForClass:[NSURLConnection class]];
+    NSError *error = [[NSError alloc] init];
+    
+    [[[mockConnDelegate expect] andDo:^(NSInvocation *invocation) {
+        // validate arguments, set return value on the invocation object
+        NSLog(@"mock callback");
+    }] connection:connection didFailWithError:error];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    [delegate connection:connection didFailWithError:error];
+    
+    [mockConnDelegate verify];
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
+//- (BOOL)connectionShouldUseCredentialStorage:(NSURLConnection *)connection;
+//- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
+//- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace NS_DEPRECATED(10_6, 10_10, 3_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
+//- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge NS_DEPRECATED(10_2, 10_10, 2_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
+//- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge NS_DEPRECATED(10_2, 10_10, 2_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
+
 
 @end

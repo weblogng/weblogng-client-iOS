@@ -15,6 +15,7 @@
 		614E717619D85FA1001205E8 /* NSURLConnection+WNGLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 614E717519D85FA1001205E8 /* NSURLConnection+WNGLogging.m */; };
 		614EF474184BBA26006E8EF7 /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA49371841782E003C2BA3 /* liblogger.a */; };
 		614EF475184BBA4C006E8EF7 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC095EDBD449FADDF544C6 /* NSMutableArray_Shuffling.m */; };
+		61BD8E3D19EADEB300879AF0 /* LoggingConnectionDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BD8E3C19EADEB300879AF0 /* LoggingConnectionDelegateTests.m */; };
 		61CA493B1841782E003C2BA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CA493A1841782E003C2BA3 /* Foundation.framework */; };
 		61CA49401841782E003C2BA3 /* logger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 61CA493F1841782E003C2BA3 /* logger.h */; };
 		61CA49421841782E003C2BA3 /* logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CA49411841782E003C2BA3 /* logger.m */; };
@@ -70,6 +71,7 @@
 		6139DE30184BB06B00351512 /* StressTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StressTests-Prefix.pch"; sourceTree = "<group>"; };
 		614E717419D7C712001205E8 /* NSURLConnection+WNGLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLConnection+WNGLogging.h"; sourceTree = "<group>"; };
 		614E717519D85FA1001205E8 /* NSURLConnection+WNGLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLConnection+WNGLogging.m"; sourceTree = "<group>"; };
+		61BD8E3C19EADEB300879AF0 /* LoggingConnectionDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggingConnectionDelegateTests.m; sourceTree = "<group>"; };
 		61CA49371841782E003C2BA3 /* liblogger.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblogger.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61CA493A1841782E003C2BA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		61CA493E1841782E003C2BA3 /* logger-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "logger-Prefix.pch"; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		61CA49501841782E003C2BA3 /* loggerTests */ = {
 			isa = PBXGroup;
 			children = (
+				61BD8E3C19EADEB300879AF0 /* LoggingConnectionDelegateTests.m */,
 				61CA49561841782E003C2BA3 /* loggerTests.m */,
 				61CA49511841782E003C2BA3 /* Supporting Files */,
 			);
@@ -450,6 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61BD8E3D19EADEB300879AF0 /* LoggingConnectionDelegateTests.m in Sources */,
 				61CA49571841782E003C2BA3 /* loggerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
