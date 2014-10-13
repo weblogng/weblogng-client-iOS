@@ -245,9 +245,24 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
     [mockConnDelegate verify];
 }
 
-//
+
 //- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse;
-//
+- (void)test_delegates_NSURLConnectionDataDelegate_connection_willCacheResponse {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDataDelegate)];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+    NSCachedURLResponse *expectResponse = [[NSCachedURLResponse alloc] init];
+    
+    [[[mockConnDelegate expect] andReturn:expectResponse] connection:mockConn willCacheResponse:expectResponse];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    NSCachedURLResponse *actualResponse = [delegate connection:mockConn willCacheResponse:expectResponse];
+    assertThat(expectResponse, equalTo(actualResponse));
+    
+    [mockConnDelegate verify];
+}
+
 //- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
 
 
