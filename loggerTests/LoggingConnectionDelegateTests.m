@@ -203,6 +203,23 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
 }
 
 //- (NSInputStream *)connection:(NSURLConnection *)connection needNewBodyStream:(NSURLRequest *)request;
+- (void)test_delegates_NSURLConnectionDataDelegate_connection_needNewBodyStream {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDataDelegate)];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com"]];
+    NSInputStream *expectStream = [[NSInputStream alloc] initWithURL:[request URL]];
+    
+    [[[mockConnDelegate stub] andReturn:expectStream] connection:mockConn needNewBodyStream:request];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    NSInputStream *actualStream = [delegate connection:mockConn needNewBodyStream:request];
+    assertThat(actualStream, equalTo(expectStream));
+    
+    [mockConnDelegate verify];
+}
+
 //- (void)connection:(NSURLConnection *)connection   didSendBodyData:(NSInteger)bytesWritten
 // totalBytesWritten:(NSInteger)totalBytesWritten
 //totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
