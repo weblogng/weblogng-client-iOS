@@ -62,21 +62,18 @@
     return YES;
 }
 
-// skuenzli: currently disabled because implementation is incorrect and causes (immediate) request failure
-// see https://developer.apple.com/library/prerelease/iOS/documentation/Foundation/Reference/NSURLConnectionDelegate_Protocol/index.html#//apple_ref/occ/intfm/NSURLConnectionDelegate/connection:willSendRequestForAuthenticationChallenge:
-// for implementation recommendations
+// implementation recommendations available at:
+// https://developer.apple.com/library/prerelease/iOS/documentation/Foundation/Reference/NSURLConnectionDelegate_Protocol/index.html#//apple_ref/occ/intfm/NSURLConnectionDelegate/connection:willSendRequestForAuthenticationChallenge:
 //
-//- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-//{
-//    NSLog(@"LoggingConnectionDelegate:connection:willSendRequestForAuthenticationChallenge: start");
-//    if ([self.actualDelegate respondsToSelector:@selector(connection:willSendRequestForAuthenticationChallenge:)])
-//    {
-//        [self.actualDelegate connection:connection willSendRequestForAuthenticationChallenge:challenge];
-//    }
-//    
-//    performDefaultHandlingForAuthenticationChallenge
-//    NSLog(@"LoggingConnectionDelegate:connection:willSendRequestForAuthenticationChallenge: end");
-//}
+- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    if ([self.actualDelegate respondsToSelector:@selector(connection:willSendRequestForAuthenticationChallenge:)])
+    {
+        [self.actualDelegate connection:connection willSendRequestForAuthenticationChallenge:challenge];
+    }
+    
+    [[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
+}
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace NS_DEPRECATED(10_6, 10_10, 3_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.")
 {
