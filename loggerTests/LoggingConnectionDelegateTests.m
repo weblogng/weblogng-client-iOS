@@ -86,20 +86,20 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
 
 
 //- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
-- (void)test_delegates_NSURLConnectionDelegate_connection_willSendRequestForAuthenticationChallenge {
-    
-    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDelegate)];
-    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
-    NSURLAuthenticationChallenge *challenge = [[NSURLAuthenticationChallenge alloc] init];
-    
-    [[[mockConnDelegate expect] andDo:doNothingBlock] connection:mockConn willSendRequestForAuthenticationChallenge:challenge];
-    
-    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
-    
-    [delegate connection:mockConn willSendRequestForAuthenticationChallenge:challenge];
-    
-    [mockConnDelegate verify];
-}
+//- (void)test_delegates_NSURLConnectionDelegate_connection_willSendRequestForAuthenticationChallenge {
+//    
+//    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDelegate)];
+//    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+//    NSURLAuthenticationChallenge *challenge = [[NSURLAuthenticationChallenge alloc] init];
+//    
+//    [[[mockConnDelegate expect] andDo:doNothingBlock] connection:mockConn willSendRequestForAuthenticationChallenge:challenge];
+//    
+//    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+//    
+//    [delegate connection:mockConn willSendRequestForAuthenticationChallenge:challenge];
+//    
+//    [mockConnDelegate verify];
+//}
 
 //- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace NS_DEPRECATED(10_6, 10_10, 3_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.");
 - (void)test_delegates_NSURLConnectionDelegate_connection_canAuthenticateAgainstProtectionSpace {
