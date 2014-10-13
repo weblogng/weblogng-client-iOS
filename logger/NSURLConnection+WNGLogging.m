@@ -34,6 +34,7 @@
 //encounters an error.
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    NSLog(@"LoggingConnectionDelegate:connection:didFailWithError: was called");
     //todo: record finish
     if ([self.actualDelegate respondsToSelector:@selector(connection:didFailWithError:)])
     {
