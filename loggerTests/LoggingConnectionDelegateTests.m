@@ -220,9 +220,31 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
     [mockConnDelegate verify];
 }
 
-//- (void)connection:(NSURLConnection *)connection   didSendBodyData:(NSInteger)bytesWritten
-// totalBytesWritten:(NSInteger)totalBytesWritten
-//totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
+//- (void)connection:(NSURLConnection *)connection
+//        didSendBodyData:(NSInteger)bytesWritten
+//        totalBytesWritten:(NSInteger)totalBytesWritten
+//        totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
+- (void)test_delegates_NSURLConnectionDataDelegate_connection_didSendBodyData {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDataDelegate)];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+    NSInteger bytesWritten = 42;
+    NSInteger totalBytesWritten = 128;
+    NSInteger totalBytesExpectedToWrite = 160;
+    
+    [[[mockConnDelegate expect] andDo:doNothingBlock] connection:mockConn
+                                                 didSendBodyData:bytesWritten
+                                               totalBytesWritten:totalBytesWritten
+                                       totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    [delegate connection:mockConn didSendBodyData:bytesWritten
+       totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    
+    [mockConnDelegate verify];
+}
+
 //
 //- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse;
 //
