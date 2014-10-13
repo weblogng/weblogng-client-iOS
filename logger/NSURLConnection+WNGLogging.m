@@ -51,7 +51,7 @@
     {
         return [self.actualDelegate connectionShouldUseCredentialStorage:connection];
     }
-    return FALSE;
+    return YES;
 }
 
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
@@ -68,7 +68,7 @@
     {
         return [self.actualDelegate connection:connection canAuthenticateAgainstProtectionSpace:protectionSpace];
     }
-    return FALSE;
+    return NO;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge NS_DEPRECATED(10_2, 10_10, 2_0, 8_0, "Use -connection:willSendRequestForAuthenticationChallenge: instead.")
