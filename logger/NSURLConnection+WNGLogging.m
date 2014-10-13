@@ -35,7 +35,15 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     NSLog(@"LoggingConnectionDelegate:connection:didFailWithError: was called");
-    //todo: record finish
+    [[self timer] finish];
+    
+    WNGLogger *logger = [WNGLogger sharedLogger];
+    if(logger)
+    {
+        NSString *metricName = [WNGLogger convertToMetricName:[connection currentRequest]];
+        [logger sendMetric:metricName metricValue:timer.elapsedTime];
+    }
+
     if ([self.actualDelegate respondsToSelector:@selector(connection:didFailWithError:)])
     {
         [self.actualDelegate connection:connection didFailWithError:error];

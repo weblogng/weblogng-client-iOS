@@ -65,6 +65,8 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
     [delegate connection:mockConn didFailWithError:error];
     
     [mockConnDelegate verify];
+    
+    assertThat([delegate timer], is(nilValue()));
 }
 
 //- (BOOL)connectionShouldUseCredentialStorage:(NSURLConnection *)connection;
