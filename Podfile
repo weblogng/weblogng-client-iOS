@@ -3,7 +3,8 @@
 platform :ios, '6.0'
 xcodeproj 'logger'
 
-pod "AFNetworking", "~> 2.0"
+pod "AFNetworking", "~> 2.4"
+pod "JRSwizzle", "~> 1.0"
 
 #pod "SocketRocket", "0.3.1-beta2"
 

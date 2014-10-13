@@ -107,6 +107,16 @@ extern NSString *const API_HOST_PRODUCTION;
 
 + (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 
+/**
+ Converts the provided request to a metric name of the form <sanitized url host name>-<HTTP method>, 
+ e.g. api_weblogng_com-POST.
+ 
+ @param request is the NSURLRequest to convert
+ 
+ @warning when `request` is `nil`, the returned metric name will be `unknown`
+ */
++ (NSString *)convertToMetricName: (NSURLRequest *)request;
+
 + (NSString *)sanitizeMetricName:(NSString *)metricName;
 
 /**

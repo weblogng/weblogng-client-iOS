@@ -148,6 +148,19 @@ NSMutableDictionary *timersByMetricName;
     return message;
 }
 
++ (NSString *)convertToMetricName: (NSURLRequest *)request {
+    if(request){
+        NSURL *url = [request URL];
+        NSString *host = [url host];
+        NSString *method = [request  HTTPMethod];
+        NSString *metricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"%@-%@", host, method]];
+        
+        return metricName;
+    } else {
+        return @"unknown";
+    }
+}
+
 - (WNGTimer *)recordStart:(NSString *)metricName {
     NSParameterAssert(metricName);
     
