@@ -264,6 +264,19 @@ OCMockCallback doNothingBlock = ^(NSInvocation *invocation) {
 }
 
 //- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+- (void)test_delegates_NSURLConnectionDataDelegate_connectionDidFinishLoading {
+    
+    id mockConnDelegate = [OCMockObject mockForProtocol:@protocol(NSURLConnectionDataDelegate)];
+    id mockConn = [OCMockObject mockForClass:[NSURLConnection class]];
+    
+    [[[mockConnDelegate expect] andDo:doNothingBlock] connectionDidFinishLoading:mockConn];
+    
+    delegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate: mockConnDelegate];
+    
+    [delegate connectionDidFinishLoading:mockConn];
+    
+    [mockConnDelegate verify];
+}
 
 
 
