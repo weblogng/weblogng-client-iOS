@@ -1,6 +1,7 @@
 //
 //  logger.h
-//  logger
+//
+//  The logger header contains the central interfaces of the WeblogNG client library.
 //
 //  Created by Stephen Kuenzli on 11/23/13.
 //  Copyright (c) 2013, 2014 WeblogNG. All rights reserved.
@@ -32,6 +33,12 @@
 @end
 
 
+/**
+ WNGLogger is the central interface in the WeblogNG client library.  Typical usage entails:
+ 1. initializing a shared logger with your api key during application initialization
+ 2. access the shared logger via the sharedLogger method
+ 3. use the record* and executeWithTiming methods to instrument your code
+ */
 @interface WNGLogger : NSObject
 
 extern NSString *const API_HOST_PRODUCTION;
