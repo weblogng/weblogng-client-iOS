@@ -3,7 +3,7 @@
 //  StressTests
 //
 //  Created by Stephen Kuenzli on 12/1/13.
-//  Copyright (c) 2013 Weblog-NG. All rights reserved.
+//  Copyright (c) 2013, 2014 WeblogNG. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

@@ -3,7 +3,7 @@
 //  logger
 //
 //  Created by Stephen Kuenzli on 11/23/13.
-//  Copyright (c) 2013 Weblog-NG. All rights reserved.
+//  Copyright (c) 2013, 2014 WeblogNG. All rights reserved.
 //
 
 #include <sys/time.h>

@@ -3,7 +3,7 @@
 //  logger
 //
 //  Created by Stephen Kuenzli on 11/23/13.
-//  Copyright (c) 2013 Weblog-NG. All rights reserved.
+//  Copyright (c) 2013, 2014 WeblogNG. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -121,9 +121,9 @@ extern NSString *const API_HOST_PRODUCTION;
 
 /**
  * Initialize a shared (singleton) WNGLogger instance and makes it available via the sharedLogger function.  The
- * api host will be set to the production Weblog-NG service.
+ * api host will be set to the production WeblogNG service.
  * 
- * @param apiKey is the Weblog-NG api key to use for logging
+ * @param apiKey is the WeblogNG api key to use for logging
  * @return an initialzed WNGLogger instance
  *
  * @warning `apiKey` must not be `nil`.
