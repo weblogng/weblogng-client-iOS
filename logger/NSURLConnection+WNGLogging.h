@@ -8,8 +8,17 @@
  * WNGLogging is a NSURLConnection category enabling WeblogNG to log measurements automatically.
  */
 @interface NSURLConnection (WNGLogging)
-+ (void) wng_setLogging:(BOOL)enabled;
-+ (BOOL) wng_loggingEnabled;
+
+/**
+ Enable automatic logging of requests made via NSURLConnection.  Currently, once logging is enabled, it cannnot
+ be disabled.
+ */
++ (void) wng_enableLogging;
+
+/**
+ wng_isLoggingEnabled returns whether automatic logging of NSURLConnection is enabled.
+ */
++ (BOOL) wng_isLoggingEnabled;
 @end
 
 /**

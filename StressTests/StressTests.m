@@ -120,7 +120,7 @@ NSString *apiKey;
 
 - (void)setUp {
     [super setUp];
-    [NSURLConnection wng_setLogging:YES];
+    [NSURLConnection wng_enableLogging];
     
     apiHost = @"api.weblogng.com";
     apiKey = @"93c5a127-e2a4-42cc-9cc6-cf17fdac8a7f";
@@ -160,7 +160,7 @@ NSString *apiKey;
 }
 
 - (void) test_connection_delegate_invokes_success_for_good_url {
-    [NSURLConnection wng_setLogging:YES];
+    [NSURLConnection wng_enableLogging];
     
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.google.com"]];
 	

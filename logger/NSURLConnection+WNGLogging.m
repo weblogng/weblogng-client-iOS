@@ -291,18 +291,18 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 
 static BOOL s_loggingEnabled = NO;
 
-+ (BOOL) wng_loggingEnabled
++ (BOOL) wng_isLoggingEnabled
 {
     return s_loggingEnabled;
 }
 
 
-+ (void) wng_setLogging:(BOOL)enabled
++ (void) wng_enableLogging
 {
-    if (s_loggingEnabled == enabled)
+    if (s_loggingEnabled == YES)
         return;
     
-    s_loggingEnabled = enabled;
+    s_loggingEnabled = YES;
     
     [NSURLConnection swizzleClassMethod:@selector(sendSynchronousRequest:returningResponse:error:)
                                      to:@selector(wng_sendSynchronousRequest:returningResponse:error:)];
