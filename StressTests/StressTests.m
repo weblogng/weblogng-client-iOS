@@ -98,6 +98,12 @@ typedef void (^ResultHandlingBlock)(void);
     self.failure();
 }
 
+//-(BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:
+//(NSURLProtectionSpace *)protectionSpace {
+//    return [protectionSpace.authenticationMethod
+//            isEqualToString:NSURLAuthenticationMethodServerTrust];
+//}
+
 @end
 
 
@@ -156,7 +162,7 @@ NSString *apiKey;
 - (void) test_connection_delegate_invokes_success_for_good_url {
     [NSURLConnection wng_setLogging:YES];
     
-	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.weblogng.com"]];
+	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.google.com"]];
 	
     XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"connectionDidFinishLoading will be called"];
 
@@ -181,7 +187,7 @@ NSString *apiKey;
 }
 
 - (void) test_connection_delegate_invokes_failure_for_bad_url {
-    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://does-not-exist.weblogng.com"]];
+    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http:/does-not-exist.weblogng.com"]];
     
     XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"didFailWithError will be called "];
     
