@@ -1,4 +1,4 @@
-# the best Podfile documentation is currently at https://github.com/CocoaPods/CocoaPods/wiki/A-Podfile
+# the best Podfile documentation is currently at http://guides.cocoapods.org/syntax/podfile.html
 
 platform :ios, '8.0'
 workspace 'WNGLogger'
