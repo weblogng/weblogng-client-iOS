@@ -1,0 +1,5 @@
+language: objective-c
+
+xcode_workspace: WNGLogger.xcworkspace
+xcode_sdk: iphonesimulator
+xcode_scheme: logger
