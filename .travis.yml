@@ -1,0 +1,6 @@
+language: objective-c
+
+xcode_workspace: logger.xcworkspace
+xcode_sdk: iphonesimulator8.0
+xcode_scheme: logger
+
