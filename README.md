@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/weblogng/weblogng-client-iOS.svg?branch=master)](https://travis-ci.org/weblogng/weblogng-client-iOS)
+
 ## Usage ##
 
 Using the [WeblogNG](https://www.weblogng.com) iOS client library follows an easy three-step process:
