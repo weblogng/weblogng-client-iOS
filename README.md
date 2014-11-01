@@ -45,8 +45,8 @@ Integrating client project
 Here is some example code taken from the (super-simple) [WeblogNG iOS Sample App](https://github.com/weblogng/weblogng-client-ios-sample-app) for iOS that demonstrates the basic usage:
 
 ```Objective-C
-#import "WNGAppDelegate.h"
-#import WNGLogger/logger.h
+#import <WNGLogger/logger.h>
+#import <WNGLogger/NSURLConnection+WNGLogging.h>
 
 @implementation WNGAppDelegate
 
@@ -55,6 +55,8 @@ Here is some example code taken from the (super-simple) [WeblogNG iOS Sample App
     NSString *apiKey = @"specify your api key here";
 
     [WNGLogger initSharedLogger:apiKey];
+    //enable automatic measurement of http requests!
+    [NSURLConnection wng_enableLogging];
 
     [self someIntensiveLogic];
 
@@ -89,8 +91,9 @@ Here is some example code taken from the (super-simple) [WeblogNG iOS Sample App
 2. go to [WeblogNG](https://www.weblogng.com), create a dashboard, and add a chart with your data
 
 
-## References ##
+## Resources ##
 
+* [WeblogNG iOS Client Library Documentation](http://docs.weblogng.com/en/latest/client-library-ios.html)
 * [WeblogNG iOS Sample App](https://github.com/weblogng/weblogng-client-ios-sample-app)
 * [Specifying the version of a CocoaPod Using git](http://guides.cocoapods.org/using/the-podfile.html#from-a-podspec-in-the-root-of-a-library-repo)
 
