@@ -15,17 +15,18 @@ The WNGLogger library is available via CocoaPods and is the recommended installa
 You can install it by adding a WNGLogger dependency to your Podfile:
 
 ```
-pod 'WNGLogger', :git => 'https://github.com/weblogng/weblogng-client-iOS.git', :tag => '0.7.0'
+pod 'WNGLogger', :git => 'https://github.com/weblogng/weblogng-client-iOS.git', :tag => '0.8.1'
 ```
 
 Execute ```pod install```. There should be some output like:
 ```
 $ pod install
 Analyzing dependencies
-Pre-downloading: `WNGLogger` from `https://github.com/weblogng/weblogng-client-iOS.git`, tag `0.7.0`
+Pre-downloading: `WNGLogger` from `https://github.com/weblogng/weblogng-client-iOS.git`, tag `0.8.1`
 Downloading dependencies
-Using AFNetworking (2.3.1)
-Installing WNGLogger 0.7.0
+Using AFNetworking (2.4.1)
+Using JRSwizzle (1.0)
+Installing WNGLogger 0.8.1
 Generating Pods project
 Integrating client project
 ```
