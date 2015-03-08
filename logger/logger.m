@@ -48,7 +48,7 @@ AFHTTPSessionManager *sessionManager;
     self = [super init];
     _apiHost = apiHost;
 
-    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/", _apiHost]];
+    NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@/", _apiHost]];
 
     sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
 
