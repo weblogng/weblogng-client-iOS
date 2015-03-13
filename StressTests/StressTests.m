@@ -72,6 +72,19 @@ id mockApiConnection;
 
 @end
 
+@interface NSURLRequest (IgnoreCertErrors)
+
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString*)host;
+
+@end
+
+@implementation NSURLRequest (IgnoreCertErrors)
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString*)host {
+    NSLog(@"Allowing any HTTPS certificate for %@", host);
+    return YES;
+}
+@end
+
 typedef void (^ResultHandlingBlock)(void);
 
 @interface TestConnectionDelegate : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
@@ -93,16 +106,16 @@ typedef void (^ResultHandlingBlock)(void);
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"TestConnectionDelegate:didFailWithError");
+    NSLog(@"TestConnectionDelegate:didFailWithError: %@", [error localizedDescription]);
     [self setFailedWithError:YES];
     self.failure();
 }
 
-//-(BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:
-//(NSURLProtectionSpace *)protectionSpace {
-//    return [protectionSpace.authenticationMethod
-//            isEqualToString:NSURLAuthenticationMethodServerTrust];
-//}
+-(BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:
+(NSURLProtectionSpace *)protectionSpace {
+    return [protectionSpace.authenticationMethod
+            isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
 
 @end
 
@@ -162,7 +175,7 @@ NSString *apiKey;
 - (void) test_connection_delegate_invokes_success_for_good_url {
     [NSURLConnection wng_enableLogging];
     
-	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.google.com"]];
+	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com"]];
 	
     XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"connectionDidFinishLoading will be called"];
 
@@ -187,7 +200,7 @@ NSString *apiKey;
 }
 
 - (void) test_connection_delegate_invokes_failure_for_bad_url {
-    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http:/does-not-exist.weblogng.com"]];
+    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://does-not-exist.weblogng.com"]];
     
     XCTestExpectation *loadedExpectation = [self expectationWithDescription:@"didFailWithError will be called "];
     
