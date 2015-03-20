@@ -45,6 +45,7 @@ extern NSString *const API_HOST_PRODUCTION;
 
 @property(copy) NSString *apiHost;
 @property(copy) NSString *apiKey;
+@property(copy) NSString *application;
 @property(strong) WNGLoggerAPIConnection *apiConnection;
 
 /**
@@ -55,6 +56,17 @@ extern NSString *const API_HOST_PRODUCTION;
  
  */
 - (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
+
+/**
+ Initialize a logger with the provided config.
+ 
+ @param apiHost is the WeblogNG api hostname
+ @param apiKey is an account-specific api key for WeblogNG
+ @param application is the name of the application
+ 
+ */
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey application:(NSString *) application;
+
 
 - (BOOL) hasTimerFor:(NSString *)metricName;
 

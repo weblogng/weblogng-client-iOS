@@ -62,10 +62,12 @@ id mockApiConnection;
     WNGLogger *logger = [[WNGLogger alloc] init];
     NSString *expectedApiHost = @"api.weblogng.com";
     NSString *expectedApiKey = @"api-key-56789";
+    NSString *expectedApp = @"application";
     WNGLoggerAPIConnection *expectedApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
 
     logger.apiHost = expectedApiHost;
     logger.apiKey = expectedApiKey;
+    logger.application = expectedApp;
     logger.apiConnection = expectedApiConnection;
     
     assertThat(logger.apiHost, equalTo(expectedApiHost));
@@ -87,6 +89,20 @@ id mockApiConnection;
 
     assertThat(logger.apiHost, equalTo(expectedHost));
     assertThat(logger.apiKey, equalTo(expectedKey));
+    assertThat(logger.application, is(nilValue()));
+    assertThat(logger.apiConnection, isNot(nil));
+}
+
+- (void)test_initWithConfig_initializes_the_logger_with_application_configuration {
+    NSString *expectedHost = @"host";
+    NSString *expectedKey = @"key";
+    NSString *expectedApp = @"application";
+    
+    WNGLogger *logger = [[WNGLogger alloc] initWithConfig:expectedHost apiKey:expectedKey application:expectedApp];
+    
+    assertThat(logger.apiHost, equalTo(expectedHost));
+    assertThat(logger.apiKey, equalTo(expectedKey));
+    assertThat(logger.application, equalTo(expectedApp));
     assertThat(logger.apiConnection, isNot(nil));
 }
 

@@ -112,27 +112,34 @@ NSMutableDictionary *timersByMetricName;
     sharedLogger = nil;
 }
 
-- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey application:(NSString *)application{
     self = [super init];
     timersByMetricName = [[NSMutableDictionary alloc] init];
     _apiHost = apiHost;
     _apiKey = apiKey;
-
+    _application = application;
+    
     if(_apiHost){
         _apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] initWithConfig:_apiHost];
     }
-
+    
+    
     NSLog(@"Initialized %@", self);
-
+    
     return self;
 }
 
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
+    return [self initWithConfig:apiHost apiKey:apiKey application:nil];
+}
+
 - (id)init {
-    return [self initWithConfig:nil apiKey:nil];
+    return [self initWithConfig:nil apiKey:nil application:nil];
 }
 
 @synthesize apiHost = _apiHost;
 @synthesize apiKey = _apiKey;
+@synthesize application = _application;
 @synthesize apiConnection = _apiConnection;
 
 - (BOOL)hasTimerFor:(NSString *)metricName {
