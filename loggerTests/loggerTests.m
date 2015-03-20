@@ -58,6 +58,7 @@ id mockApiConnection;
 
     assertThat(logger.apiHost, is(nilValue()));
     assertThat(logger.apiKey, is(nilValue()));
+    assertThat(logger.application, is(nilValue()));
     assertThat(logger.apiConnection, is(nilValue()));
 }
 
