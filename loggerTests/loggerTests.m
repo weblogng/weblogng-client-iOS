@@ -32,6 +32,8 @@ double epochTimeInMilliseconds() {
 WNGLogger *logger;
 NSString *apiHost;
 NSString *apiKey;
+NSString *application;
+
 id mockApiConnection;
 
 - (void)setUp {
@@ -39,8 +41,9 @@ id mockApiConnection;
     
     apiHost = @"api.weblogng.com";
     apiKey = @"93c5a127-e2a4-42cc-9cc6-cf17fdac8a7f";
+    application = @"test app";
  
-    logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey];
+    logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey application:application];
 
     mockApiConnection = [OCMockObject mockForClass:[WNGLoggerAPIConnection class]];
     logger.apiConnection = mockApiConnection;
@@ -79,6 +82,7 @@ id mockApiConnection;
     NSString *description = logger.description;
     assertThat(description, containsString(logger.apiHost));
     assertThat(description, containsString(logger.apiKey));
+    assertThat(description, containsString(logger.application));
 }
 
 - (void)test_initWithConfig_initializes_the_logger_with_configuration {

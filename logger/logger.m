@@ -151,7 +151,8 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat: @"[Logger apiHost: %@, apiKey: %@]", _apiHost, _apiKey];
+    return [NSString stringWithFormat: @"[Logger apiHost: %@, apiKey: %@, application: %@]",
+            _apiHost, _apiKey, _application];
 }
 
 - (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)metricValue {
