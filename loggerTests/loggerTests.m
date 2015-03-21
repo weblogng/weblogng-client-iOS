@@ -181,9 +181,22 @@ id mockApiConnection;
 
 
 - (void)test_sanitizeMetricName_sanitizes_invalid_names {
-    for(NSString *forbiddenChar in @[@".", @"!", @"," , @";", @":", @"?", @"/", @"\\", @"@", @"#", @"$", @"%", @"^", @"&", @"*", @"(", @")"]){
-        NSString *actualMetricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"metric-name_1%@2", forbiddenChar]];
-        assertThat(actualMetricName, equalTo(@"metric-name_1_2"));
+    for(NSString *forbiddenChar in @[@"'", @"\"", @"\n"]){
+        NSString *actualMetricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"forbidden%@char", forbiddenChar]];
+        assertThat(actualMetricName, equalTo(@"forbidden char"));
+    }
+}
+
+- (void)test_sanitizeMetricName_allows_desired_metric_names {
+    for(NSString *expectedMetricName in @[  @"GET localhost:8443"
+                                     , @"POST www.weblogng.com"
+                                     , @"PUT www.weblogng.com"
+                                     , @"GET http://host.com/some/query/path?param=1"
+                                     , @"GET https://host.com/some%20url%20encoded%20path?param=1"
+                                     , @"GET t.co"
+                                       ]){
+        NSString *actualMetricName = [WNGLogger sanitizeMetricName: expectedMetricName];
+        assertThat(actualMetricName, equalTo(expectedMetricName));
     }
 }
 
@@ -191,7 +204,7 @@ id mockApiConnection;
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.weblogng.com/some/service"]];
     NSString *actualMetricName = [WNGLogger convertToMetricName:req];
     
-    assertThat(actualMetricName, equalTo(@"api_weblogng_com-GET"));
+    assertThat(actualMetricName, equalTo(@"GET api.weblogng.com"));
 }
 
 - (void)test_convertToMetricName_builds_a_metric_name_from_provided_request_POST {
@@ -200,7 +213,7 @@ id mockApiConnection;
     
     NSString *actualMetricName = [WNGLogger convertToMetricName:req];
     
-    assertThat(actualMetricName, equalTo(@"t_co-POST"));
+    assertThat(actualMetricName, equalTo(@"POST t.co"));
 }
 
 - (void)test_convertToMetricName_handles_nil_requests {

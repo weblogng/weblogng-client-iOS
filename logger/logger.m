@@ -175,7 +175,7 @@ NSMutableDictionary *timersByMetricName;
         NSURL *url = [request URL];
         NSString *host = [url host];
         NSString *method = [request  HTTPMethod];
-        NSString *metricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"%@-%@", host, method]];
+        NSString *metricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"%@ %@", method, host]];
         
         return metricName;
     } else {
@@ -207,12 +207,12 @@ NSMutableDictionary *timersByMetricName;
 }
 
 + (NSString *) sanitizeMetricName:(NSString *)metricName {
-    NSString *pattern = @"[^\\w\\d_-]";
+    NSString *pattern = @"[^\\w\\d\\:\\?\\=\\/\\\\._\\-\%]+";
     NSError *error = NULL;
     NSRegularExpressionOptions regexOptions = NSRegularExpressionCaseInsensitive;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options: regexOptions error:&error];
     NSRange replacementRange = NSMakeRange(0, metricName.length);
-    NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@"_"];
+    NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@" "];
     return sanitizedMetricName;
 }
 
