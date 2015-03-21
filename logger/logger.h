@@ -15,6 +15,18 @@
 
 @end
 
+@interface WNGMetric : NSObject
+
+- (id)init:(NSString *)name value:(NSNumber *)value;
+
+@property(nonatomic, strong) NSString *name;
+@property(nonatomic, strong) NSNumber *value;
+@property(nonatomic, strong) NSNumber *timestamp;
+@property(nonatomic, strong) NSString *scope;
+@property(nonatomic, strong) NSString *category;
+
+@end
+
 @interface WNGTimer : NSObject
 
 - (void)init:(NSNumber *)tStart tFinish:(NSNumber *)tFinish;
@@ -73,6 +85,8 @@ extern NSString *const API_HOST_PRODUCTION;
 - (NSUInteger) timerCount;
 
 
+
+
 /**
  Record the start of an operation identified by metricName.
  
@@ -111,7 +125,6 @@ extern NSString *const API_HOST_PRODUCTION;
  @warning `block` must not be `nil`.
  */
 - (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block;
-
 
 /**
  Send an arbitrary metric name and value to the WeblogNG api.

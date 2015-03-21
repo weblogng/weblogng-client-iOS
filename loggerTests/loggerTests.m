@@ -220,6 +220,22 @@ id mockApiConnection;
     assertThat([WNGLogger convertToMetricName:nil], equalTo(@"unknown"));
 }
 
+- (void) test_make_metrics_using_the_minimal_required_data {
+    
+    u_int32_t numMetrics = 10;
+    for(int i = 0; i<numMetrics; i++){
+        NSString* name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
+        NSNumber* value = [NSNumber numberWithInt:arc4random_uniform(1000)];
+        WNGMetric *metric = [[WNGMetric alloc] init:name value:value];
+        
+        assertThat(metric.name, equalTo(name));
+        assertThat(metric.value, equalTo(value));
+        assertThat(metric.timestamp, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
+        assertThat(metric.scope, equalTo(@"application"));
+        assertThat(metric.category, is(nilValue()));
+    }
+}
+
 - (void)test_recordStart_creates_a_timer_and_starts_it {
     WNGTimer *timer = [logger recordStart: @"metric_name"];
     assertThat(timer.tStart, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));

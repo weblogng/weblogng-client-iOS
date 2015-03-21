@@ -261,6 +261,26 @@ NSMutableDictionary *timersByMetricName;
 
 @end
 
+@implementation WNGMetric
+
+@synthesize name = _name;
+@synthesize value = _value;
+@synthesize timestamp = _timestamp;
+@synthesize scope = _scope;
+@synthesize category = _category;
+
+- (id)init:(NSString *)name value:(NSNumber *)value {
+    _name = name;
+    _value = value;
+    _timestamp = [WNGTime epochTimeInMilliseconds];
+    _scope = @"application";
+    _category = nil;
+
+    return self;
+}
+
+@end
+
 @implementation WNGTimer
 
 - (void) init: (NSNumber *)tStart tFinish:(NSNumber *)tFinish {
