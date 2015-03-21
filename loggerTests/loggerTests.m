@@ -231,7 +231,7 @@ id mockApiConnection;
         assertThat(metric.name, equalTo(name));
         assertThat(metric.value, equalTo(value));
         assertThat(metric.timestamp, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
-        assertThat(metric.scope, equalTo(@"application"));
+        assertThat(metric.scope, equalTo(SCOPE_APPLICATION));
         assertThat(metric.category, is(nilValue()));
     }
 }

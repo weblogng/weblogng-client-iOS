@@ -261,6 +261,8 @@ NSMutableDictionary *timersByMetricName;
 
 @end
 
+NSString *const SCOPE_APPLICATION = @"application";
+
 @implementation WNGMetric
 
 @synthesize name = _name;
@@ -273,7 +275,7 @@ NSMutableDictionary *timersByMetricName;
     _name = name;
     _value = value;
     _timestamp = [WNGTime epochTimeInMilliseconds];
-    _scope = @"application";
+    _scope = SCOPE_APPLICATION;
     _category = nil;
 
     return self;

@@ -15,6 +15,8 @@
 
 @end
 
+extern NSString *const SCOPE_APPLICATION;
+
 @interface WNGMetric : NSObject
 
 - (id)init:(NSString *)name value:(NSNumber *)value;
