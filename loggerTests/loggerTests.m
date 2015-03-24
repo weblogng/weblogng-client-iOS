@@ -135,6 +135,40 @@ id mockApiConnection;
     assertThatLongLong(timestamp, closeTo(now, TIMING_THRESHOLD_FOR_NOW_IN_S));
 }
 
+- (void)test_createLogMessage_with_metrics {
+    
+    int numMetrics = 3;
+    NSMutableArray *expectedMetrics = [NSMutableArray arrayWithCapacity:numMetrics];
+    for (int i = 0; i < numMetrics; i++) {
+        WNGMetric *metric = [self makeMetric];
+        [expectedMetrics addObject:metric];
+    }
+    
+    
+    NSData *logMessage = [logger makeLogMessage:expectedMetrics];
+    assertThat(logMessage, isNot(nilValue()));
+    //NSLog(@"logMessage (json): %@", [[NSString alloc] initWithData:logMessage encoding:NSUTF8StringEncoding]);
+    
+    NSError *error;
+    NSDictionary* logMessageDict = [NSJSONSerialization JSONObjectWithData:logMessage
+                                                         options:kNilOptions
+                                                           error:&error];
+    
+    NSArray* actualMetrics = [logMessageDict objectForKey:@"metrics"];
+    assertThatUnsignedInteger([actualMetrics count], equalToUnsignedInt([expectedMetrics count]));
+    
+    for (int i = 0; i < numMetrics; i++) {
+        WNGMetric *expectedMetric = [expectedMetrics objectAtIndex:i];
+        NSDictionary *actualMetric = [actualMetrics objectAtIndex:i];
+        
+        assertThat([actualMetric objectForKey:@"name"], equalTo(expectedMetric.name));
+        assertThat([actualMetric objectForKey:@"value"], equalTo(expectedMetric.value));
+        
+        //NSLog(@"actual value: %@ expected value: %@", [actualMetric objectForKey:@"value"], expectedMetric.value);
+    }
+    
+}
+
 - (void)test_sendMetric_sends_reasonable_messages_to_connection {
     NSString *metricName = @"metricName";
     NSNumber *metricValue = [NSNumber numberWithDouble:1234.5];
@@ -218,6 +252,14 @@ id mockApiConnection;
 
 - (void)test_convertToMetricName_handles_nil_requests {
     assertThat([WNGLogger convertToMetricName:nil], equalTo(@"unknown"));
+}
+
+- (WNGMetric *) makeMetric {
+    NSString* name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
+    NSNumber* value = [NSNumber numberWithInt:arc4random_uniform(1000)];
+    WNGMetric *metric = [[WNGMetric alloc] init:name value:value];
+
+    return metric;
 }
 
 - (void) test_make_metrics_using_the_minimal_required_data {

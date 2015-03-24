@@ -183,6 +183,28 @@ NSMutableDictionary *timersByMetricName;
     }
 }
 
+- (NSData *) makeLogMessage: (NSArray *)metrics {
+
+    NSMutableDictionary *msg = [[NSMutableDictionary alloc] init];
+    
+    if(metrics){
+        NSMutableArray *metricsCopy = [NSMutableArray arrayWithCapacity:[metrics count]];
+        for(WNGMetric * metric in metrics){
+            [metricsCopy addObject:[WNGMetric toDictionary: metric]];
+        }
+        
+        [msg setObject:metricsCopy forKey:@"metrics"];
+    }
+    
+    NSError* error;
+    
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:msg
+                                            options:NSJSONWritingPrettyPrinted
+                                            error:&error];
+    return jsonData;
+}
+
+
 - (WNGTimer *)recordStart:(NSString *)metricName {
     NSParameterAssert(metricName);
     
@@ -279,6 +301,12 @@ NSString *const SCOPE_APPLICATION = @"application";
     _category = nil;
 
     return self;
+}
+
++ (NSDictionary *)toDictionary:(WNGMetric *)metric {
+    return [NSDictionary dictionaryWithObjectsAndKeys:metric.name , @"name",
+     metric.value, @"value",
+    nil];
 }
 
 @end

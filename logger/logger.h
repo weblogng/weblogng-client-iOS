@@ -27,6 +27,8 @@ extern NSString *const SCOPE_APPLICATION;
 @property(nonatomic, strong) NSString *scope;
 @property(nonatomic, strong) NSString *category;
 
++ (NSDictionary *)toDictionary:(WNGMetric *)metric;
+
 @end
 
 @interface WNGTimer : NSObject
@@ -87,6 +89,7 @@ extern NSString *const API_HOST_PRODUCTION;
 - (NSUInteger) timerCount;
 
 
+- (NSData *) makeLogMessage: (NSArray *)metrics;
 
 
 /**
