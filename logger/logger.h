@@ -21,6 +21,11 @@ extern NSString *const SCOPE_APPLICATION;
 
 - (id)init:(NSString *)name value:(NSNumber *)value;
 
+- (id)init:(NSString *)name value:(NSNumber *)value
+ timestamp:(NSNumber *) timestamp
+     scope: (NSString *)scope
+  category: (NSString *) category;
+
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSNumber *value;
 @property(nonatomic, strong) NSNumber *timestamp;

@@ -294,14 +294,22 @@ NSString *const SCOPE_APPLICATION = @"application";
 @synthesize category = _category;
 
 - (id)init:(NSString *)name value:(NSNumber *)value {
+    return [self init:name value:value timestamp:[WNGTime epochTimeInMilliseconds] scope:SCOPE_APPLICATION category:nil];
+}
+
+- (id)init:(NSString *)name value:(NSNumber *)value
+ timestamp:(NSNumber *) timestamp
+     scope: (NSString *)scope
+  category: (NSString *) category {
     _name = name;
     _value = value;
-    _timestamp = [WNGTime epochTimeInMilliseconds];
-    _scope = SCOPE_APPLICATION;
-    _category = nil;
-
+    _timestamp = timestamp;
+    _scope = scope;
+    _category = category;
+    
     return self;
 }
+
 
 + (NSDictionary *)toDictionary:(WNGMetric *)metric {
     return [NSDictionary dictionaryWithObjectsAndKeys:metric.name , @"name",
