@@ -312,9 +312,20 @@ NSString *const SCOPE_APPLICATION = @"application";
 
 
 + (NSDictionary *)toDictionary:(WNGMetric *)metric {
-    return [NSDictionary dictionaryWithObjectsAndKeys:metric.name , @"name",
-     metric.value, @"value",
-    nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:metric.name , @"name",
+                                 metric.value, @"value",
+                                 metric.timestamp, @"timestamp",
+                                 nil];
+    
+    if(metric.scope){
+        [dict setObject:metric.scope forKey:@"scope"];
+    }
+    
+    if(metric.category){
+        [dict setObject:metric.category forKey:@"category"];
+    }
+
+    return dict;
 }
 
 @end

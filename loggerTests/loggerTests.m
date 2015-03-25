@@ -137,11 +137,10 @@ id mockApiConnection;
 
 - (void)test_createLogMessage_with_metrics {
     
-    int numMetrics = 3;
+    int numMetrics = arc4random_uniform(100);
     NSMutableArray *expectedMetrics = [NSMutableArray arrayWithCapacity:numMetrics];
     for (int i = 0; i < numMetrics; i++) {
-        WNGMetric *metric = [self makeMetric];
-        [expectedMetrics addObject:metric];
+        [expectedMetrics addObject:[self makeMetric]];
     }
     
     
@@ -163,10 +162,26 @@ id mockApiConnection;
         
         assertThat([actualMetric objectForKey:@"name"], equalTo(expectedMetric.name));
         assertThat([actualMetric objectForKey:@"value"], equalTo(expectedMetric.value));
+        assertThat([actualMetric objectForKey:@"timestamp"], equalTo(expectedMetric.timestamp));
+
+        if(expectedMetric.scope){
+            assertThat([actualMetric objectForKey:@"scope"], equalTo(expectedMetric.scope));
+        }
+
+        if(expectedMetric.category){
+            assertThat([actualMetric objectForKey:@"category"], equalTo(expectedMetric.category));
+        }
+        
         
         //NSLog(@"actual value: %@ expected value: %@", [actualMetric objectForKey:@"value"], expectedMetric.value);
     }
     
+}
+
+- (void) test_createLogMessage_with_metrics_repeatedly {
+    for(int i = 0; i < 100; i++){
+        [self test_createLogMessage_with_metrics];
+    }
 }
 
 - (void)test_sendMetric_sends_reasonable_messages_to_connection {
@@ -257,9 +272,23 @@ id mockApiConnection;
 - (WNGMetric *) makeMetric {
     NSString* name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
     NSNumber* value = [NSNumber numberWithInt:arc4random_uniform(1000)];
-    WNGMetric *metric = [[WNGMetric alloc] init:name value:value];
-
-    return metric;
+    NSNumber *timestamp = [WNGTime epochTimeInMilliseconds];
+    
+    NSString *scope;
+    if(arc4random_uniform(10) > 5){
+        scope = [NSString stringWithFormat:@"scope %d", arc4random_uniform(1000)];
+    } else {
+        scope = nil;
+    }
+    
+    NSString *category;
+    if(arc4random_uniform(10) > 5){
+        category = [NSString stringWithFormat:@"category %d", arc4random_uniform(1000)];
+    } else {
+        category = nil;
+    }
+    
+    return [[WNGMetric alloc] init:name value:value timestamp:timestamp scope:scope category:category];
 }
 
 - (void)test_recordStart_creates_a_timer_and_starts_it {
