@@ -22,6 +22,106 @@ double epochTimeInMilliseconds() {
     return [[NSDate date] timeIntervalSince1970] * 1000;
 }
 
+@interface WNGMetricTests : XCTestCase
+
+@end
+
+@implementation WNGMetricTests
+
+- (void) test_init_metrics_using_the_minimal_required_data {
+    
+    u_int32_t numMetrics = 10;
+    for(int i = 0; i<numMetrics; i++){
+        NSString* name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
+        NSNumber* value = [NSNumber numberWithInt:arc4random_uniform(1000)];
+        WNGMetric *metric = [[WNGMetric alloc] init:name value:value];
+        
+        assertThat(metric.name, equalTo(name));
+        assertThat(metric.value, equalTo(value));
+        assertThat(metric.timestamp, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
+        assertThat(metric.scope, equalTo(SCOPE_APPLICATION));
+        assertThat(metric.category, is(nilValue()));
+    }
+}
+
+- (void) test_init_metrics_with_all_supported_data {
+    
+    u_int32_t numMetrics = 10;
+    for(int i = 0; i<numMetrics; i++){
+        NSString *name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
+        NSNumber *value = [NSNumber numberWithInt:arc4random_uniform(1000)];
+        NSNumber *timestamp = [WNGTime epochTimeInMilliseconds];
+        NSString *scope = [NSString stringWithFormat:@"scope %d", arc4random_uniform(1000)];
+        NSString *category = [NSString stringWithFormat:@"category %d", arc4random_uniform(1000)];
+        
+        WNGMetric *metric = [[WNGMetric alloc] init:name
+                                              value:value
+                                          timestamp:timestamp
+                                              scope: scope
+                                           category: category];
+        
+        assertThat(metric.name, equalTo(name));
+        assertThat(metric.value, equalTo(value));
+        assertThat(metric.timestamp, equalTo(timestamp));
+        assertThat(metric.scope, equalTo(scope));
+        assertThat(metric.category, equalTo(category));
+    }
+    
+}
+
+- (void) test_toDictionary_converts_metrics_correctly {
+    u_int32_t numMetrics = 1000;
+    for(int i = 0; i<numMetrics; i++){
+        WNGMetric *expectedMetric = [WNGMetricTests makeMetric];
+        NSDictionary *actualDict = [WNGMetric toDictionary:expectedMetric];
+        [WNGMetricTests assertDictionaryRepresentsWNGMetric:actualDict expected:expectedMetric];
+    }
+}
+
++ (WNGMetric *) makeMetric {
+    NSString* name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
+    NSNumber* value = [NSNumber numberWithInt:arc4random_uniform(1000)];
+    NSNumber *timestamp = [WNGTime epochTimeInMilliseconds];
+    
+    NSString *scope;
+    if(arc4random_uniform(10) > 5){
+        scope = [NSString stringWithFormat:@"scope %d", arc4random_uniform(1000)];
+    } else {
+        scope = nil;
+    }
+    
+    NSString *category;
+    if(arc4random_uniform(10) > 5){
+        category = [NSString stringWithFormat:@"category %d", arc4random_uniform(1000)];
+    } else {
+        category = nil;
+    }
+    
+    return [[WNGMetric alloc] init:name value:value timestamp:timestamp scope:scope category:category];
+}
+
++ (void) assertDictionaryRepresentsWNGMetric: (NSDictionary *) actualMetric expected:(WNGMetric *)expectedMetric {
+    assertThat([actualMetric objectForKey:@"name"], equalTo(expectedMetric.name));
+    assertThat([actualMetric objectForKey:@"value"], equalTo(expectedMetric.value));
+    assertThat([actualMetric objectForKey:@"timestamp"], equalTo(expectedMetric.timestamp));
+    
+    NSString *actualScope = [actualMetric objectForKey:@"scope"];
+    if(expectedMetric.scope){
+        assertThat(actualScope, equalTo(expectedMetric.scope));
+    } else {
+        assertThat(actualScope, is(nilValue()));
+    }
+    
+    NSString *actualCategory = [actualMetric objectForKey:@"category"];
+    if(expectedMetric.category){
+        assertThat(actualCategory, equalTo(expectedMetric.category));
+    } else {
+        assertThat(actualCategory, is(nilValue()));
+    }
+}
+
+@end
+
 
 @interface WNGLoggerTests : XCTestCase
 
@@ -140,7 +240,7 @@ id mockApiConnection;
     int numMetrics = arc4random_uniform(100);
     NSMutableArray *expectedMetrics = [NSMutableArray arrayWithCapacity:numMetrics];
     for (int i = 0; i < numMetrics; i++) {
-        [expectedMetrics addObject:[self makeMetric]];
+        [expectedMetrics addObject:[WNGMetricTests makeMetric]];
     }
     
     
@@ -171,6 +271,8 @@ id mockApiConnection;
         if(expectedMetric.category){
             assertThat([actualMetric objectForKey:@"category"], equalTo(expectedMetric.category));
         }
+        
+        [WNGMetricTests assertDictionaryRepresentsWNGMetric:actualMetric expected: expectedMetric];
         
         
         //NSLog(@"actual value: %@ expected value: %@", [actualMetric objectForKey:@"value"], expectedMetric.value);
@@ -267,28 +369,6 @@ id mockApiConnection;
 
 - (void)test_convertToMetricName_handles_nil_requests {
     assertThat([WNGLogger convertToMetricName:nil], equalTo(@"unknown"));
-}
-
-- (WNGMetric *) makeMetric {
-    NSString* name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
-    NSNumber* value = [NSNumber numberWithInt:arc4random_uniform(1000)];
-    NSNumber *timestamp = [WNGTime epochTimeInMilliseconds];
-    
-    NSString *scope;
-    if(arc4random_uniform(10) > 5){
-        scope = [NSString stringWithFormat:@"scope %d", arc4random_uniform(1000)];
-    } else {
-        scope = nil;
-    }
-    
-    NSString *category;
-    if(arc4random_uniform(10) > 5){
-        category = [NSString stringWithFormat:@"category %d", arc4random_uniform(1000)];
-    } else {
-        category = nil;
-    }
-    
-    return [[WNGMetric alloc] init:name value:value timestamp:timestamp scope:scope category:category];
 }
 
 - (void)test_recordStart_creates_a_timer_and_starts_it {
@@ -399,53 +479,6 @@ id mockApiConnection;
 
 @end
 
-@interface WNGMetricTests : XCTestCase
-
-@end
-
-@implementation WNGMetricTests
-
-- (void) test_init_metrics_using_the_minimal_required_data {
-    
-    u_int32_t numMetrics = 10;
-    for(int i = 0; i<numMetrics; i++){
-        NSString* name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
-        NSNumber* value = [NSNumber numberWithInt:arc4random_uniform(1000)];
-        WNGMetric *metric = [[WNGMetric alloc] init:name value:value];
-        
-        assertThat(metric.name, equalTo(name));
-        assertThat(metric.value, equalTo(value));
-        assertThat(metric.timestamp, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
-        assertThat(metric.scope, equalTo(SCOPE_APPLICATION));
-        assertThat(metric.category, is(nilValue()));
-    }
-}
-
-- (void) test_init_metrics_with_all_supported_data {
-    
-    u_int32_t numMetrics = 10;
-    for(int i = 0; i<numMetrics; i++){
-        NSString *name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
-        NSNumber *value = [NSNumber numberWithInt:arc4random_uniform(1000)];
-        NSNumber *timestamp = [WNGTime epochTimeInMilliseconds];
-        NSString *scope = [NSString stringWithFormat:@"scope %d", arc4random_uniform(1000)];
-        NSString *category = [NSString stringWithFormat:@"category %d", arc4random_uniform(1000)];
-        
-        WNGMetric *metric = [[WNGMetric alloc] init:name
-                                              value:value
-                                          timestamp:timestamp
-                                              scope: scope
-                                           category: category];
-        
-        assertThat(metric.name, equalTo(name));
-        assertThat(metric.value, equalTo(value));
-        assertThat(metric.timestamp, equalTo(timestamp));
-        assertThat(metric.scope, equalTo(scope));
-        assertThat(metric.category, equalTo(category));
-    }
-}
-
-@end
 
 @interface WNGTimeTests : XCTestCase
 
