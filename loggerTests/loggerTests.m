@@ -259,22 +259,8 @@ id mockApiConnection;
     for (int i = 0; i < numMetrics; i++) {
         WNGMetric *expectedMetric = [expectedMetrics objectAtIndex:i];
         NSDictionary *actualMetric = [actualMetrics objectAtIndex:i];
-        
-        assertThat([actualMetric objectForKey:@"name"], equalTo(expectedMetric.name));
-        assertThat([actualMetric objectForKey:@"value"], equalTo(expectedMetric.value));
-        assertThat([actualMetric objectForKey:@"timestamp"], equalTo(expectedMetric.timestamp));
 
-        if(expectedMetric.scope){
-            assertThat([actualMetric objectForKey:@"scope"], equalTo(expectedMetric.scope));
-        }
-
-        if(expectedMetric.category){
-            assertThat([actualMetric objectForKey:@"category"], equalTo(expectedMetric.category));
-        }
-        
-        [WNGMetricTests assertDictionaryRepresentsWNGMetric:actualMetric expected: expectedMetric];
-        
-        
+        [WNGMetricTests assertDictionaryRepresentsWNGMetric:actualMetric expected: expectedMetric];        
         //NSLog(@"actual value: %@ expected value: %@", [actualMetric objectForKey:@"value"], expectedMetric.value);
     }
     
