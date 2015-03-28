@@ -17,17 +17,22 @@
 
 extern NSString *const SCOPE_APPLICATION;
 
+extern NSString *const UNIT_MILLISECONDS;
+
 @interface WNGMetric : NSObject
 
 - (id)init:(NSString *)name value:(NSNumber *)value;
 
-- (id)init:(NSString *)name value:(NSNumber *)value
+- (id)init:(NSString *)name
+     value:(NSNumber *)value
+      unit:(NSString *)unit
  timestamp:(NSNumber *) timestamp
      scope: (NSString *)scope
   category: (NSString *) category;
 
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSNumber *value;
+@property(nonatomic, strong) NSString *unit;
 @property(nonatomic, strong) NSNumber *timestamp;
 @property(nonatomic, strong) NSString *scope;
 @property(nonatomic, strong) NSString *category;

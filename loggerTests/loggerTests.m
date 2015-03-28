@@ -38,6 +38,7 @@ double epochTimeInMilliseconds() {
         
         assertThat(metric.name, equalTo(name));
         assertThat(metric.value, equalTo(value));
+        assertThat(metric.unit, equalTo(UNIT_MILLISECONDS));
         assertThat(metric.timestamp, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
         assertThat(metric.scope, equalTo(SCOPE_APPLICATION));
         assertThat(metric.category, is(nilValue()));
@@ -50,18 +51,21 @@ double epochTimeInMilliseconds() {
     for(int i = 0; i<numMetrics; i++){
         NSString *name = [NSString stringWithFormat:@"metric_name_%d", arc4random_uniform(1000)];
         NSNumber *value = [NSNumber numberWithInt:arc4random_uniform(1000)];
+        NSString *unit = [NSString stringWithFormat:@"unit_%d", arc4random_uniform(1000)];
         NSNumber *timestamp = [WNGTime epochTimeInMilliseconds];
         NSString *scope = [NSString stringWithFormat:@"scope %d", arc4random_uniform(1000)];
         NSString *category = [NSString stringWithFormat:@"category %d", arc4random_uniform(1000)];
         
         WNGMetric *metric = [[WNGMetric alloc] init:name
                                               value:value
+                                               unit:unit
                                           timestamp:timestamp
                                               scope: scope
                                            category: category];
         
         assertThat(metric.name, equalTo(name));
         assertThat(metric.value, equalTo(value));
+        assertThat(metric.unit, equalTo(unit));
         assertThat(metric.timestamp, equalTo(timestamp));
         assertThat(metric.scope, equalTo(scope));
         assertThat(metric.category, equalTo(category));
@@ -97,12 +101,13 @@ double epochTimeInMilliseconds() {
         category = nil;
     }
     
-    return [[WNGMetric alloc] init:name value:value timestamp:timestamp scope:scope category:category];
+    return [[WNGMetric alloc] init:name value:value unit:UNIT_MILLISECONDS timestamp:timestamp scope:scope category:category];
 }
 
 + (void) assertDictionaryRepresentsWNGMetric: (NSDictionary *) actualMetric expected:(WNGMetric *)expectedMetric {
     assertThat([actualMetric objectForKey:@"name"], equalTo(expectedMetric.name));
     assertThat([actualMetric objectForKey:@"value"], equalTo(expectedMetric.value));
+    assertThat([actualMetric objectForKey:@"unit"], equalTo(expectedMetric.unit));
     assertThat([actualMetric objectForKey:@"timestamp"], equalTo(expectedMetric.timestamp));
     
     NSString *actualScope = [actualMetric objectForKey:@"scope"];

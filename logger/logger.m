@@ -285,24 +285,30 @@ NSMutableDictionary *timersByMetricName;
 
 NSString *const SCOPE_APPLICATION = @"application";
 
+NSString *const UNIT_MILLISECONDS = @"ms";
+
 @implementation WNGMetric
 
 @synthesize name = _name;
 @synthesize value = _value;
+@synthesize unit = _unit;
 @synthesize timestamp = _timestamp;
 @synthesize scope = _scope;
 @synthesize category = _category;
 
 - (id)init:(NSString *)name value:(NSNumber *)value {
-    return [self init:name value:value timestamp:[WNGTime epochTimeInMilliseconds] scope:SCOPE_APPLICATION category:nil];
+    return [self init:name value:value unit:UNIT_MILLISECONDS timestamp:[WNGTime epochTimeInMilliseconds] scope:SCOPE_APPLICATION category:nil];
 }
 
-- (id)init:(NSString *)name value:(NSNumber *)value
+- (id)init:(NSString *)name
+     value:(NSNumber *)value
+      unit:(NSString *)unit
  timestamp:(NSNumber *) timestamp
      scope: (NSString *)scope
   category: (NSString *) category {
     _name = name;
     _value = value;
+    _unit = unit;
     _timestamp = timestamp;
     _scope = scope;
     _category = category;
@@ -314,6 +320,7 @@ NSString *const SCOPE_APPLICATION = @"application";
 + (NSDictionary *)toDictionary:(WNGMetric *)metric {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:metric.name , @"name",
                                  metric.value, @"value",
+                                 metric.unit, @"unit",
                                  metric.timestamp, @"timestamp",
                                  nil];
     
