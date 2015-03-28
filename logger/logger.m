@@ -187,6 +187,8 @@ NSMutableDictionary *timersByMetricName;
 
     NSMutableDictionary *msg = [[NSMutableDictionary alloc] init];
     
+    [msg setObject:[self apiKey] forKey:@"apiAccessKey"];
+    
     if(metrics){
         NSMutableArray *metricsCopy = [NSMutableArray arrayWithCapacity:[metrics count]];
         for(WNGMetric * metric in metrics){

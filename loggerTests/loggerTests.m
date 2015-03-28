@@ -240,6 +240,21 @@ id mockApiConnection;
     assertThatLongLong(timestamp, closeTo(now, TIMING_THRESHOLD_FOR_NOW_IN_S));
 }
 
+- (void)test_makeLogMessage_includes_apiAccessKey {
+    NSData *logMessage = [logger makeLogMessage:nil];
+    
+    NSError *error;
+    NSDictionary *logMessageDict = [NSJSONSerialization JSONObjectWithData:logMessage
+                                                                   options:kNilOptions
+                                                                     error:&error];
+
+    assertThat(error, is(nilValue()));
+    
+    NSString *actualApiAccessKey = [logMessageDict objectForKey:@"apiAccessKey"];
+    
+    assertThat(actualApiAccessKey, equalTo([logger apiKey]));
+}
+
 - (void)test_makeLogMessage_with_metrics {
     
     int numMetrics = arc4random_uniform(100);
@@ -257,6 +272,7 @@ id mockApiConnection;
     NSDictionary* logMessageDict = [NSJSONSerialization JSONObjectWithData:logMessage
                                                          options:kNilOptions
                                                            error:&error];
+    assertThat(error, is(nilValue()));
     
     NSArray* actualMetrics = [logMessageDict objectForKey:@"metrics"];
     assertThatUnsignedInteger([actualMetrics count], equalToUnsignedInt([expectedMetrics count]));
