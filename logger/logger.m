@@ -194,7 +194,8 @@ NSMutableDictionary *timersByMetricName;
     NSParameterAssert(metricName);
     NSParameterAssert(metricValue);
     
-    [_apiConnection sendMetric:[WNGLogger convertToMetricMessage:_apiKey metricName:metricName metricValue:metricValue]];
+    [self sendMetric:[[WNGMetric alloc] init:metricName value:metricValue]];
+    
     return;
 }
 
@@ -305,7 +306,7 @@ NSMutableDictionary *timersByMetricName;
     WNGTimer *timer = [self recordFinish:metricName];
 
     if(timer){
-        [self sendMetric:metricName metricValue:timer.elapsedTime];
+        [self sendMetric:[[WNGMetric alloc] init:metricName value:timer.elapsedTime]];
         [timersByMetricName removeObjectForKey:metricName];
         return timer;
     }
@@ -379,7 +380,7 @@ NSString *const UNIT_MILLISECONDS = @"ms";
 
 
 + (NSDictionary *)toDictionary:(WNGMetric *)metric {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:metric.name , @"name",
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[WNGLogger sanitizeMetricName:metric.name] , @"name",
                                  metric.value, @"value",
                                  metric.unit, @"unit",
                                  metric.timestamp, @"timestamp",
