@@ -13,6 +13,8 @@
 
 - (void)sendMetric:(NSString *)metricMessagePayload;
 
+- (void)send:(NSData *)logMessage;
+
 @end
 
 extern NSString *const SCOPE_APPLICATION;
@@ -151,6 +153,8 @@ extern NSString *const API_HOST_PRODUCTION;
  @warning `metricValue` must not be `nil`.
  */
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)metricValue;
+
+- (void)sendMetric:(WNGMetric*) metric;
 
 + (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 

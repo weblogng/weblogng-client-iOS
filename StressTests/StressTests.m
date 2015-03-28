@@ -138,7 +138,7 @@ NSString *apiKey;
     apiHost = @"api.weblogng.com";
     apiKey = @"93c5a127-e2a4-42cc-9cc6-cf17fdac8a7f";
 
-    logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey];
+    logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey application:@"WNGLogger FunctionalTests"];
 
 }
 
@@ -147,7 +147,7 @@ NSString *apiKey;
 }
 
 
-- (void)test_sending_metrics_over_http {
+- (void)test_sending_metrics_via_record_api {
 
     for (int numCycles=0; numCycles<3; numCycles++) {
 
@@ -171,6 +171,28 @@ NSString *apiKey;
         NSLog(@"completed record and send cycle %d", numCycles);
     }
 }
+
+- (void)test_sending_metrics_to_v2_log {
+    
+    for (int numCycles=0; numCycles<3; numCycles++) {
+        
+        NSUInteger numMetricsInCycle = 5;
+        
+        for(int i=0; i< numMetricsInCycle; i++){
+            
+            NSString *name = [NSString stringWithFormat:@"WNGLogger - test_sending_metrics_to_v2_log"];
+            NSNumber *value = [NSNumber numberWithInt:(arc4random_uniform(100) + 50)];
+            WNGMetric *metric = [[WNGMetric alloc] init:name value:value];
+
+            [logger sendMetric:metric];
+            usleep(arc4random_uniform(10) * 100 * 1000);
+        }
+        
+        
+        NSLog(@"completed record and send cycle %d", numCycles);
+    }
+}
+
 
 - (void) test_connection_delegate_invokes_success_for_good_url {
     [NSURLConnection wng_enableLogging];

@@ -26,7 +26,12 @@ static dispatch_queue_t api_log_message_send_queue() {
 @implementation WNGLoggerAPIConnection
 
 - (void) sendMetric:(NSString *)metricMessagePayload {
-    NSLog(@"no-oping sendMetric : %@", metricMessagePayload);
+    NSLog(@"no-oping sendMetric: %@", metricMessagePayload);
+    return;
+}
+
+- (void) send:(NSData *) logMessage {
+    NSLog(@"no-oping send: %@", logMessage);
     return;
 }
 
@@ -78,6 +83,36 @@ AFHTTPSessionManager *sessionManager;
 
     return;
 }
+
+- (void) send:(NSData *)logJsonData {
+    
+    dispatch_async(api_log_message_send_queue(), ^{
+        NSString *url = [NSString stringWithFormat:@"https://%@/v2/log", _apiHost];
+        
+        NSError *error;
+        NSDictionary *logMessageDict = [NSJSONSerialization JSONObjectWithData:logJsonData
+                                                                       options:kNilOptions
+                                                                         error:&error];
+        
+        NSLog(@"sending metric to %@ via http POST : %@", url, logMessageDict);
+        
+        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+
+        sessionManager.requestSerializer = requestSerializer;
+        sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        
+        [sessionManager POST:url parameters:logMessageDict success:^(NSURLSessionDataTask *task, id response) {
+            NSLog(@"sessionManager response: %@", response);
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(@"sessionManager error: %@", error);
+        }];
+    });
+    
+    return;
+}
+
 
 - (NSString *)description {
     return [NSString stringWithFormat: @"[WNGLoggerAPIConnectionHTTP apiHost: %@, sessionManager: %@]", _apiHost, sessionManager];
@@ -162,6 +197,25 @@ NSMutableDictionary *timersByMetricName;
     [_apiConnection sendMetric:[WNGLogger convertToMetricMessage:_apiKey metricName:metricName metricValue:metricValue]];
     return;
 }
+
+- (void)sendMetric:(WNGMetric*) metric{
+    NSParameterAssert(metric);
+
+    [self send:[self makeLogMessage:@[metric]]];
+    
+    return;
+}
+
+- (void) send:(NSData*)logMessage{
+    NSParameterAssert(logMessage);
+
+    if(_apiConnection){
+        [_apiConnection send:logMessage];
+    }
+
+    return;
+}
+
 
 + (NSString *) convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue {
     NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",

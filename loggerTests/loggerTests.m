@@ -343,6 +343,18 @@ id mockApiConnection;
     [mockApiConnection verify];
 }
 
+
+- (void)test_sendMetric_sends_logMessage_to_connection {
+    WNGMetric *metric = [WNGMetricTests makeMetric];
+
+    NSData *logMessage = [logger makeLogMessage:@[metric]];
+    [[mockApiConnection expect] send:logMessage];
+    
+    [logger sendMetric:metric];
+    
+    [mockApiConnection verify];
+}
+
 - (void)test_sendMetric_allows_a_metricValue_of_zero {
     NSString *metricName = @"metricName.value.is.zero";
     NSNumber *metricValue = [NSNumber numberWithInt:0];
