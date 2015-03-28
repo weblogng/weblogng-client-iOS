@@ -22,6 +22,10 @@ double epochTimeInMilliseconds() {
     return [[NSDate date] timeIntervalSince1970] * 1000;
 }
 
+BOOL randomBool(){
+    return arc4random_uniform(1000) % 2 == 0;
+}
+
 @interface WNGMetricTests : XCTestCase
 
 @end
@@ -254,6 +258,36 @@ id mockApiConnection;
     
     assertThat(actualApiAccessKey, equalTo([logger apiKey]));
 }
+
+- (void)test_makeLogMessage_includes_context {
+    
+    if(randomBool()){
+        logger.application = [NSString stringWithFormat: @"test app %d", arc4random_uniform(10)];
+    } else {
+        logger.application = nil;
+    }
+    
+    NSData *logMessage = [logger makeLogMessage:nil];
+    //NSLog(@"logMessage (json): %@", [[NSString alloc] initWithData:logMessage encoding:NSUTF8StringEncoding]);
+    
+    NSError *error;
+    NSDictionary *logMessageDict = [NSJSONSerialization JSONObjectWithData:logMessage
+                                                                   options:kNilOptions
+                                                                     error:&error];
+    
+    assertThat(error, is(nilValue()));
+    
+    NSDictionary* actualContext = [logMessageDict objectForKey:@"context"];
+    
+    assertThat([actualContext objectForKey:@"application"], equalTo([logger application]));
+}
+
+- (void) test_makeLogMessage_includes_context_repeatedly {
+    for(int i = 0; i < 100; i++){
+        [self test_makeLogMessage_includes_context];
+    }
+}
+
 
 - (void)test_makeLogMessage_with_metrics {
     

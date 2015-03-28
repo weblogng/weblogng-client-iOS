@@ -187,6 +187,11 @@ NSMutableDictionary *timersByMetricName;
 
     NSMutableDictionary *msg = [[NSMutableDictionary alloc] init];
     
+    NSMutableDictionary *context = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    [self application] , @"application",
+                                    nil];
+    [msg setObject:context forKey:@"context"];
+    
     [msg setObject:[self apiKey] forKey:@"apiAccessKey"];
     
     if(metrics){
@@ -197,7 +202,7 @@ NSMutableDictionary *timersByMetricName;
         
         [msg setObject:metricsCopy forKey:@"metrics"];
     }
-    
+
     NSError* error;
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:msg
