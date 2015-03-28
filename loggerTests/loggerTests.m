@@ -240,7 +240,7 @@ id mockApiConnection;
     assertThatLongLong(timestamp, closeTo(now, TIMING_THRESHOLD_FOR_NOW_IN_S));
 }
 
-- (void)test_createLogMessage_with_metrics {
+- (void)test_makeLogMessage_with_metrics {
     
     int numMetrics = arc4random_uniform(100);
     NSMutableArray *expectedMetrics = [NSMutableArray arrayWithCapacity:numMetrics];
@@ -271,9 +271,9 @@ id mockApiConnection;
     
 }
 
-- (void) test_createLogMessage_with_metrics_repeatedly {
+- (void) test_makeLogMessage_with_metrics_repeatedly {
     for(int i = 0; i < 100; i++){
-        [self test_createLogMessage_with_metrics];
+        [self test_makeLogMessage_with_metrics];
     }
 }
 
