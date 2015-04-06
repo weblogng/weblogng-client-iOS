@@ -13,6 +13,34 @@
 
 - (void)sendMetric:(NSString *)metricMessagePayload;
 
+- (void)send:(NSData *)logMessage;
+
+@end
+
+extern NSString *const SCOPE_APPLICATION;
+
+extern NSString *const UNIT_MILLISECONDS;
+
+@interface WNGMetric : NSObject
+
+- (id)init:(NSString *)name value:(NSNumber *)value;
+
+- (id)init:(NSString *)name
+     value:(NSNumber *)value
+      unit:(NSString *)unit
+ timestamp:(NSNumber *) timestamp
+     scope: (NSString *)scope
+  category: (NSString *) category;
+
+@property(nonatomic, strong) NSString *name;
+@property(nonatomic, strong) NSNumber *value;
+@property(nonatomic, strong) NSString *unit;
+@property(nonatomic, strong) NSNumber *timestamp;
+@property(nonatomic, strong) NSString *scope;
+@property(nonatomic, strong) NSString *category;
+
++ (NSDictionary *)toDictionary:(WNGMetric *)metric;
+
 @end
 
 @interface WNGTimer : NSObject
@@ -45,6 +73,7 @@ extern NSString *const API_HOST_PRODUCTION;
 
 @property(copy) NSString *apiHost;
 @property(copy) NSString *apiKey;
+@property(copy) NSString *application;
 @property(strong) WNGLoggerAPIConnection *apiConnection;
 
 /**
@@ -56,9 +85,23 @@ extern NSString *const API_HOST_PRODUCTION;
  */
 - (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey;
 
+/**
+ Initialize a logger with the provided config.
+ 
+ @param apiHost is the WeblogNG api hostname
+ @param apiKey is an account-specific api key for WeblogNG
+ @param application is the name of the application
+ 
+ */
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey application:(NSString *) application;
+
+
 - (BOOL) hasTimerFor:(NSString *)metricName;
 
 - (NSUInteger) timerCount;
+
+
+- (NSData *) makeLogMessage: (NSArray *)metrics;
 
 
 /**
@@ -100,7 +143,6 @@ extern NSString *const API_HOST_PRODUCTION;
  */
 - (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block;
 
-
 /**
  Send an arbitrary metric name and value to the WeblogNG api.
  
@@ -111,6 +153,8 @@ extern NSString *const API_HOST_PRODUCTION;
  @warning `metricValue` must not be `nil`.
  */
 - (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)metricValue;
+
+- (void)sendMetric:(WNGMetric*) metric;
 
 + (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 

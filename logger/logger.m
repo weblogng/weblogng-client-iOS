@@ -26,7 +26,12 @@ static dispatch_queue_t api_log_message_send_queue() {
 @implementation WNGLoggerAPIConnection
 
 - (void) sendMetric:(NSString *)metricMessagePayload {
-    NSLog(@"no-oping sendMetric : %@", metricMessagePayload);
+    NSLog(@"no-oping sendMetric: %@", metricMessagePayload);
+    return;
+}
+
+- (void) send:(NSData *) logMessage {
+    NSLog(@"no-oping send: %@", logMessage);
     return;
 }
 
@@ -64,7 +69,7 @@ AFHTTPSessionManager *sessionManager;
         NSString *url = [NSString stringWithFormat:@"https://%@/log/http", _apiHost];
         NSDictionary *parameters = @{@"message" : metricMessagePayload};
         
-        NSLog(@"sending metric to %@ via http POST : %@", url, metricMessagePayload);
+        //NSLog(@"sending metric to %@ via http POST : %@", url, metricMessagePayload);
         
         sessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
         sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -78,6 +83,36 @@ AFHTTPSessionManager *sessionManager;
 
     return;
 }
+
+- (void) send:(NSData *)logJsonData {
+    
+    dispatch_async(api_log_message_send_queue(), ^{
+        NSString *url = [NSString stringWithFormat:@"https://%@/v2/log", _apiHost];
+        
+        NSError *error;
+        NSDictionary *logMessageDict = [NSJSONSerialization JSONObjectWithData:logJsonData
+                                                                       options:kNilOptions
+                                                                         error:&error];
+        
+        //NSLog(@"sending metric to %@ via http POST : %@", url, logMessageDict);
+        
+        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+
+        sessionManager.requestSerializer = requestSerializer;
+        sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        
+        [sessionManager POST:url parameters:logMessageDict success:^(NSURLSessionDataTask *task, id response) {
+            NSLog(@"sessionManager response: %@", response);
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(@"sessionManager error: %@", error);
+        }];
+    });
+    
+    return;
+}
+
 
 - (NSString *)description {
     return [NSString stringWithFormat: @"[WNGLoggerAPIConnectionHTTP apiHost: %@, sessionManager: %@]", _apiHost, sessionManager];
@@ -112,27 +147,34 @@ NSMutableDictionary *timersByMetricName;
     sharedLogger = nil;
 }
 
-- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey application:(NSString *)application{
     self = [super init];
     timersByMetricName = [[NSMutableDictionary alloc] init];
     _apiHost = apiHost;
     _apiKey = apiKey;
-
+    _application = application;
+    
     if(_apiHost){
         _apiConnection = [[WNGLoggerAPIConnectionHTTP alloc] initWithConfig:_apiHost];
     }
-
+    
+    
     NSLog(@"Initialized %@", self);
-
+    
     return self;
 }
 
+- (id)initWithConfig:(NSString *)apiHost apiKey:(NSString *)apiKey {
+    return [self initWithConfig:apiHost apiKey:apiKey application:nil];
+}
+
 - (id)init {
-    return [self initWithConfig:nil apiKey:nil];
+    return [self initWithConfig:nil apiKey:nil application:nil];
 }
 
 @synthesize apiHost = _apiHost;
 @synthesize apiKey = _apiKey;
+@synthesize application = _application;
 @synthesize apiConnection = _apiConnection;
 
 - (BOOL)hasTimerFor:(NSString *)metricName {
@@ -144,16 +186,37 @@ NSMutableDictionary *timersByMetricName;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat: @"[Logger apiHost: %@, apiKey: %@]", _apiHost, _apiKey];
+    return [NSString stringWithFormat: @"[Logger apiHost: %@, apiKey: %@, application: %@]",
+            _apiHost, _apiKey, _application];
 }
 
 - (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)metricValue {
     NSParameterAssert(metricName);
     NSParameterAssert(metricValue);
     
-    [_apiConnection sendMetric:[WNGLogger convertToMetricMessage:_apiKey metricName:metricName metricValue:metricValue]];
+    [self sendMetric:[[WNGMetric alloc] init:metricName value:metricValue]];
+    
     return;
 }
+
+- (void)sendMetric:(WNGMetric*) metric{
+    NSParameterAssert(metric);
+
+    [self send:[self makeLogMessage:@[metric]]];
+    
+    return;
+}
+
+- (void) send:(NSData*)logMessage{
+    NSParameterAssert(logMessage);
+
+    if(_apiConnection){
+        [_apiConnection send:logMessage];
+    }
+
+    return;
+}
+
 
 + (NSString *) convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue {
     NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",
@@ -167,13 +230,42 @@ NSMutableDictionary *timersByMetricName;
         NSURL *url = [request URL];
         NSString *host = [url host];
         NSString *method = [request  HTTPMethod];
-        NSString *metricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"%@-%@", host, method]];
+        NSString *metricName = [WNGLogger sanitizeMetricName: [NSString stringWithFormat:@"%@ %@", method, host]];
         
         return metricName;
     } else {
         return @"unknown";
     }
 }
+
+- (NSData *) makeLogMessage: (NSArray *)metrics {
+
+    NSMutableDictionary *msg = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary *context = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    [self application] , @"application",
+                                    nil];
+    [msg setObject:context forKey:@"context"];
+    
+    [msg setObject:[self apiKey] forKey:@"apiAccessKey"];
+    
+    if(metrics){
+        NSMutableArray *metricsCopy = [NSMutableArray arrayWithCapacity:[metrics count]];
+        for(WNGMetric * metric in metrics){
+            [metricsCopy addObject:[WNGMetric toDictionary: metric]];
+        }
+        
+        [msg setObject:metricsCopy forKey:@"metrics"];
+    }
+
+    NSError* error;
+    
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:msg
+                                            options:NSJSONWritingPrettyPrinted
+                                            error:&error];
+    return jsonData;
+}
+
 
 - (WNGTimer *)recordStart:(NSString *)metricName {
     NSParameterAssert(metricName);
@@ -199,12 +291,12 @@ NSMutableDictionary *timersByMetricName;
 }
 
 + (NSString *) sanitizeMetricName:(NSString *)metricName {
-    NSString *pattern = @"[^\\w\\d_-]";
+    NSString *pattern = @"[^\\w\\d\\:\\?\\=\\/\\\\._\\-\%]+";
     NSError *error = NULL;
     NSRegularExpressionOptions regexOptions = NSRegularExpressionCaseInsensitive;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options: regexOptions error:&error];
     NSRange replacementRange = NSMakeRange(0, metricName.length);
-    NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@"_"];
+    NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@" "];
     return sanitizedMetricName;
 }
 
@@ -214,7 +306,7 @@ NSMutableDictionary *timersByMetricName;
     WNGTimer *timer = [self recordFinish:metricName];
 
     if(timer){
-        [self sendMetric:metricName metricValue:timer.elapsedTime];
+        [self sendMetric:[[WNGMetric alloc] init:metricName value:timer.elapsedTime]];
         [timersByMetricName removeObjectForKey:metricName];
         return timer;
     }
@@ -249,6 +341,60 @@ NSMutableDictionary *timersByMetricName;
     long long seconds = ((long long) time.tv_sec);
     
     return [NSNumber numberWithLongLong: seconds];
+}
+
+@end
+
+NSString *const SCOPE_APPLICATION = @"application";
+
+NSString *const UNIT_MILLISECONDS = @"ms";
+
+@implementation WNGMetric
+
+@synthesize name = _name;
+@synthesize value = _value;
+@synthesize unit = _unit;
+@synthesize timestamp = _timestamp;
+@synthesize scope = _scope;
+@synthesize category = _category;
+
+- (id)init:(NSString *)name value:(NSNumber *)value {
+    return [self init:name value:value unit:UNIT_MILLISECONDS timestamp:[WNGTime epochTimeInMilliseconds] scope:SCOPE_APPLICATION category:nil];
+}
+
+- (id)init:(NSString *)name
+     value:(NSNumber *)value
+      unit:(NSString *)unit
+ timestamp:(NSNumber *) timestamp
+     scope: (NSString *)scope
+  category: (NSString *) category {
+    _name = name;
+    _value = value;
+    _unit = unit;
+    _timestamp = timestamp;
+    _scope = scope;
+    _category = category;
+    
+    return self;
+}
+
+
++ (NSDictionary *)toDictionary:(WNGMetric *)metric {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[WNGLogger sanitizeMetricName:metric.name] , @"name",
+                                 metric.value, @"value",
+                                 metric.unit, @"unit",
+                                 metric.timestamp, @"timestamp",
+                                 nil];
+    
+    if(metric.scope){
+        [dict setObject:metric.scope forKey:@"scope"];
+    }
+    
+    if(metric.category){
+        [dict setObject:metric.category forKey:@"category"];
+    }
+
+    return dict;
 }
 
 @end
