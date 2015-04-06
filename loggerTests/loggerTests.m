@@ -377,29 +377,6 @@ id mockApiConnection;
     assertThat(actualMetricName, equalTo(expectedMetricName));
 }
 
-
-- (void)test_sendMetric_sends_reasonable_messages_to_connection {
-    WNGMetric *metric = [WNGMetricTests makeMetric];
-    
-    [[mockApiConnection expect] send:[OCMArg checkWithBlock:^ BOOL(id value) {
-        NSError *error;
-        NSDictionary* logMessageDict = [NSJSONSerialization JSONObjectWithData:value
-                                                                       options:kNilOptions
-                                                                         error:&error];
-        
-        NSArray* actualMetrics = [logMessageDict objectForKey:@"metrics"];
-
-        NSDictionary *actualMetric = [actualMetrics objectAtIndex:0];
-        
-        return [metric.name isEqualToString:[actualMetric objectForKey:@"name"]];
-    }]];
-
-    [logger sendMetric:metric.name metricValue:metric.value];
-    
-    [mockApiConnection verify];
-}
-
-
 - (void)test_sendMetric_sends_logMessage_to_connection {
     WNGMetric *metric = [WNGMetricTests makeMetric];
 

@@ -190,15 +190,6 @@ NSMutableDictionary *timersByMetricName;
             _apiHost, _apiKey, _application];
 }
 
-- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)metricValue {
-    NSParameterAssert(metricName);
-    NSParameterAssert(metricValue);
-    
-    [self sendMetric:[[WNGMetric alloc] init:metricName value:metricValue]];
-    
-    return;
-}
-
 - (void)sendMetric:(WNGMetric*) metric{
     NSParameterAssert(metric);
 
