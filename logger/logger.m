@@ -69,7 +69,7 @@ AFHTTPSessionManager *sessionManager;
         NSString *url = [NSString stringWithFormat:@"https://%@/log/http", _apiHost];
         NSDictionary *parameters = @{@"message" : metricMessagePayload};
         
-        NSLog(@"sending metric to %@ via http POST : %@", url, metricMessagePayload);
+        //NSLog(@"sending metric to %@ via http POST : %@", url, metricMessagePayload);
         
         sessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
         sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -94,7 +94,7 @@ AFHTTPSessionManager *sessionManager;
                                                                        options:kNilOptions
                                                                          error:&error];
         
-        NSLog(@"sending metric to %@ via http POST : %@", url, logMessageDict);
+        //NSLog(@"sending metric to %@ via http POST : %@", url, logMessageDict);
         
         AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
