@@ -209,13 +209,6 @@ NSMutableDictionary *timersByMetricName;
 }
 
 
-+ (NSString *) convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue {
-    NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",
-                         apiKey, [WNGLogger sanitizeMetricName:metricName], [metricValue stringValue],
-                         [WNGTime epochTimeInSeconds]];
-    return message;
-}
-
 + (NSString *)convertToMetricName: (NSURLRequest *)request {
     if(request){
         NSURL *url = [request URL];

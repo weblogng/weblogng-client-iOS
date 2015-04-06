@@ -153,8 +153,6 @@ extern NSString *const API_HOST_PRODUCTION;
  */
 - (void)sendMetric:(WNGMetric*) metric;
 
-+ (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
-
 /**
  Converts the provided request to a metric name of the form <sanitized url host name>-<HTTP method>, 
  e.g. api_weblogng_com-POST.
