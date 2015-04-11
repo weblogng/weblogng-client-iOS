@@ -130,10 +130,11 @@ NSString *const API_HOST_PRODUCTION = @"api.weblogng.com";
 
 NSMutableDictionary *timersByMetricName;
 
-+ (WNGLogger *)initSharedLogger:(NSString *)apiKey {
++ (WNGLogger *)initSharedLogger:(NSString *)apiKey application:(NSString *) application{
     if(!sharedLogger){
         NSParameterAssert(apiKey);
-        sharedLogger = [[WNGLogger alloc] initWithConfig:API_HOST_PRODUCTION apiKey:apiKey];
+        NSParameterAssert(application);
+        sharedLogger = [[WNGLogger alloc] initWithConfig:API_HOST_PRODUCTION apiKey:apiKey application:application];
     }
     
     return sharedLogger;
