@@ -35,7 +35,7 @@ Integrating client project
 
 1. sign-up for [WeblogNG](https://www.weblogng.com)
 2. add the WNGLogger header file
-3. instantiate the Logger object using your api key
+3. instantiate the Logger object using your api key and application name
 	1. find or generate an api key on your WeblogNG [account page](https://www.weblogng.com/app/account.html)
 	2. recommendation: Store the sharedLogger in a convenient place to make it easy to use throughout the application
 4. send metrics with the values recorded by your application
@@ -54,7 +54,7 @@ Here is some example code taken from the (super-simple) [WeblogNG iOS Sample App
 {
     NSString *apiKey = @"specify your api key here";
 
-    [WNGLogger initSharedLogger:apiKey];
+    [WNGLogger initSharedLogger:apiKey application:@"specify your application name here"];
     //enable automatic measurement of http requests!
     [NSURLConnection wng_enableLogging];
 
