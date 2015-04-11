@@ -27,8 +27,8 @@
  */
 @interface LoggingConnectionDelegate : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
-@property (nonatomic) id <NSURLConnectionDelegate> actualDelegate;
-@property (nonatomic) WNGTimer *timer;
+@property (nonatomic, retain) id <NSURLConnectionDelegate> actualDelegate;
+@property (nonatomic, retain) WNGTimer *timer;
 
 /**
  * initalize the LoggingConnectionDelegate with an actual delegate to compose.

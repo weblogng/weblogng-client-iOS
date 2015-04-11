@@ -130,6 +130,7 @@ typedef void (^ResultHandlingBlock)(void);
 WNGLogger *logger;
 NSString *apiHost;
 NSString *apiKey;
+NSString *application;
 
 - (void)setUp {
     [super setUp];
@@ -137,6 +138,7 @@ NSString *apiKey;
     
     apiHost = @"api.weblogng.com";
     apiKey = @"93c5a127-e2a4-42cc-9cc6-cf17fdac8a7f";
+    application = @"WNGLogger FunctionalTests";
 
     logger = [[WNGLogger alloc] initWithConfig:apiHost apiKey:apiKey application:@"WNGLogger FunctionalTests"];
 
@@ -249,7 +251,7 @@ NSString *apiKey;
 
 - (void) test_timing_recorded_for_a_synchronous_request {
     [WNGLogger resetSharedLogger];
-    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey];
+    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey application:application];
     assertThat(logger, isNot(nilValue()));
     
     //end setup
@@ -266,7 +268,7 @@ NSString *apiKey;
 
 - (void) test_timing_recorded_for_a_asynchronous_request {
     [WNGLogger resetSharedLogger];
-    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey];
+    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey application:application];
     assertThat(logger, isNot(nilValue()));
     
     //end setup

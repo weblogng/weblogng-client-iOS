@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "WNGLogger"
-  s.version      = "0.8.1"
+  s.version      = "0.9.0"
   s.summary      = "WNGLogger is an iOS client library to record and log metric data to Weblog-NG."
 
   s.description  = <<-DESC
@@ -15,12 +15,13 @@ Pod::Spec.new do |s|
 
   s.authors       = { "Stephen Kuenzli" => "skuenzli@weblogng.com" }
 
-  s.platform     = :ios, '6.0'
+  s.platform     = :ios, '8.0'
 
-  s.source       = { :git => "https://github.com/weblogng/weblogng-client-iOS.git", :tag => "0.8.1" }
+  s.source       = { :git => "https://github.com/weblogng/weblogng-client-iOS.git", :tag => "0.9.0" }
 
   s.source_files  = 'logger/*.{h,m}'
 
-  s.dependency "AFNetworking", "~> 2.0"
+  s.dependency "AFNetworking", "~> 2.4"
+  s.dependency "JRSwizzle", "~> 1.0"
 
 end
