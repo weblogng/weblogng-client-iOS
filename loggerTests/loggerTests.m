@@ -77,10 +77,43 @@ BOOL randomBool(){
     
 }
 
+- (void) test_init_uses_provided_data_even_if_nil {
+    WNGMetric *metric = [[WNGMetric alloc] init: nil
+                                          value: nil
+                                           unit: nil
+                                      timestamp: nil
+                                          scope: nil
+                                       category: nil];
+    
+    assertThat(metric.name, is(nilValue()));
+    assertThat(metric.value, is(nilValue()));
+    assertThat(metric.unit, is(nilValue()));
+    assertThat(metric.timestamp, is(nilValue()));
+    assertThat(metric.scope, is(nilValue()));
+    assertThat(metric.category, is(nilValue()));
+}
+
+
 - (void) test_toDictionary_converts_metrics_correctly {
     u_int32_t numMetrics = 1000;
     for(int i = 0; i<numMetrics; i++){
         WNGMetric *expectedMetric = [WNGMetricTests makeMetric];
+        NSDictionary *actualDict = [WNGMetric toDictionary:expectedMetric];
+        [WNGMetricTests assertDictionaryRepresentsWNGMetric:actualDict expected:expectedMetric];
+    }
+}
+
+
+- (void) test_toDictionary_handles_silly_nil_metrics {
+    u_int32_t numMetrics = 1000;
+    for(int i = 0; i<numMetrics; i++){
+        WNGMetric *expectedMetric = [[WNGMetric alloc] init: nil
+                                              value: nil
+                                               unit: nil
+                                          timestamp: nil
+                                              scope: nil
+                                           category: nil];
+
         NSDictionary *actualDict = [WNGMetric toDictionary:expectedMetric];
         [WNGMetricTests assertDictionaryRepresentsWNGMetric:actualDict expected:expectedMetric];
     }
@@ -384,6 +417,11 @@ id mockApiConnection;
         assertThat(actualMetricName, equalTo(expectedMetricName));
     }
 }
+
+- (void)test_sanitizeMetricName_handles_nil {
+        assertThat([WNGLogger sanitizeMetricName: nil], is(nilValue()));
+}
+
 
 - (void)test_convertToMetricName_builds_a_metric_name_from_provided_request_GET {
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.weblogng.com/some/service"]];

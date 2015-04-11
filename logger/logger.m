@@ -275,13 +275,17 @@ NSMutableDictionary *timersByMetricName;
 }
 
 + (NSString *) sanitizeMetricName:(NSString *)metricName {
-    NSString *pattern = @"[^\\w\\d\\:\\?\\=\\/\\\\._\\-\%]+";
-    NSError *error = NULL;
-    NSRegularExpressionOptions regexOptions = NSRegularExpressionCaseInsensitive;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options: regexOptions error:&error];
-    NSRange replacementRange = NSMakeRange(0, metricName.length);
-    NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@" "];
-    return sanitizedMetricName;
+    if(metricName){
+        NSString *pattern = @"[^\\w\\d\\:\\?\\=\\/\\\\._\\-\%]+";
+        NSError *error = NULL;
+        NSRegularExpressionOptions regexOptions = NSRegularExpressionCaseInsensitive;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options: regexOptions error:&error];
+        NSRange replacementRange = NSMakeRange(0, metricName.length);
+        NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@" "];
+        return sanitizedMetricName;
+    } else {
+        return nil;
+    }
 }
 
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName {
