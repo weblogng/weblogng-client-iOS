@@ -190,11 +190,12 @@ extern NSString *const API_HOST_PRODUCTION;
  * api host will be set to the production WeblogNG service.
  * 
  * @param apiKey is the WeblogNG api key to use for logging
+ * @param application is the name of the application
  * @return an initialzed WNGLogger instance
  *
  * @warning `apiKey` must not be `nil`.
  */
-+ (WNGLogger *)initSharedLogger:(NSString *)apiKey;
++ (WNGLogger *)initSharedLogger:(NSString *)apiKey application:(NSString *) application;
 
 /**
  * Gets the sharedLogger, if one has been initialized.  Initialize the sharedLoger with initSharedLogger.

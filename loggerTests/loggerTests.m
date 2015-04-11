@@ -527,7 +527,7 @@ id mockApiConnection;
     //test initial state, init, and reset
     assertThat([WNGLogger sharedLogger], is(nilValue()));
 
-    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey];
+    WNGLogger *logger = [WNGLogger initSharedLogger:apiKey application:application];
     assertThat([logger apiHost], isNot(nil));
     assertThat([logger apiKey], equalTo(apiKey));
     
@@ -535,8 +535,8 @@ id mockApiConnection;
     assertThat([WNGLogger sharedLogger], is(nilValue()));
     
     //test repeated calls to init return the same logger
-    logger = [WNGLogger initSharedLogger:apiKey];
-    assertThat(logger, equalTo([WNGLogger initSharedLogger:apiKey]));
+    logger = [WNGLogger initSharedLogger:apiKey application:application];
+    assertThat(logger, equalTo([WNGLogger initSharedLogger:apiKey application:application]));
 }
 
 @end
