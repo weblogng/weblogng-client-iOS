@@ -23,8 +23,28 @@ extern NSString *const UNIT_MILLISECONDS;
 
 @interface WNGMetric : NSObject
 
+/**
+ Create a WNGMetric initialized with the provided name and value, other metric properties will default to:
+ 
+ * timestamp: defaults to `now`
+ * scope: defaults to SCOPE_APPLICATION
+ * category: defaults to `nil`
+ 
+ @param name is the metric name
+ @param value is the metric value; default unit is milliseconds
+ */
 - (id)init:(NSString *)name value:(NSNumber *)value;
 
+/**
+ Create a WNGMetric initialized with the provided values.
+ 
+ @param name is the metric name
+ @param value is the metric value
+ @param unit is the unit of measure for the value; defaults to `nil`
+ @param timestamp the epoch time in milliseconds at which the metric occurred; defaults to `nil`
+ @param scope describes the scope or object the measurement is related to; defaults to `nil`
+ @param category describes the category to which the measurement belongs, e.g. 'http request'; defaults to `nil`
+ */
 - (id)init:(NSString *)name
      value:(NSNumber *)value
       unit:(NSString *)unit
