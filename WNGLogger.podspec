@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "WNGLogger"
-  s.version      = "0.9.1"
+  s.version      = "0.9.2"
   s.summary      = "WNGLogger is an iOS client library to record and log metric data to Weblog-NG."
 
   s.description  = <<-DESC
