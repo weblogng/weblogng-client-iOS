@@ -41,7 +41,7 @@
     if(logger)
     {
         NSString *metricName = [WNGLogger convertToMetricName:[connection currentRequest]];
-        [logger sendMetric:metricName metricValue:timer.elapsedTime];
+        [logger sendMetric:[[WNGMetric alloc] init:metricName value:timer.elapsedTime]];
     }
 
     if ([self.actualDelegate respondsToSelector:@selector(connection:didFailWithError:)])
@@ -116,7 +116,7 @@
     if(logger)
     {
         NSString *metricName = [WNGLogger convertToMetricName:[connection currentRequest]];
-        [logger sendMetric:metricName metricValue:timer.elapsedTime];
+        [logger sendMetric:[[WNGMetric alloc] init:metricName value:timer.elapsedTime]];
     }
     
     
@@ -226,7 +226,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     if(logger){
         [timer finish];
         NSString *metricName = [WNGLogger convertToMetricName:request];
-        [logger sendMetric:metricName metricValue:timer.elapsedTime];
+        [logger sendMetric:[[WNGMetric alloc] init:metricName value:timer.elapsedTime]];
     }
     
     return responseData;

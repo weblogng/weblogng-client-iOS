@@ -190,15 +190,6 @@ NSMutableDictionary *timersByMetricName;
             _apiHost, _apiKey, _application];
 }
 
-- (void) sendMetric: (NSString *) metricName metricValue:(NSNumber *)metricValue {
-    NSParameterAssert(metricName);
-    NSParameterAssert(metricValue);
-    
-    [self sendMetric:[[WNGMetric alloc] init:metricName value:metricValue]];
-    
-    return;
-}
-
 - (void)sendMetric:(WNGMetric*) metric{
     NSParameterAssert(metric);
 
@@ -217,13 +208,6 @@ NSMutableDictionary *timersByMetricName;
     return;
 }
 
-
-+ (NSString *) convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue {
-    NSString *message = [NSString stringWithFormat:@"v1.metric %@ %@ %@ %@",
-                         apiKey, [WNGLogger sanitizeMetricName:metricName], [metricValue stringValue],
-                         [WNGTime epochTimeInSeconds]];
-    return message;
-}
 
 + (NSString *)convertToMetricName: (NSURLRequest *)request {
     if(request){
@@ -291,13 +275,17 @@ NSMutableDictionary *timersByMetricName;
 }
 
 + (NSString *) sanitizeMetricName:(NSString *)metricName {
-    NSString *pattern = @"[^\\w\\d\\:\\?\\=\\/\\\\._\\-\%]+";
-    NSError *error = NULL;
-    NSRegularExpressionOptions regexOptions = NSRegularExpressionCaseInsensitive;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options: regexOptions error:&error];
-    NSRange replacementRange = NSMakeRange(0, metricName.length);
-    NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@" "];
-    return sanitizedMetricName;
+    if(metricName){
+        NSString *pattern = @"[^\\w\\d\\:\\?\\=\\/\\\\._\\-\%]+";
+        NSError *error = NULL;
+        NSRegularExpressionOptions regexOptions = NSRegularExpressionCaseInsensitive;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options: regexOptions error:&error];
+        NSRange replacementRange = NSMakeRange(0, metricName.length);
+        NSString *sanitizedMetricName = [regex stringByReplacingMatchesInString:metricName options:0 range:replacementRange withTemplate:@" "];
+        return sanitizedMetricName;
+    } else {
+        return nil;
+    }
 }
 
 - (WNGTimer *)recordFinishAndSendMetric:(NSString *)metricName {
@@ -345,9 +333,9 @@ NSMutableDictionary *timersByMetricName;
 
 @end
 
-NSString *const SCOPE_APPLICATION = @"application";
+NSString *const WNG_SCOPE_APPLICATION = @"application";
 
-NSString *const UNIT_MILLISECONDS = @"ms";
+NSString *const WNG_UNIT_MILLISECONDS = @"ms";
 
 @implementation WNGMetric
 
@@ -359,7 +347,7 @@ NSString *const UNIT_MILLISECONDS = @"ms";
 @synthesize category = _category;
 
 - (id)init:(NSString *)name value:(NSNumber *)value {
-    return [self init:name value:value unit:UNIT_MILLISECONDS timestamp:[WNGTime epochTimeInMilliseconds] scope:SCOPE_APPLICATION category:nil];
+    return [self init:name value:value unit:WNG_UNIT_MILLISECONDS timestamp:[WNGTime epochTimeInMilliseconds] scope:WNG_SCOPE_APPLICATION category:nil];
 }
 
 - (id)init:(NSString *)name

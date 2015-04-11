@@ -17,14 +17,34 @@
 
 @end
 
-extern NSString *const SCOPE_APPLICATION;
+extern NSString *const WNG_SCOPE_APPLICATION;
 
-extern NSString *const UNIT_MILLISECONDS;
+extern NSString *const WNG_UNIT_MILLISECONDS;
 
 @interface WNGMetric : NSObject
 
+/**
+ Create a WNGMetric initialized with the provided name and value, other metric properties will default to:
+ 
+ * timestamp: defaults to `now`
+ * scope: defaults to SCOPE_APPLICATION
+ * category: defaults to `nil`
+ 
+ @param name is the metric name
+ @param value is the metric value; default unit is milliseconds
+ */
 - (id)init:(NSString *)name value:(NSNumber *)value;
 
+/**
+ Create a WNGMetric initialized with the provided values.
+ 
+ @param name is the metric name
+ @param value is the metric value
+ @param unit is the unit of measure for the value; defaults to `nil`
+ @param timestamp the epoch time in milliseconds at which the metric occurred; defaults to `nil`
+ @param scope describes the scope or object the measurement is related to; defaults to `nil`
+ @param category describes the category to which the measurement belongs, e.g. 'http request'; defaults to `nil`
+ */
 - (id)init:(NSString *)name
      value:(NSNumber *)value
       unit:(NSString *)unit
@@ -143,20 +163,15 @@ extern NSString *const API_HOST_PRODUCTION;
  */
 - (WNGTimer *)executeWithTiming:(NSString*)metricName aBlock:(void(^)())block;
 
+
 /**
- Send an arbitrary metric name and value to the WeblogNG api.
+ Send a WNGMetric to the WeblogNG api
  
- @param metricName identifies the metric
- @param metricValue is the value to record
+ @param metric is the WNGMetric to send
  
- @warning `metricName` must not be `nil`.
- @warning `metricValue` must not be `nil`.
+ @warning `metric` must not be `nil`
  */
-- (void)sendMetric:(NSString *)metricName metricValue:(NSNumber *)metricValue;
-
 - (void)sendMetric:(WNGMetric*) metric;
-
-+ (NSString *)convertToMetricMessage: (NSString *)apiKey metricName:(NSString *)metricName metricValue:(NSNumber *)metricValue;
 
 /**
  Converts the provided request to a metric name of the form <sanitized url host name>-<HTTP method>, 
