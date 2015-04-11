@@ -53,8 +53,9 @@ Here is some example code taken from the (super-simple) [WeblogNG iOS Sample App
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSString *apiKey = @"specify your api key here";
+    NSString *application = @"specify your application name here";
 
-    [WNGLogger initSharedLogger:apiKey application:@"specify your application name here"];
+    [WNGLogger initSharedLogger:apiKey application:application];
     //enable automatic measurement of http requests!
     [NSURLConnection wng_enableLogging];
 
