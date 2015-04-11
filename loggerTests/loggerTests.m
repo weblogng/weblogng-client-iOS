@@ -42,9 +42,9 @@ BOOL randomBool(){
         
         assertThat(metric.name, equalTo(name));
         assertThat(metric.value, equalTo(value));
-        assertThat(metric.unit, equalTo(UNIT_MILLISECONDS));
+        assertThat(metric.unit, equalTo(WNG_UNIT_MILLISECONDS));
         assertThat(metric.timestamp, closeTo(epochTimeInMilliseconds(), TIMING_THRESHOLD_FOR_NOW_IN_MS));
-        assertThat(metric.scope, equalTo(SCOPE_APPLICATION));
+        assertThat(metric.scope, equalTo(WNG_SCOPE_APPLICATION));
         assertThat(metric.category, is(nilValue()));
     }
 }
@@ -138,7 +138,7 @@ BOOL randomBool(){
         category = nil;
     }
     
-    return [[WNGMetric alloc] init:name value:value unit:UNIT_MILLISECONDS timestamp:timestamp scope:scope category:category];
+    return [[WNGMetric alloc] init:name value:value unit:WNG_UNIT_MILLISECONDS timestamp:timestamp scope:scope category:category];
 }
 
 + (void) assertDictionaryRepresentsWNGMetric: (NSDictionary *) actualMetric expected:(WNGMetric *)expectedMetric {

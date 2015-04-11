@@ -333,9 +333,9 @@ NSMutableDictionary *timersByMetricName;
 
 @end
 
-NSString *const SCOPE_APPLICATION = @"application";
+NSString *const WNG_SCOPE_APPLICATION = @"application";
 
-NSString *const UNIT_MILLISECONDS = @"ms";
+NSString *const WNG_UNIT_MILLISECONDS = @"ms";
 
 @implementation WNGMetric
 
@@ -347,7 +347,7 @@ NSString *const UNIT_MILLISECONDS = @"ms";
 @synthesize category = _category;
 
 - (id)init:(NSString *)name value:(NSNumber *)value {
-    return [self init:name value:value unit:UNIT_MILLISECONDS timestamp:[WNGTime epochTimeInMilliseconds] scope:SCOPE_APPLICATION category:nil];
+    return [self init:name value:value unit:WNG_UNIT_MILLISECONDS timestamp:[WNGTime epochTimeInMilliseconds] scope:WNG_SCOPE_APPLICATION category:nil];
 }
 
 - (id)init:(NSString *)name

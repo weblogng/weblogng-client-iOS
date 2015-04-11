@@ -17,9 +17,9 @@
 
 @end
 
-extern NSString *const SCOPE_APPLICATION;
+extern NSString *const WNG_SCOPE_APPLICATION;
 
-extern NSString *const UNIT_MILLISECONDS;
+extern NSString *const WNG_UNIT_MILLISECONDS;
 
 @interface WNGMetric : NSObject
 
