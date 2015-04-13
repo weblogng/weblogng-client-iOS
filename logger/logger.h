@@ -3,8 +3,7 @@
 //
 //  The logger header contains the central interfaces of the WeblogNG client library.
 //
-//  Created by Stephen Kuenzli on 11/23/13.
-//  Copyright (c) 2013, 2014 WeblogNG. All rights reserved.
+//  Copyright (c) 2013-2015 WeblogNG. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -63,6 +62,9 @@ extern NSString *const WNG_UNIT_MILLISECONDS;
 
 @end
 
+/**
+ WNGTimer models a stopwatch-like timer and collaborates with WNGLogger to measure the elapsed time of operations.
+ */
 @interface WNGTimer : NSObject
 
 - (void)init:(NSNumber *)tStart tFinish:(NSNumber *)tFinish;
@@ -212,6 +214,9 @@ extern NSString *const API_HOST_PRODUCTION;
 
 @end
 
+/**
+ WNGTime provides time-related convenience functions.
+ */
 @interface WNGTime : NSObject
 
 + (NSNumber *)epochTimeInMilliseconds;
