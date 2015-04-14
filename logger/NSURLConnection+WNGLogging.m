@@ -15,7 +15,7 @@
         self.actualDelegate = actual;
         self.timer = [[WNGTimer alloc] init];
         [[self timer] start];
-        NSLog(@"!!! LoggingConnectionDelegate::initWithActualDelegate started timer");
+        NSLog(@"LoggingConnectionDelegate:initWithActualDelegate started timer");
     }
     return self;
 }
@@ -110,7 +110,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [[self timer] finish];
-    NSLog(@"!!! connectionDidFinishLoading elapsed time %@", timer.elapsedTime);
+    NSLog(@"LoggingConnectionDelegate:connectionDidFinishLoading elapsed time %@", timer.elapsedTime);
     
     WNGLogger *logger = [WNGLogger sharedLogger];
     if(logger)
@@ -210,7 +210,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 
 + (NSData *)wng_sendSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse **)response error:(NSError **)error
 {
-    NSLog(@"!!! wng_sendSynchronousRequest");
+    NSLog(@"NSURLConnection(WNGLogging):wng_sendSynchronousRequest");
     WNGLogger *logger = [WNGLogger sharedLogger];
     
     WNGTimer *timer;
@@ -234,7 +234,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 
 + (NSURLConnection *)wng_connectionWithRequest:(NSURLRequest *)request delegate:(id < NSURLConnectionDelegate >)delegate
 {
-    NSLog(@"!!! wng_connectionWithRequest");
+    NSLog(@"NSURLConnection(WNGLogging)wng_connectionWithRequest");
     
     // connectionWithRequest:delegate calls initWithRequest:delegate internally, so no need to proxy the delegate.
     return [NSURLConnection wng_connectionWithRequest:request delegate:delegate];
@@ -244,7 +244,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
                               queue:(NSOperationQueue *)queue
                   completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
 {
-    NSLog(@"!!! wng_sendAsynchronousRequest");
+    NSLog(@"NSURLConnection(WNGLogging):wng_sendAsynchronousRequest");
 
     [NSURLConnection wng_sendAsynchronousRequest:request queue:queue completionHandler:handler];
 }
@@ -255,14 +255,14 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 
 - (id)wng_initWithRequest:(NSURLRequest *)request delegate:(id < NSURLConnectionDelegate >)delegate
 {
-    NSLog(@"!!! wng_initWithRequest:request:delegate called");
+    NSLog(@"wng_initWithRequest:request:delegate called");
     LoggingConnectionDelegate *loggingDelegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate:delegate];
     return [self wng_initWithRequest:request delegate:loggingDelegate];
 }
 
 - (id)wng_initWithRequest:(NSURLRequest *)request delegate:(id < NSURLConnectionDelegate >)delegate startImmediately:(BOOL)startImmediately
 {
-    NSLog(@"!!! wng_initWithRequest:request:delegate:startImmediately called");
+    NSLog(@"wng_initWithRequest:request:delegate:startImmediately called");
     LoggingConnectionDelegate *loggingDelegate = [[LoggingConnectionDelegate alloc] initWithActualDelegate:delegate];
     return [self wng_initWithRequest:request delegate:loggingDelegate startImmediately:startImmediately];
 }
@@ -276,7 +276,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     NSError *error = nil;
     BOOL swizzled = [NSURLConnection jr_swizzleClassMethod:from withClassMethod:to error:&error];
     if (!swizzled || error) {
-        NSLog(@"!!! Failed in replacing method: %@", error);
+        NSLog(@"Failed in replacing class method: %@", error);
     }
 }
 
@@ -285,7 +285,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     NSError *error = nil;
     BOOL swizzled = [NSURLConnection jr_swizzleMethod:from withMethod:to error:&error];
     if (!swizzled || error) {
-        NSLog(@"!!! Failed in replacing method: %@", error);
+        NSLog(@"Failed in replacing instance method: %@", error);
     }
 }
 
